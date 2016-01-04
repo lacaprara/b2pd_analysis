@@ -37,7 +37,7 @@ outFile = ''
 #filelistSIG = ['../saved_rootfiles/B0_Phi-KK_Ks-pi+pi-_gsim-BKGx1-50000-1.root']
 filelistSIG = ['test_signal_ch1_v9.root']
 filelistBBbar = ['']
-filelistCC = ['/ghi/fs01/belle2/bdata/MC/fab/sim/release-00-05-03/DBxxxxxxxx/MC5/prod00000005/s00/e0001/4S/r00001/ssbar/sub00/mdst_00001*_prod00000005_task0000001*.root']
+filelistCC = ['/ghi/fs01/belle2/bdata/MC/fab/sim/release-00-05-03/DBxxxxxxxx/MC5/prod00000005/s00/e0001/4S/r00001/ssbar/sub00/mdst_000001_prod00000005_task0000001.root']
 
 
 # define input and output files
