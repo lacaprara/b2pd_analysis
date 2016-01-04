@@ -34,3 +34,13 @@ A repository to store my stuff for Belle2 analysis.
   3. it creates a output file with the histograms `Histo_chX.root`
   4. it creates a number of canvas with some reference histograms, properly drawn, which are also save as `pdf` and `png` for use in slides or documents
   5. the macro `plot_ch.C` can be used to plot the histograms: a function `plot(int channel)` does the work. `plotAll()` plots all the histo for all the channels (suggest to run with root in batch mode: `root -b`)
+
+## TODO
+
+* run the code on officially produced signal files from MC5
+* run also on background
+  * continuum
+  * peaking (if any)
+* understand how to use continuum suppression variable
+* understand how to run the actual flavour tagging algorithm
+* perform a multi dimensional likelihood fit of signal+backgound to extract the CPV parameters
