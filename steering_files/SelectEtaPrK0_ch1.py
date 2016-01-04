@@ -21,10 +21,17 @@ from stdLooseFSParticles import stdLoosePi
 from stdLooseFSParticles import stdLooseK
 
 
-filelistSIG= '../root_files/B0_etapr-eta-gg2pi_KS-pi+pi-_gsim-BKGx0.root'
+#filelistSIG= '../root_files/B0_etapr-eta-gg2pi_KS-pi+pi-_gsim-BKGx0.root'
+nFiles=10
+filelistSIGname='B0_etapr-eta-gg2pi_KS-pi+pi-_gsim-BKGx0.list'
+filelistSIGraw = open(filelistSIGname, 'r').readlines()
+filelistSIG= [x.strip() for x in filelistSIGraw]
+
+
 outFile = 'B0_etapr-eta-gg2pi_KS-pi+pi-_output_signal.root'
 
-inputMdstList(filelistSIG)
+
+inputMdstList(filelistSIG[:nFiles])
 #printPrimaryMCParticles()
 
 photons   = ('gamma:all',   '')
