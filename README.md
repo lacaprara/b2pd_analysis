@@ -1,7 +1,7 @@
-# b2pd_analysis
-## Analysis for Belle2
+# Analysis for Belle2
 
 A repository to store my stuff for Belle2 analysis.
+Stefano Lacaprara
 
 ## Current analysis is about time-dependent CP-violation using the `B0->eta'K` decay
 
@@ -41,7 +41,8 @@ A repository to store my stuff for Belle2 analysis.
   * done for ch 1,2,4, and partially for 5 (jobs too long)
 * run also on background
   * continuum: which one? https://belle2.cc.kek.jp/~twiki/bin/viewauth/Computing/MC5Release4PhysicsGenericContinuum
-  * peaking (if any)
+    * first test on uu/dd/ss/cc running
+  * peaking (if any: which one?)
 * understand how to use continuum suppression variable
 * understand how to run the actual flavour tagging algorithm
 * perform a multi dimensional likelihood fit of signal+backgound to extract the CPV parameters
