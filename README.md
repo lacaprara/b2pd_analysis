@@ -38,8 +38,9 @@ A repository to store my stuff for Belle2 analysis.
 ## TODO
 
 * run the code on officially produced signal files from MC5
+  * done for ch 1,2,4, and partially for 5 (jobs too long)
 * run also on background
-  * continuum
+  * continuum: which one? https://belle2.cc.kek.jp/~twiki/bin/viewauth/Computing/MC5Release4PhysicsGenericContinuum
   * peaking (if any)
 * understand how to use continuum suppression variable
 * understand how to run the actual flavour tagging algorithm
