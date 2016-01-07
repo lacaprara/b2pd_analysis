@@ -38,9 +38,9 @@ if len(sys.argv) > 3:
 
 filelistSIGnames={
     'signal':'B0_etapr-eta-gg2pi_KS-pi+pi-_gsim-BKGx0.list',
-    'uubar':'Background_uubar_BGx1.list'
-    'ddbar':'Background_ddbar_BGx1.list'
-    'ssbar':'Background_ssbar_BGx1.list'
+    'uubar':'Background_uubar_BGx1.list',
+    'ddbar':'Background_ddbar_BGx1.list',
+    'ssbar':'Background_ssbar_BGx1.list',
     'ccbar':'Background_ccbar_BGx1.list'
 }
 
