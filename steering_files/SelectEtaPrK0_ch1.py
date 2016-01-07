@@ -20,17 +20,31 @@ from stdLooseFSParticles import stdVeryLoosePi
 from stdLooseFSParticles import stdLoosePi
 from stdLooseFSParticles import stdLooseK
 
-
-#filelistSIG= ['../root_files/B0_etapr-eta-gg2pi_KS-pi+pi-_gsim-BKGx0.root']
 firstFile=0
 nFiles=10
-filelistSIGname='B0_etapr-eta-gg2pi_KS-pi+pi-_gsim-BKGx0.list'
-filelistSIGraw = open(filelistSIGname, 'r').readlines()
+what='signal'
+if len(sys.argv) > 1:
+    nFiles=int(sys.argv[1])
+if len(sys.argv) > 2:
+    firstFile=int(sys.argv[2])
+    nFiles=firstFile+nFiles
+if len(sys.argv) > 3:
+    what=str(sys.argv[3])
+    if (what not in {'signal','uubar','ddbar', 'ssbar', 'ccbar'}):
+            sys.exit("input has to be 'signal|uubar,ddbar,ssbar,ccbar'")
+
+
+#filelistSIG= ['../root_files/B0_etapr-eta-gg2pi_KS-pi+pi-_gsim-BKGx0.root']
+
+filelistSIGnames={
+    'signal':'B0_etapr-eta-gg2pi_KS-pi+pi-_gsim-BKGx0.list',
+    'uubar':'Background_uubar_BGx1.list'
+}
+
+filelistSIGraw = open(filelistSIGnames[what], 'r').readlines()
 filelistSIG= [x.strip() for x in filelistSIGraw]
 
-
 outFile = 'B0_etapr-eta-gg2pi_KS-pi+pi-_output_signal.root'
-
 
 inputMdstList(filelistSIG[firstFile:nFiles])
 #printPrimaryMCParticles()
