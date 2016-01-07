@@ -1,6 +1,6 @@
 #!/bin/bash
 
-nFilesPerJob=1
+nFilesPerJob=10
 
 channelName=unknown
 setChannelName() {
@@ -34,19 +34,21 @@ payload() {
 
 cat > payload_${payloadName}.sh << EOF
 #!/bin/sh
-#BSUB -o job_${payloadName}.log
-#BSUB -J job_${payloadName}.job
+#BSUB -o payload_${payloadName}.log
+#BSUB -J payload_${payloadName}.job
+#BSUB -q s
 
-echo hostname
+hostname
 date
 
 pwd
 
-mkdir job_${payloadName}/
-cd job_${payloadName}/
-cp ../SelectEtaPrK0_ch1.py .
+mkdir payload_${payloadName}/
+cd payload_${payloadName}/
+cp ../SelectEtaPrK0_ch${channel}.py .
+cp ../${channelName}_gsim-BKGx0.list .
 time basf2 SelectEtaPrK0_ch${channel}.py $numFiles $firstFile
-mv ${channelName}_output_signal.root ${channelName}_output_signal_{$job}.root
+mv ${channelName}_output_signal.root ${channelName}_output_signal_${job}.root
 
 date
 cd ../
@@ -54,17 +56,17 @@ EOF
 }
 
 #for channel in {1,2,4,5}
-for channel in 1
+for channel in {2,4,5}
 do
   job=0
   setChannelName $channel
   nFiles=$(wc -l ${channelName}_gsim-BKGx0.list | awk '{print $1}' )
-  nFiles=3
-  echo $nFiles
+  echo echo "Submitting $(echo $nFiles*1./$nFilesPerJob| bc) jobs over $((nFiles)) files for channel $channel $channelName"
   for files in `seq 0 $nFilesPerJob $nFiles`
   do
       payload $job $channel $files $nFilesPerJob
       bsub < payload_${payloadName}.sh
       ((job++))
   done
+  echo "done"
 done
