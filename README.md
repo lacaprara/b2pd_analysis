@@ -46,6 +46,7 @@ Some literature:
   * continuum: which one? https://belle2.cc.kek.jp/~twiki/bin/viewauth/Computing/MC5Release4PhysicsGenericContinuum
     * first test on uu/dd/ss/cc running
     * need to perform some sort of base skimming in order to reduce the number of input events (see Alessandro's mail)
+    * understand how many events/files/subs correspond to how many fb-1
   * peaking (if any: which one?)
 * understand how to use continuum suppression variable
 * understand how to run the actual flavour tagging algorithm
