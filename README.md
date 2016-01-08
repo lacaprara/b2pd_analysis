@@ -4,6 +4,9 @@ A repository to store my stuff for Belle2 analysis.
 Stefano Lacaprara
 
 ## Current analysis is about time-dependent CP-violation using the `B0->eta'K` decay
+Some literature:
+  * BelleII http://dx.doi.org/10.1007/JHEP10(2014)165
+  * BaBar http://journals.aps.org/prd/abstract/10.1103/PhysRevD.79.052003
 
 ## The channels considered so far are:
 
@@ -42,6 +45,7 @@ Stefano Lacaprara
 * run also on background
   * continuum: which one? https://belle2.cc.kek.jp/~twiki/bin/viewauth/Computing/MC5Release4PhysicsGenericContinuum
     * first test on uu/dd/ss/cc running
+    * need to perform some sort of base skimming in order to reduce the number of input events (see Alessandro's mail)
   * peaking (if any: which one?)
 * understand how to use continuum suppression variable
 * understand how to run the actual flavour tagging algorithm
