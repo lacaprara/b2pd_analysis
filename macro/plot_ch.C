@@ -1,8 +1,8 @@
 #include <vector>
 
-bool plotAllDistributions=true;
+bool plotAllDistributions=0;
 bool plotGoldDistributions=0;
-bool plotEvents=0;
+bool plotEvents=1;
 bool plotDeltaT=0;
 bool plotAsym=0;
 
@@ -160,8 +160,8 @@ Double_t fitFunc(Double_t * x, Double_t * par)
   return PDF;
 }
 
-void plot_ch(int channel=2) {
-  TFile* hfile=TFile::Open(Form("Histo_ch%d.root",channel));
+void plot_ch(int channel=2, const char* appendix="") {
+  TFile* hfile=TFile::Open(Form("Histo_ch%d%s.root",channel,appendix));
 
   gStyle->SetPadTopMargin(0.10);
   gStyle->SetOptStat(0);

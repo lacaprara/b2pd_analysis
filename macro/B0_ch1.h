@@ -435,7 +435,7 @@ class B0_ch1 {
     TBranch        *b_m_nCands;   //!
     TBranch        *b_m_iCand;   //!
 
-    B0_ch1(TTree *tree=0);
+    B0_ch1(TTree *tree=0,const char* outAppendix="");
     virtual ~B0_ch1();
     virtual Int_t    Cut(Long64_t entry);
     virtual Int_t    GetEntry(Long64_t entry);
@@ -456,7 +456,7 @@ class B0_ch1 {
 #endif
 
 #ifdef B0_ch1_cxx
-B0_ch1::B0_ch1(TTree *tree) : fChain(0) 
+B0_ch1::B0_ch1(TTree *tree, const char* outAppendix) : fChain(0) 
 {
   // if parameter tree is not specified (or zero), connect the file
   // used to generate this class and read the Tree.
@@ -470,7 +470,7 @@ B0_ch1::B0_ch1(TTree *tree) : fChain(0)
   }
   Init(tree);
 
-  ofile=new TFile("Histo_ch1.root","RECREATE");
+  ofile=new TFile(Form("Histo_ch1%s.root",outAppendix),"RECREATE");
 }
 
 B0_ch1::~B0_ch1()

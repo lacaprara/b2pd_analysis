@@ -34,7 +34,9 @@ if len(sys.argv) > 3:
             sys.exit("input has to be 'signal|uubar,ddbar,ssbar,ccbar'")
 
 
-#filelistSIG= ['../root_files/B0_etapr-eta-gg2pi_KS-pi+pi-_gsim-BKGx0.root']
+# filelistSIG= ['../root_files/ch1/B0_etapr-eta-gg2pi_KS-pi+pi-_gsim-BKGx0.root']
+# #filelistSIG= ['B0_etapr-eta-gg2pi_KS-pi+pi-_skim_signal.root']
+# inputMdstList(filelistSIG)
 
 filelistSIGnames={
     'signal':'B0_etapr-eta-gg2pi_KS-pi+pi-_gsim-BKGx0.list',
@@ -46,21 +48,18 @@ filelistSIGnames={
 
 filelistSIGraw = open(filelistSIGnames[what], 'r').readlines()
 filelistSIG= [x.strip() for x in filelistSIGraw]
-
-outFile = 'B0_etapr-eta-gg2pi_KS-pi+pi-_output_signal.root'
-
 inputMdstList(filelistSIG[firstFile:nFiles])
+
+outFile = 'B0_etapr-eta-gg2pi_KS-pi+pi-_output_'+what+'.root'
+
 #printPrimaryMCParticles()
 
 photons   = ('gamma:all',   '')
-electrons = ('e-:all',      '')
-muons     = ('mu-:all',     '')
 pions     = ('pi-:all',     '')
-kaons     = ('K-:all',      '')
-protons   = ('anti-p-:all', '')
 
 #fillParticleListsFromMC([photons, electrons, muons, pions, kaons, protons])
-fillParticleLists([photons, electrons, muons, pions, kaons, protons])
+#fillParticleLists([photons, electrons, muons, pions, kaons, protons])
+fillParticleLists([photons, pions])
 
 # reconstruct D0 -> K- pi+ decay
 
@@ -137,6 +136,8 @@ ntupleFile(outFile)
 ntupleTree('B0', 'B0', toolsBsig)
 #ntupleTree('RecoStats', 'B0', toolsRS)
 
+# print out some further info
+summaryOfLists(['eta:gg',"eta'",'B0'])
 
 # Process the events
 process(analysis_main)
