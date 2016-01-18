@@ -1,10 +1,10 @@
 #include <vector>
 
-bool plotAllDistributions=0;
-bool plotGoldDistributions=0;
+bool plotAllDistributions=1;
+bool plotGoldDistributions=1;
 bool plotEvents=1;
-bool plotDeltaT=0;
-bool plotAsym=0;
+bool plotDeltaT=1;
+bool plotAsym=1;
 
 struct plotInfo {
   plotInfo() {}
@@ -161,7 +161,7 @@ Double_t fitFunc(Double_t * x, Double_t * par)
 }
 
 void plot_ch(int channel=2, const char* appendix="") {
-  TFile* hfile=TFile::Open(Form("Histo_ch%d%s.root",channel,appendix));
+  TFile* hfile=TFile::Open(Form("Histo_ch%d_%s.root",channel,appendix));
 
   gStyle->SetPadTopMargin(0.10);
   gStyle->SetOptStat(0);
