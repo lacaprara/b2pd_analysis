@@ -23,6 +23,7 @@ from stdLooseFSParticles import stdLooseK
 firstFile=0
 nFiles=10
 what='signal'
+action='simple'
 if len(sys.argv) > 1:
     nFiles=int(sys.argv[1])
 if len(sys.argv) > 2:
@@ -30,25 +31,39 @@ if len(sys.argv) > 2:
     nFiles=firstFile+nFiles
 if len(sys.argv) > 3:
     what=str(sys.argv[3])
-    if (what not in {'signal','uubar','ddbar', 'ssbar', 'ccbar'}):
-            sys.exit("input has to be 'signal|uubar,ddbar,ssbar,ccbar'")
+    if (what not in {'signal','uubar','ddbar', 'ssbar', 'ccbar','mixed','charged'}):
+            sys.exit("input has to be 'signal|uubar,ddbar,ssbar,ccbar,mixed,charged'")
+if len(sys.argv) > 4:
+    action=str(sys.argv[4])
+    if (action not in {'simple','training','expert'}):
+            sys.exit("action has to be 'simple|training|expert'")
 
 
-# filelistSIG= ['../root_files/ch1/B0_etapr-eta-gg2pi_KS-pi+pi-_gsim-BKGx0.root']
-# #filelistSIG= ['B0_etapr-eta-gg2pi_KS-pi+pi-_skim_signal.root']
-# inputMdstList(filelistSIG)
+if (what=='local'):
+    #filelistSIG= ['../root_files/ch1/B0_etapr-eta-gg2pi_KS-pi+pi-_gsim-BKGx0.root']
+    #filelistSIG= ['../root_files/ch1/B0_etapr-eta-gg2pi_KS-pi+pi-_skim_uubar.root']
+    #filelistSIG= ['../root_files/ch1/B0_etapr-eta-gg2pi_KS-pi+pi-_skim_ddbar.root']
+    #filelistSIG= ['../root_files/ch1/B0_etapr-eta-gg2pi_KS-pi+pi-_skim_ssbar.root']
+    #filelistSIG= ['../root_files/ch1/B0_etapr-eta-gg2pi_KS-pi+pi-_skim_ccbar.root']
+    #filelistSIG= ['../root_files/ch1/B0_etapr-eta-gg2pi_KS-pi+pi-_skim_mixed.root']
+    filelistSIG= ['../root_files/ch1/B0_etapr-eta-gg2pi_KS-pi+pi-_skim_charged.root']
+    #filelistSIG= ['B0_etapr-eta-gg2pi_KS-pi+pi-_skim_signal.root']
+    inputMdstList(filelistSIG)
 
-filelistSIGnames={
-    'signal':'B0_etapr-eta-gg2pi_KS-pi+pi-_gsim-BKGx0.list',
-    'uubar':'Background_uubar_BGx1.list',
-    'ddbar':'Background_ddbar_BGx1.list',
-    'ssbar':'Background_ssbar_BGx1.list',
-    'ccbar':'Background_ccbar_BGx1.list'
-}
+else:
+    filelistSIGnames={
+        'signal':'B0_etapr-eta-gg2pi_KS-pi+pi-_gsim-BKGx0.list',
+        'uubar':'Background_uubar_BGx1.list',
+        'ddbar':'Background_ddbar_BGx1.list',
+        'ssbar':'Background_ssbar_BGx1.list',
+        'ccbar':'Background_ccbar_BGx1.list',
+        'mixed':'Background_mixed_BGx1.list',
+        'charged':'Background_charged_BGx1.list'
+    }
 
-filelistSIGraw = open(filelistSIGnames[what], 'r').readlines()
-filelistSIG= [x.strip() for x in filelistSIGraw]
-inputMdstList(filelistSIG[firstFile:nFiles])
+    filelistSIGraw = open(filelistSIGnames[what], 'r').readlines()
+    filelistSIG= [x.strip() for x in filelistSIGraw]
+    inputMdstList(filelistSIG[firstFile:nFiles])
 
 outFile = 'B0_etapr-eta-gg2pi_KS-pi+pi-_output_'+what+'.root'
 
@@ -95,15 +110,81 @@ TagV('B0', 'breco')
 # get continuum suppression (needed for flavor tagging)
 buildContinuumSuppression('B0')
 
+if action == 'training':
+
+    # Define the input variables.
+    variables = [
+        'R2',
+        'cosTBTO',
+        'KSFWVariables(hso02)',
+        'KSFWVariables(hso12)',
+        'cosTBz',
+        'CleoCone(9)',
+        'thrustBm',
+        'thrustOm',
+        'KSFWVariables(et)',
+        'KSFWVariables(mm2)',
+        'KSFWVariables(hso00)',
+        'KSFWVariables(hso04)',
+        'KSFWVariables(hso10)',
+        'KSFWVariables(hso14)',
+        'KSFWVariables(hso20)',
+        'KSFWVariables(hso22)',
+        'KSFWVariables(hso24)',
+        'KSFWVariables(hoo0)',
+        'KSFWVariables(hoo1)',
+        'KSFWVariables(hoo2)',
+        'KSFWVariables(hoo3)',
+        'KSFWVariables(hoo4)',
+        'CleoCone(1)',
+        'CleoCone(2)',
+        'CleoCone(3)',
+        'CleoCone(4)',
+        'CleoCone(5)',
+        'CleoCone(6)',
+        'CleoCone(7)',
+        'CleoCone(8)',
+        ]
+
+
+    # Define the methods.
+    methods = [('LPCA', 'Likelihood',
+                'H:V:!TransformOutput:PDFInterpol=Spline2:NSmoothSig[0]=20:NSmoothBkg[0]=20:NSmooth=5:NAvEvtPerBin=50:VarTransform=PCA')]
+
+
+    # TMVA training/testing
+    teacher = register_module('TMVATeacher')
+    teacher.param('prefix', 'B0_EtaPrK0_ch1_TMVA')
+    teacher.param('methods', methods)
+    teacher.param('variables', variables)
+    teacher.param('target', 'isContinuumEvent')
+    teacher.param('listNames', ['B0'])
+    teacher.param('workingDirectory', 'training')
+    analysis_main.add_module(teacher)
+
+if action == 'expert':
+    # run the expert mode
+    methods = ['LPCA']
+
+    for method in methods:
+        expert = register_module('TMVAExpert')
+        expert.param('prefix', 'B0_EtaPrK0_ch1_TMVA')
+        expert.param('method', method)
+        expert.param('listNames', ['B0'])
+        expert.param('expertOutputName', method + '_Probability')
+        expert.param('workingDirectory', 'training')
+        analysis_main.add_module(expert)
+
+    # Network output
+    networkOutput = ['extraInfo({method}_Probability)'.format(method=method)
+                     for method in methods]
+    transformedNetworkOutputLPCA = \
+        ['transformedNetworkOutput(LPCA_Probability,0.,1.0)']
+    #transformedNetworkOutputNB = \
+    #    ['transformedNetworkOutput(NeuroBayes_Probability,-0.9,1.0)']
+    #transformedNetworkOutputFBDT = \
+    #                             ['transformedNetworkOutput(FastBDT_Probability,0.0,1.0)']
 # create and fill flat Ntuple with MCTruth and kinematic information
-toolsEta = ['EventMetaData', '^eta:gg']
-toolsEta += ['InvMass', '^eta:gg']
-toolsEta += ['CMSKinematics', '^eta:gg']
-
-toolsEtaP = ['InvMass', "^eta' -> ^eta:gg"]
-
-toolsK0 = ['InvMass', '^K_S0:mdst']
-
 toolsBsig = ['EventMetaData', '^B0']
 toolsBsig += ['InvMass', "B0 -> [eta' -> [eta:gg -> gamma:good gamma:good] pi+:all pi-:all] ^K_S0:mdst"]
 toolsBsig += ['InvMass[BeforeFit]', "^B0 -> [^eta' -> [^eta:gg -> gamma:good gamma:good] pi+:all pi-:all] K_S0:mdst"]
@@ -126,15 +207,17 @@ toolsBsig += ['MCDeltaT', '^B0']
 toolsBsig += ['ContinuumSuppression', '^B0'] 
 toolsBsig += ['CustomFloats[isSignal]', "^B0 -> [^eta' -> [^eta:gg -> gamma:good gamma:good] pi+:all pi-:all] ^K_S0:mdst"]
 
-toolsRS = ['RecoStats', '^B0']
+if action == 'expert':
+    toolsBsig += ['ContinuumSuppression', '^B0']
+    toolsBsig += ['ContinuumSuppression[FS1]', '^B0']
+    toolsBsig += ['CustomFloats[' + ':'.join(networkOutput) + ']', '^B0']
+    #toolsBsig += ['CustomFloats[' + ':'.join(transformedNetworkOutputFBDT) + ']', '^B0']
+    #toolsBsig += ['CustomFloats[' + ':'.join(transformedNetworkOutputNB) + ']', '^B0']
+    toolsBsig += ['CustomFloats[' + ':'.join(transformedNetworkOutputLPCA) + ']', '^B0']
 
 # save stuff to root file
 ntupleFile(outFile)
-#ntupleTree('Eta', 'eta:gg', toolsEta)
-#ntupleTree('EtaP', "eta'", toolsEtaP)
-#ntupleTree('K0', 'K_S0:mdst', toolsK0)
 ntupleTree('B0', 'B0', toolsBsig)
-#ntupleTree('RecoStats', 'B0', toolsRS)
 
 # print out some further info
 summaryOfLists(['eta:gg',"eta'",'B0'])
