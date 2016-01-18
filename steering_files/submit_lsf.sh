@@ -1,13 +1,15 @@
 #!/bin/bash
 
-nFilesPerJob=10
-nMaxFiles=10
+nFilesPerJob=50
+nMaxFiles=1000
 
-# what='signal'
-what='uubar'
+what='signal'
+# what='uubar'
 # what='ddbar'
 # what='ssbar'
 # what='ccbar'
+# what='mixed'
+# what='charged'
 
 channelName=unknown
 setChannelName() {
@@ -73,6 +75,9 @@ cd ../
 EOF
 }
 
+#for what in signal uubar ddbar  ssbar ccbar mixed charged
+for what in mixed charged
+do echo "doing $what"
 #for channel in {1,2,4,5}
 for channel in 1
 do
@@ -84,8 +89,10 @@ do
   for firstFile in `seq 0 $nFilesPerJob $(($nFiles-1))`
   do  
       payload $job $channel $firstFile $nFilesPerJob $what
-      #bsub < payload_${payloadName}.sh
+      bsub < payload_${payloadName}.sh
       ((job++))
   done
   echo "done"
+done
+echo "All done"
 done

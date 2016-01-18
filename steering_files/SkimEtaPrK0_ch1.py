@@ -22,8 +22,8 @@ if len(sys.argv) > 2:
     nFiles=firstFile+nFiles
 if len(sys.argv) > 3:
     what=str(sys.argv[3])
-    if (what not in {'signal','uubar','ddbar', 'ssbar', 'ccbar'}):
-            sys.exit("input has to be 'signal|uubar,ddbar,ssbar,ccbar'")
+    if (what not in {'signal','uubar','ddbar', 'ssbar', 'ccbar','mixed','charged'}):
+            sys.exit("input has to be 'signal|uubar,ddbar,ssbar,ccbar,mixed,charged'")
 
 
 # filelistSIG= ['../root_files/ch1/B0_etapr-eta-gg2pi_KS-pi+pi-_gsim-BKGx0.root']
@@ -34,7 +34,9 @@ filelistSIGnames={
     'uubar':'Background_uubar_BGx1.list',
     'ddbar':'Background_ddbar_BGx1.list',
     'ssbar':'Background_ssbar_BGx1.list',
-    'ccbar':'Background_ccbar_BGx1.list'
+    'ccbar':'Background_ccbar_BGx1.list',
+    'mixed':'Background_mixed_BGx1.list',
+    'charged':'Background_charged_BGx1.list'
 }
 
 # load files
