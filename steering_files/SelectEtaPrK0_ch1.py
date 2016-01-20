@@ -31,8 +31,8 @@ if len(sys.argv) > 2:
     nFiles=firstFile+nFiles
 if len(sys.argv) > 3:
     what=str(sys.argv[3])
-    if (what not in {'signal','uubar','ddbar', 'ssbar', 'ccbar','mixed','charged'}):
-            sys.exit("input has to be 'signal|uubar,ddbar,ssbar,ccbar,mixed,charged'")
+    if (what not in {'signal','uubar','ddbar', 'ssbar', 'ccbar','mixed','charged','local'}):
+            sys.exit("input has to be 'signal|uubar,ddbar,ssbar,ccbar,mixed,charged,local'")
 if len(sys.argv) > 4:
     action=str(sys.argv[4])
     if (action not in {'simple','training','expert'}):
@@ -40,13 +40,14 @@ if len(sys.argv) > 4:
 
 
 if (what=='local'):
+    filelistSIG= ['payload_skim_*_uubar/B0_etapr_eta2pi_KS_skim_uubar_*.root']
     #filelistSIG= ['../root_files/ch1/B0_etapr-eta-gg2pi_KS-pi+pi-_gsim-BKGx0.root']
     #filelistSIG= ['../root_files/ch1/B0_etapr-eta-gg2pi_KS-pi+pi-_skim_uubar.root']
     #filelistSIG= ['../root_files/ch1/B0_etapr-eta-gg2pi_KS-pi+pi-_skim_ddbar.root']
     #filelistSIG= ['../root_files/ch1/B0_etapr-eta-gg2pi_KS-pi+pi-_skim_ssbar.root']
     #filelistSIG= ['../root_files/ch1/B0_etapr-eta-gg2pi_KS-pi+pi-_skim_ccbar.root']
     #filelistSIG= ['../root_files/ch1/B0_etapr-eta-gg2pi_KS-pi+pi-_skim_mixed.root']
-    filelistSIG= ['../root_files/ch1/B0_etapr-eta-gg2pi_KS-pi+pi-_skim_charged.root']
+    #filelistSIG= ['../root_files/ch1/B0_etapr-eta-gg2pi_KS-pi+pi-_skim_charged.root']
     #filelistSIG= ['B0_etapr-eta-gg2pi_KS-pi+pi-_skim_signal.root']
     inputMdstList(filelistSIG)
 
