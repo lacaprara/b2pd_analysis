@@ -38,23 +38,23 @@ void getWhatToPlot(int channel, vector<plotInfo>& result) {
       result.push_back(plotInfo("hDeltaE"       ,false,-0.1 ,0.1  ,true));
       result.push_back(plotInfo("hMinvEta"      ,false,0.45 ,0.57 ,true));
       result.push_back(plotInfo("hMinvEtaP"     ,false,0.93 ,0.98 ,true));
-      result.push_back(plotInfo("hMinvK0S"      ,true ,0.48 ,0.52 ,true));
+      result.push_back(plotInfo("hMinvK0S"      ,false,0.48 ,0.52 ,true));
       result.push_back(plotInfo("hPIDpi"        ,true ,0.20 ,1.00 ,true));
       result.push_back(plotInfo("hD0pi"         ,true ,-0.08,0.08 ,false));
       result.push_back(plotInfo("hZ0pi"         ,true ,-0.1 ,+0.1 ,false));
-      result.push_back(plotInfo("hNPxdHitspi"   ,false,1    ,4    ,true));
-      result.push_back(plotInfo("hVtxPValueK0S" ,true ,1e-5 ,1    ,true));
-      result.push_back(plotInfo("hVtxPValueEta" ,true ,1e-5 ,1    ,true));
-      result.push_back(plotInfo("hVtxPValueEtaP",true ,1e-5 ,1    ,true));
-      result.push_back(plotInfo("hVtxPValueB0"  ,true ,1e-5 ,1    ,true));
+      result.push_back(plotInfo("hNPxdHitspi"   ,false,1    ,4    ,false));
+      result.push_back(plotInfo("hVtxPValueK0S" ,true ,1e-5 ,1    ,false));
+      result.push_back(plotInfo("hVtxPValueEta" ,true ,1e-5 ,1    ,false));
+      result.push_back(plotInfo("hVtxPValueEtaP",true ,1e-5 ,1    ,false));
+      result.push_back(plotInfo("hVtxPValueB0"  ,true ,1e-5 ,1    ,false));
       break;
     case 2:
       result.push_back(plotInfo("hMbc",           false, 5.25, 5.29,  true));
       result.push_back(plotInfo("hDeltaE",        false, -0.15,0.25,  true));
       result.push_back(plotInfo("hMinvEta",       false, 0.48, 0.57,  true));
       result.push_back(plotInfo("hMinvEtaP",      false, 0.93, 0.98,  true));
-      result.push_back(plotInfo("hMinvPi0",       true,  0.1 , 0.15,  true));
-      result.push_back(plotInfo("hMinvK0S",       true,  0.42, 0.52,  true));
+      result.push_back(plotInfo("hMinvPi0",       false, 0.1 , 0.15,  true));
+      result.push_back(plotInfo("hMinvK0S",       false, 0.42, 0.52,  true));
       result.push_back(plotInfo("hPIDpi",         true,  0.2,  1.0,   false));
       result.push_back(plotInfo("hD0pi",          true,  -0.08,+0.08, false));
       result.push_back(plotInfo("hZ0pi",          true,  -0.15,+0.15, false));
@@ -66,12 +66,12 @@ void getWhatToPlot(int channel, vector<plotInfo>& result) {
     case 3:
       break;
     case 4:
-      result.push_back(plotInfo("hMbc",                 true, 5.25,  5.29,  true));
-      result.push_back(plotInfo("hDeltaE",              true, -0.15, 0.15,  true));
-      result.push_back(plotInfo("hMinvEta",             true, 0.52,  0.57,  true));
-      result.push_back(plotInfo("hMinvEtaP",            true, 0.93,  0.98,  true));
-      result.push_back(plotInfo("hMinvPi0",             true, 0.1 ,  0.15,  true));
-      result.push_back(plotInfo("hMinvK0S",             true, 0.48,  0.52,  true));
+      result.push_back(plotInfo("hMbc",                 false, 5.25,  5.29,  true));
+      result.push_back(plotInfo("hDeltaE",              false, -0.15, 0.15,  true));
+      result.push_back(plotInfo("hMinvEta",             false, 0.52,  0.57,  true));
+      result.push_back(plotInfo("hMinvEtaP",            false, 0.93,  0.98,  true));
+      result.push_back(plotInfo("hMinvPi0",             false, 0.1 ,  0.15,  true));
+      result.push_back(plotInfo("hMinvK0S",             false, 0.48,  0.52,  true));
       result.push_back(plotInfo("hPIDpi",               true, 0.2,   1.0,   false));
       result.push_back(plotInfo("hD0pi",                true, -0.08, +0.08, false));
       result.push_back(plotInfo("hZ0pi",                true, -0.15, +0.15, false));
@@ -81,12 +81,12 @@ void getWhatToPlot(int channel, vector<plotInfo>& result) {
       result.push_back(plotInfo("hVtxPValueB0",         true, 1E-3,  1E-3,  false));
       break;
     case 5:
-      result.push_back(plotInfo("hMbc",                 true, 5.25,  5.29,  true));
-      result.push_back(plotInfo("hDeltaE",              true, -0.15, 0.25,  true));
-      result.push_back(plotInfo("hMinvEta",             true, 0.52,  0.57,  true));
-      result.push_back(plotInfo("hMinvEtaP",            true, 0.93,  0.98,  true));
-      result.push_back(plotInfo("hMinvPi0",             true, 0.1 ,  0.15,  true));
-      result.push_back(plotInfo("hMinvK0S",             true, 0.40,  0.52,  true));
+      result.push_back(plotInfo("hMbc",                 false, 5.25,  5.29,  true));
+      result.push_back(plotInfo("hDeltaE",              false, -0.15, 0.25,  true));
+      result.push_back(plotInfo("hMinvEta",             false, 0.52,  0.57,  true));
+      result.push_back(plotInfo("hMinvEtaP",            false, 0.93,  0.98,  true));
+      result.push_back(plotInfo("hMinvPi0",             false, 0.1 ,  0.15,  true));
+      result.push_back(plotInfo("hMinvK0S",             false, 0.40,  0.52,  true));
       result.push_back(plotInfo("hPIDpi",               true, 0.2,   1.0,   false));
       result.push_back(plotInfo("hD0pi",                true, -0.08, +0.08, false));
       result.push_back(plotInfo("hZ0pi",                true, -0.15, +0.15, false));
@@ -101,12 +101,12 @@ void getWhatToPlot(int channel, vector<plotInfo>& result) {
 }
 
 
-void channel(int channel, TCanvas* c, float x=0.5, float y=0.96) {
+void channel(int ch, TCanvas* c, float x=0.5, float y=0.96) {
   TLatex* tch=new TLatex();
   tch->SetTextSize(0.04);
   tch->SetTextAlign(21);
   TString what;
-  switch(channel){
+  switch(ch){
     case 1:
       what="B^{0}#rightarrow#eta'( #eta(#gamma#gamma) #pi^{+}#pi^{-}) K^{0}_{S}(#pi^{+}#pi^{-})";
       break;
@@ -115,8 +115,10 @@ void channel(int channel, TCanvas* c, float x=0.5, float y=0.96) {
       break;
     case 4:
       what = "B^{0}#rightarrow#eta'( #eta(#pi^{+}#pi^{-}#pi^{0}) #pi^{+}#pi^{-}) K^{0}_{S}(#pi^{+}#pi^{-})";
+      break;
     case 5:
       what = "B^{0}#rightarrow#eta'( #eta(#pi^{+}#pi^{-}#pi^{0}) #pi^{+}#pi^{-}) K^{0}_{S}(#pi^{0}#pi^{0})";
+      break;
     default:
       what="what??";
       break;
@@ -129,14 +131,14 @@ void channel(int channel, TCanvas* c, float x=0.5, float y=0.96) {
   tch->DrawLatexNDC(x,y,what);
 }
 
-void plot_bgnd(int channel=1) {
+void plot_bgnd(int ch=2) {
   vector<fileInfo> files;
-  files.push_back(fileInfo("u#bar{u}", TFile::Open(Form("Histo_ch%d_uubar.root"  ,channel)), kRed));
-  files.push_back(fileInfo("d#bar{d}", TFile::Open(Form("Histo_ch%d_ddbar.root"  ,channel)), kGreen));
-  files.push_back(fileInfo("s#bar{s}", TFile::Open(Form("Histo_ch%d_ssbar.root"  ,channel)), kBlue));
-  files.push_back(fileInfo("c#bar{c}", TFile::Open(Form("Histo_ch%d_ccbar.root"  ,channel)), kOrange));
-  // files.push_back(fileInfo("mixed",    TFile::Open(Form("Histo_ch%d_mixed.root"  ,channel)), kViolet));
-  // files.push_back(fileInfo("charged",  TFile::Open(Form("Histo_ch%d_charged.root",channel)), kGray));
+  files.push_back(fileInfo("u#bar{u}", TFile::Open(Form("Histo_ch%d_uubar.root"  ,ch)), kRed));
+  files.push_back(fileInfo("d#bar{d}", TFile::Open(Form("Histo_ch%d_ddbar.root"  ,ch)), kGreen));
+  files.push_back(fileInfo("s#bar{s}", TFile::Open(Form("Histo_ch%d_ssbar.root"  ,ch)), kBlue));
+  files.push_back(fileInfo("c#bar{c}", TFile::Open(Form("Histo_ch%d_ccbar.root"  ,ch)), kOrange));
+  // files.push_back(fileInfo("mixed",    TFile::Open(Form("Histo_ch%d_mixed.root"  ,ch)), kViolet));
+  // files.push_back(fileInfo("charged",  TFile::Open(Form("Histo_ch%d_charged.root",ch)), kGray));
 
   gStyle->SetPadTopMargin(0.10);
   gStyle->SetOptStat(0);
@@ -146,7 +148,7 @@ void plot_bgnd(int channel=1) {
   tt->SetTextSize(0.05);
 
   vector<plotInfo> plotInfos;
-  getWhatToPlot(channel, plotInfos);
+  getWhatToPlot(ch, plotInfos);
 
   if (plotAllDistributions) {
     TLine* tl=new TLine();
@@ -176,7 +178,7 @@ void plot_bgnd(int channel=1) {
         float ymin=0;
         if (h->log) {
           gPad->SetLogy();
-          ymin=1;
+          ymin=10;
         }
         if (htmp) {
           htmp->GetXaxis()->SetTitleOffset(.7);
@@ -201,9 +203,9 @@ void plot_bgnd(int channel=1) {
 
       // Check if I need a new canvas
       if (i>nX*nY) {
-        channel(channel,c0[iCan]);
-        c0[iCan]->Print(Form("Ch%d_all_distr%d_bgnd.pdf",channel,iCan));
-        c0[iCan]->Print(Form("Ch%d_all_distr%d_bgnd.png",channel,iCan));
+        channel(ch,c0[iCan]);
+        c0[iCan]->Print(Form("Ch%d_all_distr%d_bgnd.pdf",ch,iCan));
+        c0[iCan]->Print(Form("Ch%d_all_distr%d_bgnd.png",ch,iCan));
         iCan++;
         c0[iCan]=new TCanvas(Form("c0%d",iCan),"Before Cuts",sizeX,sizeY);
         c0[iCan]->Divide(nX,nY);
@@ -211,9 +213,9 @@ void plot_bgnd(int channel=1) {
         i=0;
       }
     }
-    channel(channel,c0[iCan]);
-    c0[iCan]->Print(Form("Ch%d_all_distr%d_bgnd.pdf",channel,iCan));
-    c0[iCan]->Print(Form("Ch%d_all_distr%d_bgnd.png",channel,iCan));
+    channel(ch,c0[iCan]);
+    c0[iCan]->Print(Form("Ch%d_all_distr%d_bgnd.pdf",ch,iCan));
+    c0[iCan]->Print(Form("Ch%d_all_distr%d_bgnd.png",ch,iCan));
   }
 
 
@@ -239,7 +241,7 @@ void plot_bgnd(int channel=1) {
         float ymin=0;
         if (h->log) {
           gPad->SetLogy();
-          ymin=1;
+          ymin=10;
         }
         if (htmp) {
           htmp->SetFillColor(f->color);
@@ -263,9 +265,9 @@ void plot_bgnd(int channel=1) {
       if (i==0) tleg->Draw();
       ++i;
     }
-    channel(channel,c1);
-    c1->Print(Form("Ch%d_distr_bgnd..pdf",channel));
-    c1->Print(Form("Ch%d_distr_bgnd.png",channel));
+    channel(ch,c1);
+    c1->Print(Form("Ch%d_distr_bgnd.pdf",ch));
+    c1->Print(Form("Ch%d_distr_bgnd.png",ch));
 
 
   }
@@ -273,8 +275,8 @@ void plot_bgnd(int channel=1) {
 }
 
 void plotAll() {
-  plot_ch(1);
-  plot_ch(2);
-  plot_ch(4);
-  plot_ch(5);
+  plot_bgnd(1);
+  plot_bgnd(2);
+  plot_bgnd(4);
+  plot_bgnd(5);
 }

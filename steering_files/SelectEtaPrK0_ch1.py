@@ -40,7 +40,7 @@ if len(sys.argv) > 4:
 
 
 if (what=='local'):
-    filelistSIG= ['payload_skim_*_uubar/B0_etapr_eta2pi_KS_skim_uubar_*.root']
+    filelistSIG= ['payload_skim_*_ddbar/B0_etapr_eta2pi_KS_skim_ddbar_*.root']
     #filelistSIG= ['../root_files/ch1/B0_etapr-eta-gg2pi_KS-pi+pi-_gsim-BKGx0.root']
     #filelistSIG= ['../root_files/ch1/B0_etapr-eta-gg2pi_KS-pi+pi-_skim_uubar.root']
     #filelistSIG= ['../root_files/ch1/B0_etapr-eta-gg2pi_KS-pi+pi-_skim_ddbar.root']
@@ -54,12 +54,12 @@ if (what=='local'):
 else:
     filelistSIGnames={
         'signal':'B0_etapr-eta-gg2pi_KS-pi+pi-_gsim-BKGx0.list',
-        'uubar':'Background_uubar_BGx1.list',
-        'ddbar':'Background_ddbar_BGx1.list',
-        'ssbar':'Background_ssbar_BGx1.list',
-        'ccbar':'Background_ccbar_BGx1.list',
-        'mixed':'Background_mixed_BGx1.list',
-        'charged':'Background_charged_BGx1.list'
+        'uubar':'BackgroundSkim_uubar_BGx1.list',
+        'ddbar':'BackgroundSkim_ddbar_BGx1.list',
+        'ssbar':'BackgroundSkim_ssbar_BGx1.list',
+        'ccbar':'BackgroundSkim_ccbar_BGx1.list',
+        'mixed':'BackgroundSkim_mixed_BGx1.list',
+        'charged':'BackgroundSkim_charged_BGx1.list'
     }
 
     filelistSIGraw = open(filelistSIGnames[what], 'r').readlines()

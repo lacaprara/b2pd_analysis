@@ -453,7 +453,8 @@ class B0_ch2 {
     TBranch        *b_m_nCands;   //!
     TBranch        *b_m_iCand;   //!
 
-    B0_ch2(TTree *tree=0);
+    B0_ch2(TTree *tree=0,const char* outAppendix="");
+    bool _skipIfSignal;
     virtual ~B0_ch2();
     virtual Int_t    Cut(Long64_t entry);
     virtual Int_t    GetEntry(Long64_t entry);
@@ -474,7 +475,7 @@ class B0_ch2 {
 #endif
 
 #ifdef B0_ch2_cxx
-B0_ch2::B0_ch2(TTree *tree) : fChain(0) 
+B0_ch2::B0_ch2(TTree *tree, const char* outAppendix) : fChain(0) , _skipIfSignal(false)
 {
   // if parameter tree is not specified (or zero), connect the file
   // used to generate this class and read the Tree.
@@ -488,7 +489,8 @@ B0_ch2::B0_ch2(TTree *tree) : fChain(0)
   }
   Init(tree);
 
-  ofile=new TFile("Histo_ch2.root","RECREATE");
+  ofile=new TFile(Form("Histo_ch2_%s.root",outAppendix),"RECREATE");
+  if (string(outAppendix)=="mixed") _skipIfSignal=true;
 }
 
 B0_ch2::~B0_ch2()

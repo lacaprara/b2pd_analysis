@@ -28,13 +28,44 @@ if len(sys.argv) > 1:
 if len(sys.argv) > 2:
     firstFile=int(sys.argv[2])
     nFiles=firstFile+nFiles
+if len(sys.argv) > 3:
+    what=str(sys.argv[3])
+    if (what not in {'signal','uubar','ddbar', 'ssbar', 'ccbar','mixed','charged','local'}):
+            sys.exit("input has to be 'signal|uubar,ddbar,ssbar,ccbar,mixed,charged,local'")
+if len(sys.argv) > 4:
+    action=str(sys.argv[4])
+    if (action not in {'simple','training','expert'}):
+            sys.exit("action has to be 'simple|training|expert'")
 
-# filelistSIG= ['../root_files/B0_etapr-eta-3pi2pi_KS-pi0pi0_gsim-BKGx0.root']
-filelistSIGname='B0_etapr-eta-3pi2pi_KS-pi0pi0_gsim-BKGx0.list'
-filelistSIGraw = open(filelistSIGname, 'r').readlines()
-filelistSIG= [x.strip() for x in filelistSIGraw]
 
-outFile = 'B0_etapr-eta-3pi2pi_KS-pi0pi0_output_signal.root'
+if (what=='local'):
+    filelistSIG= ['payload_skim_*_ddbar/B0_etapr_eta2pi_KS_skim_ddbar_*.root']
+    #filelistSIG= ['../root_files/ch1/B0_etapr-eta-gg2pi_KS-pi+pi-_gsim-BKGx0.root']
+    #filelistSIG= ['../root_files/ch1/B0_etapr-eta-gg2pi_KS-pi+pi-_skim_uubar.root']
+    #filelistSIG= ['../root_files/ch1/B0_etapr-eta-gg2pi_KS-pi+pi-_skim_ddbar.root']
+    #filelistSIG= ['../root_files/ch1/B0_etapr-eta-gg2pi_KS-pi+pi-_skim_ssbar.root']
+    #filelistSIG= ['../root_files/ch1/B0_etapr-eta-gg2pi_KS-pi+pi-_skim_ccbar.root']
+    #filelistSIG= ['../root_files/ch1/B0_etapr-eta-gg2pi_KS-pi+pi-_skim_mixed.root']
+    #filelistSIG= ['../root_files/ch1/B0_etapr-eta-gg2pi_KS-pi+pi-_skim_charged.root']
+    #filelistSIG= ['B0_etapr-eta-gg2pi_KS-pi+pi-_skim_signal.root']
+    inputMdstList(filelistSIG)
+
+else:
+    filelistSIGnames={
+        'signal':'B0_etapr-eta-gg2pi_KS-pi+pi-_gsim-BKGx0.list',
+        'uubar':'BackgroundSkim_uubar_BGx1.list',
+        'ddbar':'BackgroundSkim_ddbar_BGx1.list',
+        'ssbar':'BackgroundSkim_ssbar_BGx1.list',
+        'ccbar':'BackgroundSkim_ccbar_BGx1.list',
+        'mixed':'BackgroundSkim_mixed_BGx1.list',
+        'charged':'BackgroundSkim_charged_BGx1.list'
+    }
+
+    filelistSIGraw = open(filelistSIGnames[what], 'r').readlines()
+    filelistSIG= [x.strip() for x in filelistSIGraw]
+    inputMdstList(filelistSIG[firstFile:nFiles])
+
+outFile = 'B0_etapr-eta-3pi2pi_KS-pi0pi0_output_'+what+'.root'
 
 inputMdstList(filelistSIG[firstFile:nFiles])
 # printPrimaryMCParticles()

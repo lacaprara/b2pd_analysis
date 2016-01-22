@@ -126,7 +126,6 @@ void B0_ch1::Loop(Long64_t maxEv)
 
       Long64_t nCandsCurrent=nCands;
       // cout << "nCands = " << nCandsCurrent << endl;
-      cout << "_skipIfSignal " << _skipIfSignal << " " << B0__isSignal << endl;
       if (!(_skipIfSignal && B0__isSignal)) {
 
         Long64_t iBest = selectBestCand(jentry, nCandsCurrent);
