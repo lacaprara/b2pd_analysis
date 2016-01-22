@@ -98,7 +98,7 @@ void B0_ch4::Loop(Long64_t maxEv)
       lastEvt=evt_no;
     }
     nCandsLast=nCands;
-
+    if (_skipIfSignal && B0__isSignal)  continue;
 
 
     fillHistos("AllCandidates");
@@ -147,55 +147,57 @@ void B0_ch4::Loop(Long64_t maxEv)
 
       Long64_t nCandsCurrent=nCands;
       // cout << "nCands = " << nCandsCurrent << endl;
+      if (!(_skipIfSignal && B0__isSignal)) {
 
-      Long64_t iBest = selectBestCand(jentry, nCandsCurrent);
-      if (iBest>=0) {
-        hEvents->Fill(11);
-        // cout << "Best: " << iBest << endl;
+        Long64_t iBest = selectBestCand(jentry, nCandsCurrent);
+        if (iBest>=0) {
+          hEvents->Fill(11);
+          // cout << "Best: " << iBest << endl;
 
-        nb = fChain->GetEntry(iBest);
-        //cout << "MB " << B0_M<< endl;
+          nb = fChain->GetEntry(iBest);
+          //cout << "MB " << B0_M<< endl;
 
-        fillHistos("BestCandidates");
+          fillHistos("BestCandidates");
 
-        // Plot Dt, reco and MC
-        hDT_best->Fill(B0_DeltaT);
-        hTrueDT_best->Fill(B0_TruthDeltaT);
+          // Plot Dt, reco and MC
+          hDT_best->Fill(B0_DeltaT);
+          hTrueDT_best->Fill(B0_TruthDeltaT);
 
-        // Plot Dt for B0 and B0bar tag (MC)
-        if (B0__isSignal) {
-          if (B0_mcTagPDG>0) {
-            hDT_TrueB0_best->Fill(B0_DeltaT);
-            hTrueDT_TrueB0_best->Fill(B0_TruthDeltaT);
-          } else {
-            hDT_TrueB0bar_best->Fill(B0_DeltaT);
-            hTrueDT_TrueB0bar_best->Fill(B0_TruthDeltaT);
+          // Plot Dt for B0 and B0bar tag (MC)
+          if (B0__isSignal) {
+            if (B0_mcTagPDG>0) {
+              hDT_TrueB0_best->Fill(B0_DeltaT);
+              hTrueDT_TrueB0_best->Fill(B0_TruthDeltaT);
+            } else {
+              hDT_TrueB0bar_best->Fill(B0_DeltaT);
+              hTrueDT_TrueB0bar_best->Fill(B0_TruthDeltaT);
+            }
+            // same, but with a diluition factor of e(1-2w)^2=0.32, namely eff=1. and
+            // mis-tag rate =0.217, with a random decision
+            int recoFlavourTag=B0_mcTagPDG;
+
+            // mistag
+            if (random1->Rndm() < 0.217) recoFlavourTag=-recoFlavourTag;
+            if (recoFlavourTag>0) {
+              hDT_TagB0_best->Fill(B0_DeltaT);
+              hTrueDT_TagB0_best->Fill(B0_TruthDeltaT);
+            } else {
+              hDT_TagB0bar_best->Fill(B0_DeltaT);
+              hTrueDT_TagB0bar_best->Fill(B0_TruthDeltaT);
+            }
+
           }
-          // same, but with a diluition factor of e(1-2w)^2=0.32, namely eff=1. and
-          // mis-tag rate =0.217, with a random decision
-          int recoFlavourTag=B0_mcTagPDG;
 
-          // mistag
-          if (random1->Rndm() < 0.217) recoFlavourTag=-recoFlavourTag;
-          if (recoFlavourTag>0) {
-            hDT_TagB0_best->Fill(B0_DeltaT);
-            hTrueDT_TagB0_best->Fill(B0_TruthDeltaT);
+
+          if (B0__isSignal) {
+            hEvents->Fill(12);
+            fillHistos("BestCandidatesIsSignal");
           } else {
-            hDT_TagB0bar_best->Fill(B0_DeltaT);
-            hTrueDT_TagB0bar_best->Fill(B0_TruthDeltaT);
+            hEvents->Fill(13);
+            fillHistos("BestCandidatesIsNotSignal");
           }
-
+          //Show(iBest);
         }
-
-
-        if (B0__isSignal) {
-          hEvents->Fill(12);
-          fillHistos("BestCandidatesIsSignal");
-        } else {
-          hEvents->Fill(13);
-          fillHistos("BestCandidatesIsNotSignal");
-        }
-        //Show(iBest);
       }
 
       // next events

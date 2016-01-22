@@ -1,10 +1,10 @@
 #include <vector>
 
-bool plotAllDistributions=1;
+bool plotAllDistributions=0;
 bool plotGoldDistributions=1;
 bool plotEvents=1;
-bool plotDeltaT=1;
-bool plotAsym=1;
+bool plotDeltaT=0;
+bool plotAsym=0;
 
 struct plotInfo {
   plotInfo() {}
@@ -32,11 +32,11 @@ void getWhatToPlot(int channel, vector<plotInfo>& result) {
       result.push_back(plotInfo("hPIDpi"        ,true ,0.20 ,1.00 ,true));
       result.push_back(plotInfo("hD0pi"         ,true ,-0.08,0.08 ,false));
       result.push_back(plotInfo("hZ0pi"         ,true ,-0.1 ,+0.1 ,false));
-      result.push_back(plotInfo("hNPxdHitspi"   ,false,1    ,4    ,true));
-      result.push_back(plotInfo("hVtxPValueK0S" ,true ,1e-5 ,1    ,true));
-      result.push_back(plotInfo("hVtxPValueEta" ,true ,1e-5 ,1    ,true));
-      result.push_back(plotInfo("hVtxPValueEtaP",true ,1e-5 ,1    ,true));
-      result.push_back(plotInfo("hVtxPValueB0"  ,true ,1e-5 ,1    ,true));
+      result.push_back(plotInfo("hNPxdHitspi"   ,false,1    ,4    ,false));
+      result.push_back(plotInfo("hVtxPValueK0S" ,true ,1e-5 ,1    ,false));
+      result.push_back(plotInfo("hVtxPValueEta" ,true ,1e-5 ,1    ,false));
+      result.push_back(plotInfo("hVtxPValueEtaP",true ,1e-5 ,1    ,false));
+      result.push_back(plotInfo("hVtxPValueB0"  ,true ,1e-5 ,1    ,false));
       break;
     case 2:
       result.push_back(plotInfo("hMbc",           false, 5.25, 5.29,  true));
@@ -105,8 +105,10 @@ void channel(int channel, TCanvas* c, float x=0.5, float y=0.96) {
       break;
     case 4:
       what = "B^{0}#rightarrow#eta'( #eta(#pi^{+}#pi^{-}#pi^{0}) #pi^{+}#pi^{-}) K^{0}_{S}(#pi^{+}#pi^{-})";
+      break;
     case 5:
       what = "B^{0}#rightarrow#eta'( #eta(#pi^{+}#pi^{-}#pi^{0}) #pi^{+}#pi^{-}) K^{0}_{S}(#pi^{0}#pi^{0})";
+      break;
     default:
       what="what??";
       break;
@@ -160,12 +162,12 @@ Double_t fitFunc(Double_t * x, Double_t * par)
   return PDF;
 }
 
-void plot_ch(int channel=2, const char* appendix="") {
+void plot_ch(int channel=1, const char* appendix="signal") {
   TFile* hfile=TFile::Open(Form("Histo_ch%d_%s.root",channel,appendix));
 
   gStyle->SetPadTopMargin(0.10);
   gStyle->SetOptStat(0);
-  gStyle->SetTitleSize(.5,"XYZ");
+  gStyle->SetTitleSize(.3,"XYZ");
 
   TLatex* tt=new TLatex();
   tt->SetTextSize(0.05);
@@ -227,28 +229,28 @@ void plot_ch(int channel=2, const char* appendix="") {
         htmp->DrawCopy("same");
         if (i==0)tleg->AddEntry(htmp," \" MC match","f");
       }
-      hfile->cd("BestCandidates");
-      TH1* htmp=(TH1F*)gDirectory->Get(h->name);
-      if (htmp) {
-        htmp->SetLineColor(kRed);
-        htmp->DrawCopy("same");
-        if (i==0)tleg->AddEntry(htmp,"Best cands","l");
-      }
-      hfile->cd("BestCandidatesIsSignal");
-      TH1* htmp=(TH1F*)gDirectory->Get(h->name);
-      if (htmp) {
-        htmp->SetLineColor(kViolet);
-        htmp->DrawCopy("same");
-        if (i==0)tleg->AddEntry(htmp," \" MC match","l");
-      }
-      hfile->cd("BestCandidatesIsNotSignal");
-      TH1* htmp=(TH1F*)gDirectory->Get(h->name);
-      if (htmp) {
-        htmp->SetLineColor(kBlack);
-        htmp->SetLineStyle(2);
-        htmp->DrawCopy("same");
-        if (i==0)tleg->AddEntry(htmp," \" SXF","l");
-      }
+      // hfile->cd("BestCandidates");
+      // TH1* htmp=(TH1F*)gDirectory->Get(h->name);
+      // if (htmp) {
+      //   htmp->SetLineColor(kRed);
+      //   htmp->DrawCopy("same");
+      //   if (i==0)tleg->AddEntry(htmp,"Best cands","l");
+      // }
+      // hfile->cd("BestCandidatesIsSignal");
+      // TH1* htmp=(TH1F*)gDirectory->Get(h->name);
+      // if (htmp) {
+      //   htmp->SetLineColor(kViolet);
+      //   htmp->DrawCopy("same");
+      //   if (i==0)tleg->AddEntry(htmp," \" MC match","l");
+      // }
+      // hfile->cd("BestCandidatesIsNotSignal");
+      // TH1* htmp=(TH1F*)gDirectory->Get(h->name);
+      // if (htmp) {
+      //   htmp->SetLineColor(kBlack);
+      //   htmp->SetLineStyle(2);
+      //   htmp->DrawCopy("same");
+      //   if (i==0)tleg->AddEntry(htmp," \" SXF","l");
+      // }
       tl->DrawLine(h->cutLow,ymin,h->cutLow,htmp->GetMaximum()*1.05);
       tl->DrawLine(h->cutHigh,ymin,h->cutHigh,htmp->GetMaximum()*1.05);
       if (i==0) tleg->Draw();
@@ -302,7 +304,7 @@ void plot_ch(int channel=2, const char* appendix="") {
       TH1* htmp=(TH1F*)gDirectory->Get(h->name);
       if (htmp) {
         htmp->GetXaxis()->SetTitleOffset(.7);
-        htmp->GetXaxis()->SetTitleSize(0.08);
+        htmp->GetXaxis()->SetTitleSize(0.06);
         htmp->DrawCopy();
         if (i==0)tleg->AddEntry(htmp,"All cands","l");
       }
@@ -358,7 +360,7 @@ void plot_ch(int channel=2, const char* appendix="") {
       }
       if (htmp) {
         htmp->GetXaxis()->SetTitleOffset(.7);
-        htmp->GetXaxis()->SetTitleSize(0.08);
+        htmp->GetXaxis()->SetTitleSize(0.06);
         htmp->SetMinimum(ymin);
         htmp->SetFillColor(kBlue);
         htmp->DrawCopy();
@@ -400,7 +402,7 @@ void plot_ch(int channel=2, const char* appendix="") {
     TH1* htmp=(TH1F*)hfile->Get("hNCands");
     if (htmp) htmp->DrawCopy();
     tt->DrawLatexNDC(0.3,0.6,Form("All cands multiplicity: %3.2f",htmp->GetMean()));
-    tt->DrawLatexNDC(0.3,0.5,Form("All cands #epsilon: %3.3f",htmp->GetEntries()/10000.));
+    tt->DrawLatexNDC(0.3,0.5,Form("All cands #epsilon: %3.3f",htmp->GetEntries()/2000000.));
     cEvents->cd(2);
     htmp=(TH1F*)hfile->Get("hNGoodCands");
     TH1* hEvents=(TH1F*)hfile->Get("hEvents");
@@ -408,9 +410,9 @@ void plot_ch(int channel=2, const char* appendix="") {
       htmp->SetFillColor(kBlue);
       htmp->DrawCopy();
       tt->DrawLatexNDC(0.3,0.6,Form("Good cands multiplicity: %3.2f",htmp->GetMean()));
-      tt->DrawLatexNDC(0.3,0.5,Form("Best cands           #epsilon: %3.3f",hEvents->GetBinContent(11)/10000.));
-      tt->DrawLatexNDC(0.3,0.4,Form("Best cands MC true  #epsilon: %3.3f",hEvents->GetBinContent(12)/10000.));
-      tt->DrawLatexNDC(0.3,0.3,Form("Best cands MC false #epsilon: %3.3f",(hEvents->GetBinContent(11)-hEvents->GetBinContent(12))/10000.));
+      tt->DrawLatexNDC(0.3,0.5,Form("Best cands           #epsilon: %3.3f",hEvents->GetBinContent(11)/2000000.));
+      tt->DrawLatexNDC(0.3,0.4,Form("Best cands MC true  #epsilon: %3.3f",hEvents->GetBinContent(12)/2000000.));
+      tt->DrawLatexNDC(0.3,0.3,Form("Best cands MC false #epsilon: %3.3f",(hEvents->GetBinContent(11)-hEvents->GetBinContent(12))/2000000.));
     }
     hfile->cd();
     // Statistics
@@ -466,7 +468,7 @@ void plot_ch(int channel=2, const char* appendix="") {
     myFitFunc->SetParName(8, "f_{T}");
     myFitFunc->SetParameters(1500.0, 0., 1., 0., 1.5, 0, 3., 0.4, 0.3);
 
-    myFitFunc->SetParLimits(0, 0.0, 2500.0);  // norm
+    myFitFunc->SetParLimits(0, 0.0, 100000);  // norm
     myFitFunc->SetParLimits(1, -2.0, 2.0);    // mu1
     myFitFunc->SetParLimits(2, 0.1,  1.);      // sigma1
     myFitFunc->SetParLimits(3, -4.0, +4.0);   // mu2
@@ -486,7 +488,7 @@ void plot_ch(int channel=2, const char* appendix="") {
 
 
       //hTrueDT_best->Draw();
-      hTrueDT_best->Fit("fitFunc", "LE");
+     // hTrueDT_best->Fit("fitFunc", "LE");
       hTrueDT_best->Draw("e");
       TF1 *gC    = new TF1("gC","gaus",min_range, max_range);
       TF1 *gT    = new TF1("gT","gaus",min_range, max_range);

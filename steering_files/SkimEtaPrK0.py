@@ -22,27 +22,41 @@ if len(sys.argv) > 2:
     nFiles=firstFile+nFiles
 if len(sys.argv) > 3:
     what=str(sys.argv[3])
-    if (what not in {'signal','uubar','ddbar', 'ssbar', 'ccbar'}):
-            sys.exit("input has to be 'signal|uubar,ddbar,ssbar,ccbar'")
+    if (what not in {'signal','uubar','ddbar', 'ssbar', 'ccbar','mixed','charged'}):
+            sys.exit("input has to be 'signal|uubar,ddbar,ssbar,ccbar,mixed,charged'")
 
 
 # filelistSIG= ['../root_files/ch1/B0_etapr-eta-gg2pi_KS-pi+pi-_gsim-BKGx0.root']
 # inputMdstList(filelistSIG)
 
-filelistSIGnames={
-    'signal':'B0_etapr-eta-gg2pi_KS-pi+pi-_gsim-BKGx0.list',
-    'uubar':'Background_uubar_BGx1.list',
-    'ddbar':'Background_ddbar_BGx1.list',
-    'ssbar':'Background_ssbar_BGx1.list',
-    'ccbar':'Background_ccbar_BGx1.list'
-}
+if (what=='local'):
+    #filelistSIG= ['../root_files/ch1/B0_etapr-eta-gg2pi_KS-pi+pi-_gsim-BKGx0.root']
+    #filelistSIG= ['../root_files/ch1/B0_etapr-eta-gg2pi_KS-pi+pi-_skim_uubar.root']
+    #filelistSIG= ['../root_files/ch1/B0_etapr-eta-gg2pi_KS-pi+pi-_skim_ddbar.root']
+    #filelistSIG= ['../root_files/ch1/B0_etapr-eta-gg2pi_KS-pi+pi-_skim_ssbar.root']
+    #filelistSIG= ['../root_files/ch1/B0_etapr-eta-gg2pi_KS-pi+pi-_skim_ccbar.root']
+    #filelistSIG= ['../root_files/ch1/B0_etapr-eta-gg2pi_KS-pi+pi-_skim_mixed.root']
+    filelistSIG= ['../root_files/ch1/B0_etapr-eta-gg2pi_KS-pi+pi-_skim_charged.root']
+    #filelistSIG= ['B0_etapr-eta-gg2pi_KS-pi+pi-_skim_signal.root']
+    inputMdstList(filelistSIG)
 
-# load files
-filelistSIGraw = open(filelistSIGnames[what], 'r').readlines()
-filelistSIG= [x.strip() for x in filelistSIGraw]
-inputMdstList(filelistSIG[firstFile:nFiles])
+else:
+    filelistSIGnames={
+        'signal':'B0_etapr-eta-gg2pi_KS-pi+pi-_gsim-BKGx0.list',
+        'uubar':'Background_uubar_BGx1.list',
+        'ddbar':'Background_ddbar_BGx1.list',
+        'ssbar':'Background_ssbar_BGx1.list',
+        'ccbar':'Background_ccbar_BGx1.list',
+        'mixed':'Background_mixed_BGx1.list',
+        'charged':'Background_charged_BGx1.list'
+    }
 
-outFile = 'B0_etapr-eta-gg2pi_KS-pi+pi-_skim_'+what+'.root'
+    # load files
+    filelistSIGraw = open(filelistSIGnames[what], 'r').readlines()
+    filelistSIG= [x.strip() for x in filelistSIGraw]
+    inputMdstList(filelistSIG[firstFile:nFiles])
+
+outFile = 'B0_etapr_eta2pi_KS_skim_'+what+'.root'
 
 
 # create lists of FSPs
@@ -59,11 +73,13 @@ reconstructDecay('pi0:all -> gamma:good gamma:good',' 0.080 < M < 0.200')
 # reconstruct eta->gg
 reconstructDecay('eta:gg -> gamma:good gamma:good', '0.400 < M < .700')
 
-# reconstruct eta->gg
-reconstructDecay("eta':gg -> eta:gg pi+:all pi-:all", '0.5 < M < 1.3')
-
 # reconstruct eta->pi+pi-pi0
 reconstructDecay('eta:3pi -> pi-:all pi+:all pi0:all', '0.400 < M < .700')
+
+# reconstruct eta'->gg2pi
+reconstructDecay("eta':gg -> eta:gg pi+:all pi-:all", '0.5 < M < 1.3')
+# reconstruct eta'->3pi2pi
+reconstructDecay("eta':3pi -> eta:3pi pi+:all pi-:all", '0.5 < M < 1.3')
 
 # Ks ->pi+pi-
 fillParticleList('K_S0:mdst','0.3 < M < 0.7')
