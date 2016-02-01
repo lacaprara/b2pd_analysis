@@ -53,7 +53,7 @@ if (what=='local'):
 
 else:
     filelistSIGnames={
-        'signal':'B0_etapr-eta-gg2pi_KS-pi+pi-_gsim-BKGx0.list',
+        'signal':'B0_etapr-eta-gg2pi_KS-pi+pi-_Skim_gsim-BKGx0.list',
         'uubar':'BackgroundSkim_uubar_BGx1.list',
         'ddbar':'BackgroundSkim_ddbar_BGx1.list',
         'ssbar':'BackgroundSkim_ssbar_BGx1.list',

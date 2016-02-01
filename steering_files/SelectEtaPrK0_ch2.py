@@ -39,7 +39,8 @@ if len(sys.argv) > 4:
 
 
 if (what=='local'):
-    filelistSIG= ['payload_skim_*_ddbar/B0_etapr_eta2pi_KS_skim_ddbar_*.root']
+    filelistSIG= ['payload_skim_ch2_*_signal/B0_etapr_eta2pi_KS_skim_signal_ch2.root']
+    #filelistSIG= ['payload_skim_*_ddbar/B0_etapr_eta2pi_KS_skim_ddbar_*.root']
     #filelistSIG= ['../root_files/ch1/B0_etapr-eta-gg2pi_KS-pi+pi-_gsim-BKGx0.root']
     #filelistSIG= ['../root_files/ch1/B0_etapr-eta-gg2pi_KS-pi+pi-_skim_uubar.root']
     #filelistSIG= ['../root_files/ch1/B0_etapr-eta-gg2pi_KS-pi+pi-_skim_ddbar.root']
@@ -52,7 +53,7 @@ if (what=='local'):
 
 else:
     filelistSIGnames={
-        'signal':'B0_etapr-eta-gg2pi_KS-pi+pi-_gsim-BKGx0.list',
+        'signal':'B0_etapr-eta-gg2pi_KS-pi0pi0_Skim_gsim-BKGx0.list',
         'uubar':'BackgroundSkim_uubar_BGx1.list',
         'ddbar':'BackgroundSkim_ddbar_BGx1.list',
         'ssbar':'BackgroundSkim_ssbar_BGx1.list',
@@ -68,7 +69,6 @@ else:
 
 outFile = 'B0_etapr-eta-gg2pi_KS-pi0pi0_output_'+what+'.root'
 
-inputMdstList(filelistSIG[firstFile:nFiles])
 #printPrimaryMCParticles()
 
 photons   = ('gamma:all',   '')

@@ -22,8 +22,8 @@ if len(sys.argv) > 2:
     nFiles=firstFile+nFiles
 if len(sys.argv) > 3:
     what=str(sys.argv[3])
-    if (what not in {'signal','uubar','ddbar', 'ssbar', 'ccbar','mixed','charged'}):
-            sys.exit("input has to be 'signal|uubar,ddbar,ssbar,ccbar,mixed,charged'")
+    if (what not in {'signal_ch1','signal_ch2','signal_ch4','signal_ch4','signal_ch5','uubar','ddbar', 'ssbar', 'ccbar','mixed','charged'}):
+            sys.exit("input has to be 'signal_chX|uubar,ddbar,ssbar,ccbar,mixed,charged'")
 
 
 # filelistSIG= ['../root_files/ch1/B0_etapr-eta-gg2pi_KS-pi+pi-_gsim-BKGx0.root']
@@ -42,7 +42,10 @@ if (what=='local'):
 
 else:
     filelistSIGnames={
-        'signal':'B0_etapr-eta-gg2pi_KS-pi+pi-_gsim-BKGx0.list',
+        'signal_ch1':'B0_etapr-eta-gg2pi_KS-pi+pi-_gsim-BKGx0.list',
+        'signal_ch2':'B0_etapr-eta-gg2pi_KS-pi0pi0_gsim-BKGx0.list',
+        'signal_ch4':'B0_etapr-eta-3pi2pi_KS-pi+pi-_gsim-BKGx0.list',
+        'signal_ch5':'B0_etapr-eta-3pi2pi_KS-pi0pi0_gsim-BKGx0.list',
         'uubar':'Background_uubar_BGx1.list',
         'ddbar':'Background_ddbar_BGx1.list',
         'ssbar':'Background_ssbar_BGx1.list',
@@ -94,7 +97,7 @@ reconstructDecay("B0:ch2 -> eta':gg K_S0:neu", 'Mbc > 5.0 and abs(deltaE) < 0.5'
 # channel 4
 reconstructDecay("B0:ch4 -> eta':3pi K_S0:mdst", 'Mbc > 5.0 and abs(deltaE) < 0.5')
 # channel 5
-reconstructDecay("B0:ch5 -> eta':gg K_S0:neu", 'Mbc > 5.0 and abs(deltaE) < 0.5')
+reconstructDecay("B0:ch5 -> eta':3pi K_S0:neu", 'Mbc > 5.0 and abs(deltaE) < 0.5')
 
 # add SkimFilter module to set condition variable based on the number of reconstructed B-tag mesons
 skim = register_module('SkimFilter')
