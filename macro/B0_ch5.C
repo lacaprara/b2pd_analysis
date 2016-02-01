@@ -87,6 +87,11 @@ void B0_ch5::Loop(Long64_t maxEv)
     // Count number of candidates
     if (evt_no!=lastEvt) { // new event
       nev++;
+      static int j=1;
+      if ((nev%j)==0) {
+        if ((nev/j)==9) j*=10;
+        cout << "Run:Event analyzed " << run_no << ":" << evt_no << " Num " << nev << endl;
+      }
       if (nev > maxEv) break;
       hNCands->Fill(nCandsLast);
       hEvents->Fill(1);

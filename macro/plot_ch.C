@@ -1,10 +1,10 @@
 #include <vector>
 
-bool plotAllDistributions=0;
+bool plotAllDistributions=1;
 bool plotGoldDistributions=1;
 bool plotEvents=1;
-bool plotDeltaT=0;
-bool plotAsym=0;
+bool plotDeltaT=1;
+bool plotAsym=1;
 
 struct plotInfo {
   plotInfo() {}
@@ -140,7 +140,7 @@ void channel(int channel, TCanvas* c, float x=0.5, float y=0.96) {
  */
 Double_t fitFunc(Double_t * x, Double_t * par)
 {
-  Double_t PDF     = 0.0;
+  Double_t PDF    = 0.0;
   Double_t g1     = 0.0;
   Double_t g2     = 0.0;
   Double_t g3     = 0.0;
@@ -162,7 +162,7 @@ Double_t fitFunc(Double_t * x, Double_t * par)
   return PDF;
 }
 
-void plot_ch(int channel=1, const char* appendix="signal") {
+void plot_ch(int channel=4, const char* appendix="signal") {
   TFile* hfile=TFile::Open(Form("Histo_ch%d_%s.root",channel,appendix));
 
   gStyle->SetPadTopMargin(0.10);
@@ -402,7 +402,7 @@ void plot_ch(int channel=1, const char* appendix="signal") {
     TH1* htmp=(TH1F*)hfile->Get("hNCands");
     if (htmp) htmp->DrawCopy();
     tt->DrawLatexNDC(0.3,0.6,Form("All cands multiplicity: %3.2f",htmp->GetMean()));
-    tt->DrawLatexNDC(0.3,0.5,Form("All cands #epsilon: %3.3f",htmp->GetEntries()/2000000.));
+    //tt->DrawLatexNDC(0.3,0.5,Form("All cands #epsilon: %3.3f",htmp->GetEntries()/2000000.));
     cEvents->cd(2);
     htmp=(TH1F*)hfile->Get("hNGoodCands");
     TH1* hEvents=(TH1F*)hfile->Get("hEvents");
@@ -419,6 +419,13 @@ void plot_ch(int channel=1, const char* appendix="signal") {
     cout << "Total number of events: " << hEvents->GetBinContent(1) << " " << hEvents->GetBinContent(10)<< endl;
     cout << "Total number of events passed: " << hEvents->GetBinContent(2) << " " << hEvents->GetBinContent(11)<< endl;
     cout << "Total number of signal events passed: " << hEvents->GetBinContent(3) << " " << hEvents->GetBinContent(12)<< endl;
+    ofstream myfile;
+    myfile.open (Form("Ch%d_events.txt",channel));
+    myfile << "Total number of events: " << hEvents->GetBinContent(1) << " " << hEvents->GetBinContent(10)<< endl;
+    myfile << "Total number of events passed: " << hEvents->GetBinContent(2) << " " << hEvents->GetBinContent(11)<< endl;
+    myfile << "Total number of signal events passed: " << hEvents->GetBinContent(3) << " " << hEvents->GetBinContent(12)<< endl;
+    myfile.close();
+
     channel(channel, cEvents,0.5,0.93);
     cEvents->Print(Form("Ch%d_events.pdf",channel));
     cEvents->Print(Form("Ch%d_events.png",channel));
@@ -466,11 +473,11 @@ void plot_ch(int channel=1, const char* appendix="signal") {
     myFitFunc->SetParName(6, "#sigma_{O}");
     myFitFunc->SetParName(7, "f_{C}");
     myFitFunc->SetParName(8, "f_{T}");
-    myFitFunc->SetParameters(1500.0, 0., 1., 0., 1.5, 0, 3., 0.4, 0.3);
+    myFitFunc->SetParameters(10000.0, 0., 1., 0., 1.5, 0, 3., 0.4, 0.1);
 
-    myFitFunc->SetParLimits(0, 0.0, 100000);  // norm
+    //myFitFunc->SetParLimits(0, 100.0, 2E6);  // norm
     myFitFunc->SetParLimits(1, -2.0, 2.0);    // mu1
-    myFitFunc->SetParLimits(2, 0.1,  1.);      // sigma1
+    myFitFunc->SetParLimits(2, 0.1,  2.5);      // sigma1
     myFitFunc->SetParLimits(3, -4.0, +4.0);   // mu2
     myFitFunc->SetParLimits(4, 1.,  3.);      // sigma2
     myFitFunc->SetParLimits(5, -4.0, +4.0);   // mu3
@@ -479,95 +486,9 @@ void plot_ch(int channel=1, const char* appendix="signal") {
     myFitFunc->SetParLimits(8, 0.0,  1.0);    // frac2
 
     myFitFunc->SetLineWidth(2);
-    if (false) {
-
-      TCanvas* cDtAll=new TCanvas("cDtAll");
-      cDtAll->Divide(3,2);
-      cDtAll->cd(1);
-
-
-
-      //hTrueDT_best->Draw();
-     // hTrueDT_best->Fit("fitFunc", "LE");
-      hTrueDT_best->Draw("e");
-      TF1 *gC    = new TF1("gC","gaus",min_range, max_range);
-      TF1 *gT    = new TF1("gT","gaus",min_range, max_range);
-      TF1 *gO    = new TF1("gO","gaus",min_range, max_range);
-      double* fitParams=myFitFunc->GetParameters();
-      gC->SetLineColor(kRed);
-      gC->SetLineStyle(2);
-      gC->SetParameter(0,fitParams[0]*fitParams[7]);
-      gC->SetParameter(1,fitParams[1]);
-      gC->SetParameter(2,fitParams[2]);
-      cout << "Core " << gC->GetParameter(0) << " " << gC->GetParameter(1)  << " " << gC->GetParameter(2)<< endl;
-      gT->SetLineColor(kGreen);
-      gT->SetLineStyle(2);
-      gT->SetParameter(0,fitParams[0]*fitParams[8]);
-      gT->SetParameter(1,fitParams[3]);
-      gT->SetParameter(2,fitParams[4]);
-      cout << "Tail " << gT->GetParameter(0) << " " << gT->GetParameter(1)  << " " << gT->GetParameter(2)<< endl;
-      gO->SetLineColor(kBlue);
-      gO->SetLineStyle(2);
-      gO->SetParameter(0,fitParams[0]*(1-fitParams[7]-fitParams[8]));
-      gO->SetParameter(1,fitParams[5]);
-      gO->SetParameter(2,fitParams[6]);
-      cout << "Outlier " << gO->GetParameter(0) << " " << gO->GetParameter(1)  << " " << gO->GetParameter(2)<< endl;
-      gC->Draw("same");
-      gT->Draw("same");
-      gO->Draw("same");
-
-
-      //return;
-
-      cDtAll->cd(2);
-      hTrueDT_TrueB0_best->Draw();
-      hTrueDT_TrueB0bar_best->Draw("same");
-
-      cDtAll->cd(3);
-      hTrueDT_TagB0_best->Draw();
-      hTrueDT_TagB0bar_best->Draw("same");
-
-
-      cDtAll->cd(4);
-      //hDT_best->Draw();
-      hDT_best->Fit("fitFunc", "LE");
-      hDT_best->Draw("e");
-      TF1 *gC    = new TF1("gC","gaus",min_range, max_range);
-      TF1 *gT    = new TF1("gT","gaus",min_range, max_range);
-      TF1 *gO    = new TF1("gO","gaus",min_range, max_range);
-      double* fitParams=myFitFunc->GetParameters();
-      gC->SetLineColor(kRed);
-      gC->SetLineStyle(2);
-      gC->SetParameter(0,fitParams[0]*fitParams[7]);
-      gC->SetParameter(1,fitParams[1]);
-      gC->SetParameter(2,fitParams[2]);
-      cout << "Core " << gC->GetParameter(0) << " " << gC->GetParameter(1)  << " " << gC->GetParameter(2)<< endl;
-      gT->SetLineColor(kGreen);
-      gT->SetLineStyle(2);
-      gT->SetParameter(0,fitParams[0]*fitParams[8]);
-      gT->SetParameter(1,fitParams[3]);
-      gT->SetParameter(2,fitParams[4]);
-      cout << "Tail " << gT->GetParameter(0) << " " << gT->GetParameter(1)  << " " << gT->GetParameter(2)<< endl;
-      gO->SetLineColor(kBlue);
-      gO->SetLineStyle(2);
-      gO->SetParameter(0,fitParams[0]*(1-fitParams[7]-fitParams[8]));
-      gO->SetParameter(1,fitParams[5]);
-      gO->SetParameter(2,fitParams[6]);
-      cout << "Outlier " << gO->GetParameter(0) << " " << gO->GetParameter(1)  << " " << gO->GetParameter(2)<< endl;
-      gC->Draw("same");
-      gT->Draw("same");
-      gO->Draw("same");
-
-      cDtAll->cd(5);
-      hDT_TrueB0_best->Draw();
-      hDT_TrueB0bar_best->Draw("same");
-
-      cDtAll->cd(6);
-      hDT_TagB0_best->Draw();
-      hDT_TagB0bar_best->Draw("same");
-    }
 
     gStyle->SetOptStat(0);
+    gStyle->SetOptFit(1111);
     gStyle->SetFitFormat("4.3g");
     gStyle->SetStatFontSize(0.05);
     gStyle->SetStatFont(62);
@@ -577,6 +498,7 @@ void plot_ch(int channel=1, const char* appendix="signal") {
     //hDT_best->Draw();
     hDT_best->Fit("fitFunc", "LE");
     hDT_best->Draw("e");
+
     TF1 *gC    = new TF1("gC","gaus",min_range, max_range);
     TF1 *gT    = new TF1("gT","gaus",min_range, max_range);
     TF1 *gO    = new TF1("gO","gaus",min_range, max_range);
