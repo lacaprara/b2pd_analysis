@@ -1,6 +1,6 @@
 #!/bin/bash
 
-nFilesPerJob=2
+nFilesPerJob=1
 nMaxFiles=999999
 
 what='signal'
@@ -35,7 +35,7 @@ setChannelName() {
   esac
   case $what in
     'signal')
-      fileList=${channelName}_gsim-BKGx0.list
+      fileList=${channelName}_Skim_gsim-BKGx0.list
       ;;
     *)
       fileList=BackgroundSkim_${what}_BGx1.list
@@ -56,7 +56,7 @@ cat > payload_${payloadName}.sh << EOF
 #!/bin/sh
 #BSUB -o payload_${payloadName}.log
 #BSUB -J payload_${payloadName}.job
-#BSUB -q s
+#BSUB -q l
 
 hostname
 date
@@ -76,11 +76,11 @@ EOF
 }
 
 #for what in signal uubar ddbar  ssbar ccbar mixed charged
-for what in ccbar
+for what in signal
 do
   echo "doing $what"
   #for channel in {1,2,4,5}
-  for channel in 4 5
+  for channel in 1 4
   do
     job=0
     setChannelName $channel $what
