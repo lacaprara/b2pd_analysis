@@ -4,7 +4,7 @@
 
 void loop_ch4(int nev=-1) {
 
-  const char* what="ccbar";
+  const char* what="signal";
   TFile *_file0 = TFile::Open(Form("../root_files/ch4/B0_etapr-eta-3pi2pi_KS-pi+pi-_output_%s.root",what));
 
   TTree* B0t=(TTree*) _file0->Get("B0"); 

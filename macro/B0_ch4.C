@@ -60,6 +60,7 @@ void B0_ch4::Loop(Long64_t maxEv)
 
   // Dt plots
   TH1F *hDT_best  = new TH1F("hDT_best",";#Deltat (ps)", 100, -20., 20.);
+  TH1F *hDeltaDT_best  = new TH1F("hDeltaDT_best",";#Deltat-#Deltat_{true} (ps)", 200, -20., 20.);
   TH1F *hDT_TrueB0_best  = new TH1F("hDT_TrueB0_best",";#Deltat (ps)", 20, -10., 10.);
   TH1F *hDT_TrueB0bar_best  = new TH1F("hDT_TrueB0bar_best",";#Deltat (ps)", 20, -10., 10.);
   TH1F *hDT_TagB0_best  = new TH1F("hDT_TagB0_best",";#Deltat (ps)", 20, -10., 10.);
@@ -166,6 +167,8 @@ void B0_ch4::Loop(Long64_t maxEv)
 
           // Plot Dt, reco and MC
           hDT_best->Fill(B0_DeltaT);
+          double DDt=B0_DeltaT-B0_TruthDeltaT;
+          hDeltaDT_best->Fill(DDt);
           hTrueDT_best->Fill(B0_TruthDeltaT);
 
           // Plot Dt for B0 and B0bar tag (MC)
@@ -229,6 +232,7 @@ void B0_ch4::Loop(Long64_t maxEv)
     ofile->mkdir("BestCandidatesDeltaT");
     ofile->cd("BestCandidatesDeltaT");
     hDT_best->Write();
+    hDeltaDT_best->Write();
     hDT_TrueB0_best->Write();
     hDT_TrueB0bar_best->Write();
     hDT_TagB0_best->Write();

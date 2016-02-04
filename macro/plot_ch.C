@@ -1,10 +1,10 @@
 #include <vector>
 
-bool plotAllDistributions=1;
-bool plotGoldDistributions=1;
-bool plotEvents=1;
+bool plotAllDistributions=0;
+bool plotGoldDistributions=0;
+bool plotEvents=0;
 bool plotDeltaT=1;
-bool plotAsym=1;
+bool plotAsym=0;
 
 struct plotInfo {
   plotInfo() {}
@@ -162,7 +162,7 @@ Double_t fitFunc(Double_t * x, Double_t * par)
   return PDF;
 }
 
-void plot_ch(int channel=4, const char* appendix="signal") {
+void plot_ch(int channel=2, const char* appendix="signal") {
   TFile* hfile=TFile::Open(Form("Histo_ch%d_%s.root",channel,appendix));
 
   gStyle->SetPadTopMargin(0.10);
@@ -447,7 +447,7 @@ void plot_ch(int channel=4, const char* appendix="signal") {
     hTrueDT_TagB0bar_best->SetLineColor(kBlue);
 
     // Reco DT
-    TH1* hDT_best=(TH1F*)gDirectory->Get("hDT_best");
+    TH1* hDeltaDT_best=(TH1F*)gDirectory->Get("hDeltaDT_best");
 
     TH1* hDT_TrueB0_best=(TH1F*)gDirectory->Get("hDT_TrueB0_best");
     hDT_TrueB0_best->SetLineColor(kRed);
@@ -496,8 +496,8 @@ void plot_ch(int channel=4, const char* appendix="signal") {
     gStyle->SetStatW(0.18);
     TCanvas* cDt=new TCanvas("cDt");
     //hDT_best->Draw();
-    hDT_best->Fit("fitFunc", "LE");
-    hDT_best->Draw("e");
+    hDeltaDT_best->Fit("fitFunc", "LE");
+    hDeltaDT_best->Draw("e");
 
     TF1 *gC    = new TF1("gC","gaus",min_range, max_range);
     TF1 *gT    = new TF1("gT","gaus",min_range, max_range);
