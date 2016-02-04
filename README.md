@@ -28,7 +28,7 @@ Some literature:
     5. I keep the produced root files in `root_files`
 
   2. run on the officially produced MC files
-    1. dataset list (MC5) is available at https://www.google.com/url?q=https://belle2.cc.kek.jp/~twiki/bin/view/Computing/MCCampaign5th2015&usd=2&usg=AFQjCNGGgaDiJddUu3VzKtKd6si_JETjGw
+    1. dataset list (MC5) is available at https://belle2.cc.kek.jp/~twiki/bin/view/Computing/MC5Release4Physics
     2. First step is to skim the large dataset, then you perform selection on the skim.
     3. Skim selection is SkimEtaPrK0.py and skim for all the four analysis channels. 
     4. there are a number of list of files (ls \*list), where all the files produced in the MC5 campaign are listed. These lists are used as input for the actual skimming
