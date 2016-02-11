@@ -243,11 +243,9 @@ void B0_ch1::Loop(Long64_t maxEv)
     ofile->cd("BestCandidatesDeltaT");
     hDT_best->Write();
     hDeltaDT_best->Write();
-<<<<<<< HEAD
+
     hDzVtxSignal_best->Write();
     hDzVtxTag_best->Write();
-=======
->>>>>>> caf309365504425638b5d6840242f31d4a07d6c1
     hDT_TrueB0_best->Write();
     hDT_TrueB0bar_best->Write();
     hDT_TagB0_best->Write();
