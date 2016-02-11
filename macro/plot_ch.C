@@ -1,18 +1,11 @@
 #include <vector>
 
 bool plotAllDistributions=0;
-<<<<<<< HEAD
 bool plotGoldDistributions=1;
 bool plotEvents=1;
 bool plotDeltaT=1;
 bool plotDeltaZ=1;
 bool plotAsym=1;
-=======
-bool plotGoldDistributions=0;
-bool plotEvents=0;
-bool plotDeltaT=1;
-bool plotAsym=0;
->>>>>>> caf309365504425638b5d6840242f31d4a07d6c1
 
 struct plotInfo {
   plotInfo() {}
