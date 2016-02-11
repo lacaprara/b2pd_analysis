@@ -25,14 +25,14 @@ nFiles=10
 what='signal'
 action='simple'
 if len(sys.argv) > 1:
-    nFiles=int(sys.argv[1])
-if len(sys.argv) > 2:
-    firstFile=int(sys.argv[2])
-    nFiles=firstFile+nFiles
-if len(sys.argv) > 3:
-    what=str(sys.argv[3])
+    what=str(sys.argv[1])
     if (what not in {'signal','uubar','ddbar', 'ssbar', 'ccbar','mixed','charged','local'}):
             sys.exit("input has to be 'signal|uubar,ddbar,ssbar,ccbar,mixed,charged,local'")
+if len(sys.argv) > 2:
+    nFiles=int(sys.argv[2])
+if len(sys.argv) > 3:
+    firstFile=int(sys.argv[3])
+    nFiles=firstFile+nFiles
 if len(sys.argv) > 4:
     action=str(sys.argv[4])
     if (action not in {'simple','training','expert'}):
@@ -40,15 +40,19 @@ if len(sys.argv) > 4:
 
 
 if (what=='local'):
-    filelistSIG= ['payload_skim_*_ddbar/B0_etapr_eta2pi_KS_skim_ddbar_*.root']
-    #filelistSIG= ['../root_files/ch1/B0_etapr-eta-gg2pi_KS-pi+pi-_gsim-BKGx0.root']
+    filelistSIG= []
+    #filelistSIG= ['payload_skim_*_ddbar/B0_etapr_eta2pi_KS_skim_ddbar_*.root']
     #filelistSIG= ['../root_files/ch1/B0_etapr-eta-gg2pi_KS-pi+pi-_skim_uubar.root']
-    #filelistSIG= ['../root_files/ch1/B0_etapr-eta-gg2pi_KS-pi+pi-_skim_ddbar.root']
+    #filelistSIG+= ['../root_files/ch1/B0_etapr-eta-gg2pi_KS-pi+pi-_skim_ddbar.root']
     #filelistSIG= ['../root_files/ch1/B0_etapr-eta-gg2pi_KS-pi+pi-_skim_ssbar.root']
-    #filelistSIG= ['../root_files/ch1/B0_etapr-eta-gg2pi_KS-pi+pi-_skim_ccbar.root']
+    filelistSIG+= ['../root_files/ch1/B0_etapr-eta-gg2pi_KS-pi+pi-_skim_ccbar.root']
     #filelistSIG= ['../root_files/ch1/B0_etapr-eta-gg2pi_KS-pi+pi-_skim_mixed.root']
     #filelistSIG= ['../root_files/ch1/B0_etapr-eta-gg2pi_KS-pi+pi-_skim_charged.root']
     #filelistSIG= ['B0_etapr-eta-gg2pi_KS-pi+pi-_skim_signal.root']
+    filelistSIG+= ['../root_files/ch1/B0_etapr-eta-gg2pi_KS-pi+pi-_gsim-BKGx0.root']#
+    # filelistSIG+= ['outputUdst_Signal.root']
+    # filelistSIG+= ['outputUdst_ccbar.root']
+
     inputMdstList(filelistSIG)
 
 else:
@@ -149,8 +153,10 @@ if action == 'training':
 
 
     # Define the methods.
-    methods = [('LPCA', 'Likelihood',
-                'H:V:!TransformOutput:PDFInterpol=Spline2:NSmoothSig[0]=20:NSmoothBkg[0]=20:NSmooth=5:NAvEvtPerBin=50:VarTransform=PCA')]
+    methods = [('LPCA', 'Likelihood', 'H:V:!TransformOutput:PDFInterpol=Spline2:NSmoothSig[0]=20:NSmoothBkg[0]=20:NSmooth=5:NAvEvtPerBin=50:VarTransform=PCA'),
+               ('FastBDT', 'Plugin', 'H:V:CreateMVAPdfs:NTrees=100:Shrinkage=0.10:RandRatio=0.5:NCutLevel=8:NTreeLayers=3')
+              ]      
+               #('NeuroBayes', 'Plugin', 'H:V:CreateMVAPdfs:NtrainingIter=20:Preprocessing=612:ShapeTreat=DIAG:TrainingMethod=BFGS')
 
 
     # TMVA training/testing
@@ -160,12 +166,12 @@ if action == 'training':
     teacher.param('variables', variables)
     teacher.param('target', 'isContinuumEvent')
     teacher.param('listNames', ['B0'])
-    teacher.param('workingDirectory', 'training')
+    teacher.param('workingDirectory', 'training_ch1')
     analysis_main.add_module(teacher)
 
 if action == 'expert':
     # run the expert mode
-    methods = ['LPCA']
+    methods = ['LPCA','FastBDT'] #, 'NeuroBayes']
 
     for method in methods:
         expert = register_module('TMVAExpert')
@@ -173,18 +179,15 @@ if action == 'expert':
         expert.param('method', method)
         expert.param('listNames', ['B0'])
         expert.param('expertOutputName', method + '_Probability')
-        expert.param('workingDirectory', 'training')
+        expert.param('workingDirectory', 'training_ch1')
         analysis_main.add_module(expert)
 
     # Network output
-    networkOutput = ['extraInfo({method}_Probability)'.format(method=method)
-                     for method in methods]
-    transformedNetworkOutputLPCA = \
-        ['transformedNetworkOutput(LPCA_Probability,0.,1.0)']
-    #transformedNetworkOutputNB = \
-    #    ['transformedNetworkOutput(NeuroBayes_Probability,-0.9,1.0)']
-    #transformedNetworkOutputFBDT = \
-    #                             ['transformedNetworkOutput(FastBDT_Probability,0.0,1.0)']
+    networkOutput = ['extraInfo({method}_Probability)'.format(method=method) for method in methods]
+    transformedNetworkOutputLPCA = ['transformedNetworkOutput(LPCA_Probability,0.,1.0)']
+    #transformedNetworkOutputNB = ['transformedNetworkOutput(NeuroBayes_Probability,-0.9,1.0)']
+    transformedNetworkOutputFBDT = ['transformedNetworkOutput(FastBDT_Probability,0.0,1.0)']
+
 # create and fill flat Ntuple with MCTruth and kinematic information
 toolsBsig = ['EventMetaData', '^B0']
 toolsBsig += ['InvMass', "B0 -> [eta' -> [eta:gg -> gamma:good gamma:good] pi+:all pi-:all] ^K_S0:mdst"]
@@ -195,12 +198,13 @@ toolsBsig += ['CMSKinematics', "^B0 -> [^eta' -> [^eta:gg -> gamma:good gamma:go
 toolsBsig += ['MCTruth', "^B0 -> [^eta' -> [^eta:gg -> gamma:good gamma:good] pi+:all pi-:all] ^K_S0:mdst"]
 toolsBsig += ['DeltaEMbc', '^B0']
 toolsBsig += ['PID', "B0 -> [eta' -> [eta:gg -> gamma:good gamma:good] ^pi+:all ^pi-:all] K_S0:mdst"]
+toolsBsig += ['DeltaLogL', "B0 -> [eta' -> [eta:gg -> gamma:good gamma:good] ^pi+:all ^pi-:all] K_S0:mdst"]
 toolsBsig += ['Track', "B0 -> [eta' -> [eta:gg -> gamma:good gamma:good] ^pi+:all ^pi-:all] K_S0:mdst"]
 toolsBsig += ['TrackHits', "B0 -> [eta' -> [eta:gg -> gamma:good gamma:good] ^pi+:all ^pi-:all] K_S0:mdst"]
 toolsBsig += ['MCHierarchy', "^B0 -> [^eta' -> [^eta:gg -> gamma:good gamma:good] pi+:all pi-:all] ^K_S0:mdst"]
 toolsBsig += ['MCKinematics', "^B0 -> [^eta' -> [^eta:gg -> gamma:good gamma:good] pi+:all pi-:all] ^K_S0:mdst"]
 toolsBsig += ['Vertex', "^B0 -> [^eta' -> [^eta:gg -> gamma:good gamma:good] ^pi+:all ^pi-:all] ^K_S0:mdst"]
-toolsBsig += ['MCVertex', "B0 -> [^eta' -> [^eta:gg -> gamma:good gamma:good] ^pi+:all ^pi-:all] ^K_S0:mdst"]
+toolsBsig += ['MCVertex', "^B0 -> [^eta' -> [^eta:gg -> gamma:good gamma:good] ^pi+:all ^pi-:all] ^K_S0:mdst"]
 toolsBsig += ['TagVertex', '^B0']
 toolsBsig += ['MCTagVertex', '^B0']
 toolsBsig += ['DeltaT', '^B0']
@@ -212,13 +216,16 @@ if action == 'expert':
     toolsBsig += ['ContinuumSuppression', '^B0']
     toolsBsig += ['ContinuumSuppression[FS1]', '^B0']
     toolsBsig += ['CustomFloats[' + ':'.join(networkOutput) + ']', '^B0']
-    #toolsBsig += ['CustomFloats[' + ':'.join(transformedNetworkOutputFBDT) + ']', '^B0']
-    #toolsBsig += ['CustomFloats[' + ':'.join(transformedNetworkOutputNB) + ']', '^B0']
+    toolsBsig += ['CustomFloats[' + ':'.join(transformedNetworkOutputFBDT) + ']', '^B0']
+    # toolsBsig += ['CustomFloats[' + ':'.join(transformedNetworkOutputNB) + ']', '^B0']
     toolsBsig += ['CustomFloats[' + ':'.join(transformedNetworkOutputLPCA) + ']', '^B0']
 
 # save stuff to root file
 ntupleFile(outFile)
 ntupleTree('B0', 'B0', toolsBsig)
+
+toolsAll = ['EventMetaData']
+ntupleTree('All', '', toolsAll)
 
 # print out some further info
 summaryOfLists(['eta:gg',"eta'",'B0'])
