@@ -1,6 +1,6 @@
 #!/bin/bash
 
-nFilesPerJob=20
+nFilesPerJob=1
 nMaxFiles=999999
 
 what='signal'
@@ -50,7 +50,10 @@ payload() {
   numFiles=$4
   what=$5
 
-  payloadName=skim_${job}_${what}
+  payloadName=skim_ch${channel}_${job}_${what}
+
+  dataset=$what
+  if [ $what = 'signal' ]; then dataset=${what}_ch${channel}; fi
 
 cat > payload_${payloadName}.sh << EOF
 #!/bin/sh
@@ -67,7 +70,7 @@ mkdir payload_${payloadName}/
 cd payload_${payloadName}/
 cp ../SkimEtaPrK0.py .
 cp ../${fileList} .
-time basf2 SkimEtaPrK0.py $numFiles $firstFile $what
+time basf2 SkimEtaPrK0.py $numFiles $firstFile $dataset
 mv B0_etapr_eta2pi_KS_skim_${what}.root B0_etapr_eta2pi_KS_skim_${what}_${job}.root
 
 date
@@ -75,17 +78,19 @@ cd ../
 EOF
 }
 
-for what in signal uubar ddbar  ssbar ccbar mixed charged
+for what in signal 
+#uubar ddbar  ssbar ccbar mixed charged
 #for what in ccbar
-do echo "doing $what"
+do
+echo "doing $what"
 #for channel in {1,2,4,5}
-for channel in 1
+for channel in 5
 do
   job=0
   setChannelName $channel $what
   nFiles=$(wc -l ${fileList} | awk '{print $1}' )
   if [[ $nFiles -gt $nMaxFiles ]] ; then nFiles=$nMaxFiles; fi
-  echo echo "SKIM: Submitting $(echo $nFiles*1./$nFilesPerJob| bc) jobs over $((nFiles)) files "
+  echo echo "SKIM: Submitting $(echo $nFiles*1./$nFilesPerJob| bc) jobs over $((nFiles)) files for ${dataset}"
   for firstFile in `seq 0 $nFilesPerJob $(($nFiles-1))`
   do  
       payload $job $channel $firstFile $nFilesPerJob $what

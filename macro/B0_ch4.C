@@ -60,6 +60,7 @@ void B0_ch4::Loop(Long64_t maxEv)
 
   // Dt plots
   TH1F *hDT_best  = new TH1F("hDT_best",";#Deltat (ps)", 100, -20., 20.);
+  TH1F *hDeltaDT_best  = new TH1F("hDeltaDT_best",";#Deltat-#Deltat_{true} (ps)", 200, -20., 20.);
   TH1F *hDT_TrueB0_best  = new TH1F("hDT_TrueB0_best",";#Deltat (ps)", 20, -10., 10.);
   TH1F *hDT_TrueB0bar_best  = new TH1F("hDT_TrueB0bar_best",";#Deltat (ps)", 20, -10., 10.);
   TH1F *hDT_TagB0_best  = new TH1F("hDT_TagB0_best",";#Deltat (ps)", 20, -10., 10.);
@@ -86,7 +87,12 @@ void B0_ch4::Loop(Long64_t maxEv)
     // Count number of candidates
     if (evt_no!=lastEvt) { // new event
       nev++;
-      if (nev > maxEv) break;
+      static int j=1;
+      if ((nev%j)==0) {
+        if ((nev/j)==9) j*=10;
+        cout << "Run:Event analyzed " << run_no << ":" << evt_no << " Num " << nev << endl;
+      }
+      if (maxEv>0 && nev > maxEv) break;
       hNCands->Fill(nCandsLast);
       hEvents->Fill(1);
       if (nGoodCands) {
@@ -161,6 +167,8 @@ void B0_ch4::Loop(Long64_t maxEv)
 
           // Plot Dt, reco and MC
           hDT_best->Fill(B0_DeltaT);
+          double DDt=B0_DeltaT-B0_TruthDeltaT;
+          hDeltaDT_best->Fill(DDt);
           hTrueDT_best->Fill(B0_TruthDeltaT);
 
           // Plot Dt for B0 and B0bar tag (MC)
@@ -203,8 +211,13 @@ void B0_ch4::Loop(Long64_t maxEv)
       // next events
       jentry+=nCandsCurrent;
       nev++;
+      static int jj=1;
+      if ((nev%jj)==0) {
+        if ((nev/jj)==9) jj*=10;
+        cout << "Run:Event analyzed " << run_no << ":" << evt_no << " Num " << nev << endl;
+      }
 
-    } while (nev< maxEv && jentry <nentries); 
+    } while ((maxEv<0 || nev< maxEv) && jentry <nentries); 
 
 
     ofile->cd();
@@ -219,6 +232,7 @@ void B0_ch4::Loop(Long64_t maxEv)
     ofile->mkdir("BestCandidatesDeltaT");
     ofile->cd("BestCandidatesDeltaT");
     hDT_best->Write();
+    hDeltaDT_best->Write();
     hDT_TrueB0_best->Write();
     hDT_TrueB0bar_best->Write();
     hDT_TagB0_best->Write();
@@ -244,7 +258,7 @@ void B0_ch4::createHisto(const TString& dir) {
   new TH1F("hMinvEta",";M_{#eta}", 100, 0.4,0.7);
   new TH1F("hMinvEtaP",";M_{#eta'}", 100, 0.85,1.15);
   new TH1F("hMinvPi0",";M_{#pi^{0}}", 100, 0.07, 0.2);
-  new TH1F("hMinvK0S",";M_{K^{0}_{S}}", 100, 0.3, 0.7);
+  new TH1F("hMinvK0S",";M_{K^{0}_{S}}", 100, 0.45, 0.55);
 
   new TH1F("hPIDpi",";PID_{#pi}", 100, 0, 1.);
   new TH1F("hD0pi",";d_{0}(#pi)", 100, -.2, .2);

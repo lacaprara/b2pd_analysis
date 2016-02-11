@@ -131,7 +131,7 @@ void channel(int ch, TCanvas* c, float x=0.5, float y=0.96) {
   tch->DrawLatexNDC(x,y,what);
 }
 
-void plot_bgnd(int ch=2) {
+void plot_bgnd(int ch=4) {
   vector<fileInfo> files;
   files.push_back(fileInfo("u#bar{u}", TFile::Open(Form("Histo_ch%d_uubar.root"  ,ch)), kRed));
   files.push_back(fileInfo("d#bar{d}", TFile::Open(Form("Histo_ch%d_ddbar.root"  ,ch)), kGreen));
