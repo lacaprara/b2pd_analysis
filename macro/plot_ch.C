@@ -478,9 +478,9 @@ void plot_ch(int channel=5, const char* appendix="signal", int inputEvents=0) {
     myFitFunc->SetParName(6, "#sigma_{O}");
     myFitFunc->SetParName(7, "f_{C}");
     myFitFunc->SetParName(8, "f_{T}");
-    myFitFunc->SetParameters(10000.0, 0., 1., 0., 1.5, 0, 3., 0.4, 0.1);
+    myFitFunc->SetParameters(100.0, 0., 1., 0., 1.5, 0, 3., 0.4, 0.1);
 
-    //myFitFunc->SetParLimits(0, 100.0, 2E6);  // norm
+    myFitFunc->SetParLimits(0, 0.0, 2E6);  // norm
     myFitFunc->SetParLimits(1, -2.0, 2.0);    // mu1
     myFitFunc->SetParLimits(2, 0.1,  2.5);      // sigma1
     myFitFunc->SetParLimits(3, -4.0, +4.0);   // mu2
@@ -568,7 +568,7 @@ void plot_ch(int channel=5, const char* appendix="signal", int inputEvents=0) {
     myFitFunc->SetParName(6, "#sigma_{O}");
     myFitFunc->SetParName(7, "f_{C}");
     myFitFunc->SetParName(8, "f_{T}");
-    myFitFunc->SetParameters(1500.0, 0., .001, 0., 0.01, 0, .03, 0.4, 0.3);
+    myFitFunc->SetParameters(100.0, 0., .001, 0., 0.01, 0, .03, 0.4, 0.3);
 
     myFitFunc->SetParLimits(0, 0.0, 100000);  // norm
     myFitFunc->SetParLimits(1, -.02, .02);    // mu1
