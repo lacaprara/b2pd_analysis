@@ -75,6 +75,16 @@ class B0_ch1 {
     Float_t         B0_etaP_pi1_PIDe;
     Float_t         B0_etaP_pi1_PIDmu;
     Float_t         B0_etaP_pi1_PIDp;
+    Float_t         B0_etaP_pi0_DLLPion;
+    Float_t         B0_etaP_pi0_DLLKaon;
+    Float_t         B0_etaP_pi0_DLLProt;
+    Float_t         B0_etaP_pi0_DLLElec;
+    Float_t         B0_etaP_pi0_DLLMuon;
+    Float_t         B0_etaP_pi1_DLLPion;
+    Float_t         B0_etaP_pi1_DLLKaon;
+    Float_t         B0_etaP_pi1_DLLProt;
+    Float_t         B0_etaP_pi1_DLLElec;
+    Float_t         B0_etaP_pi1_DLLMuon;
     Float_t         B0_etaP_pi0_d0;
     Float_t         B0_etaP_pi0_z0;
     Float_t         B0_etaP_pi0_TrPval;
@@ -159,6 +169,10 @@ class B0_ch1 {
     Float_t         B0_K_S0_ErrZ;
     Float_t         B0_K_S0_Rho;
     Float_t         B0_K_S0_VtxPvalue;
+    Float_t         B0_TruthX;
+    Float_t         B0_TruthY;
+    Float_t         B0_TruthZ;
+    Float_t         B0_TruthRho;
     Float_t         B0_etaP_TruthX;
     Float_t         B0_etaP_TruthY;
     Float_t         B0_etaP_TruthZ;
@@ -225,6 +239,75 @@ class B0_ch1 {
     Float_t         B0_hoo3;
     Float_t         B0_hoo4;
     Float_t         B0__isSignal;
+    Float_t         B0_etaP__isSignal;
+    Float_t         B0_etaP_eta__isSignal;
+    Float_t         B0_K_S0__isSignal;
+    Float_t         B0_ThrustB;
+    Float_t         B0_ThrustO;
+    Float_t         B0_CosTBTO;
+    Float_t         B0_CosTBz;
+    Float_t         B0_R2;
+    Float_t         B0_cc1;
+    Float_t         B0_cc2;
+    Float_t         B0_cc3;
+    Float_t         B0_cc4;
+    Float_t         B0_cc5;
+    Float_t         B0_cc6;
+    Float_t         B0_cc7;
+    Float_t         B0_cc8;
+    Float_t         B0_cc9;
+    Float_t         B0_mm2;
+    Float_t         B0_et;
+    Float_t         B0_hso00;
+    Float_t         B0_hso01;
+    Float_t         B0_hso02;
+    Float_t         B0_hso03;
+    Float_t         B0_hso04;
+    Float_t         B0_hso10;
+    Float_t         B0_hso12;
+    Float_t         B0_hso14;
+    Float_t         B0_hso20;
+    Float_t         B0_hso22;
+    Float_t         B0_hso24;
+    Float_t         B0_hoo0;
+    Float_t         B0_hoo1;
+    Float_t         B0_hoo2;
+    Float_t         B0_hoo3;
+    Float_t         B0_hoo4;
+    Float_t         B0_ThrustB;
+    Float_t         B0_ThrustO;
+    Float_t         B0_CosTBTO;
+    Float_t         B0_CosTBz;
+    Float_t         B0_R2;
+    Float_t         B0_cc1;
+    Float_t         B0_cc2;
+    Float_t         B0_cc3;
+    Float_t         B0_cc4;
+    Float_t         B0_cc5;
+    Float_t         B0_cc6;
+    Float_t         B0_cc7;
+    Float_t         B0_cc8;
+    Float_t         B0_cc9;
+    Float_t         B0_mm2_FS1;
+    Float_t         B0_et_FS1;
+    Float_t         B0_hso00_FS1;
+    Float_t         B0_hso01_FS1;
+    Float_t         B0_hso02_FS1;
+    Float_t         B0_hso03_FS1;
+    Float_t         B0_hso04_FS1;
+    Float_t         B0_hso10_FS1;
+    Float_t         B0_hso12_FS1;
+    Float_t         B0_hso14_FS1;
+    Float_t         B0_hso20_FS1;
+    Float_t         B0_hso22_FS1;
+    Float_t         B0_hso24_FS1;
+    Float_t         B0_hoo0_FS1;
+    Float_t         B0_hoo1_FS1;
+    Float_t         B0_hoo2_FS1;
+    Float_t         B0_hoo3_FS1;
+    Float_t         B0_hoo4_FS1;
+    Float_t         B0__LPCA_Probability;
+    Float_t         B0__transformedNetworkOutputLPCA_Probability010;
     Int_t           nCands;
     Int_t           iCand;
 
@@ -282,6 +365,16 @@ class B0_ch1 {
     TBranch        *b_B0_etaP_pi1_PIDe;   //!
     TBranch        *b_B0_etaP_pi1_PIDmu;   //!
     TBranch        *b_B0_etaP_pi1_PIDp;   //!
+    TBranch        *b_B0_etaP_pi0_DLLPion;   //!
+    TBranch        *b_B0_etaP_pi0_DLLKaon;   //!
+    TBranch        *b_B0_etaP_pi0_DLLProt;   //!
+    TBranch        *b_B0_etaP_pi0_DLLElec;   //!
+    TBranch        *b_B0_etaP_pi0_DLLMuon;   //!
+    TBranch        *b_B0_etaP_pi1_DLLPion;   //!
+    TBranch        *b_B0_etaP_pi1_DLLKaon;   //!
+    TBranch        *b_B0_etaP_pi1_DLLProt;   //!
+    TBranch        *b_B0_etaP_pi1_DLLElec;   //!
+    TBranch        *b_B0_etaP_pi1_DLLMuon;   //!
     TBranch        *b_B0_etaP_pi0_d0;   //!
     TBranch        *b_B0_etaP_pi0_z0;   //!
     TBranch        *b_B0_etaP_pi0_TrPval;   //!
@@ -366,6 +459,10 @@ class B0_ch1 {
     TBranch        *b_B0_K_S0_ErrZ;   //!
     TBranch        *b_B0_K_S0_Rho;   //!
     TBranch        *b_B0_K_S0_VtxPvalue;   //!
+    TBranch        *b_B0_TruthX;   //!
+    TBranch        *b_B0_TruthY;   //!
+    TBranch        *b_B0_TruthZ;   //!
+    TBranch        *b_B0_TruthRho;   //!
     TBranch        *b_B0_etaP_TruthX;   //!
     TBranch        *b_B0_etaP_TruthY;   //!
     TBranch        *b_B0_etaP_TruthZ;   //!
@@ -432,6 +529,75 @@ class B0_ch1 {
     TBranch        *b_B0_hoo3;   //!
     TBranch        *b_B0_hoo4;   //!
     TBranch        *b_B0__isSignal;   //!
+    TBranch        *b_B0_etaP__isSignal;   //!
+    TBranch        *b_B0_etaP_eta__isSignal;   //!
+    TBranch        *b_B0_K_S0__isSignal;   //!
+    TBranch        *b_B0_ThrustB;   //!
+    TBranch        *b_B0_ThrustO;   //!
+    TBranch        *b_B0_CosTBTO;   //!
+    TBranch        *b_B0_CosTBz;   //!
+    TBranch        *b_B0_R2;   //!
+    TBranch        *b_B0_cc1;   //!
+    TBranch        *b_B0_cc2;   //!
+    TBranch        *b_B0_cc3;   //!
+    TBranch        *b_B0_cc4;   //!
+    TBranch        *b_B0_cc5;   //!
+    TBranch        *b_B0_cc6;   //!
+    TBranch        *b_B0_cc7;   //!
+    TBranch        *b_B0_cc8;   //!
+    TBranch        *b_B0_cc9;   //!
+    TBranch        *b_B0_mm2;   //!
+    TBranch        *b_B0_et;   //!
+    TBranch        *b_B0_hso00;   //!
+    TBranch        *b_B0_hso01;   //!
+    TBranch        *b_B0_hso02;   //!
+    TBranch        *b_B0_hso03;   //!
+    TBranch        *b_B0_hso04;   //!
+    TBranch        *b_B0_hso10;   //!
+    TBranch        *b_B0_hso12;   //!
+    TBranch        *b_B0_hso14;   //!
+    TBranch        *b_B0_hso20;   //!
+    TBranch        *b_B0_hso22;   //!
+    TBranch        *b_B0_hso24;   //!
+    TBranch        *b_B0_hoo0;   //!
+    TBranch        *b_B0_hoo1;   //!
+    TBranch        *b_B0_hoo2;   //!
+    TBranch        *b_B0_hoo3;   //!
+    TBranch        *b_B0_hoo4;   //!
+    TBranch        *b_B0_ThrustB;   //!
+    TBranch        *b_B0_ThrustO;   //!
+    TBranch        *b_B0_CosTBTO;   //!
+    TBranch        *b_B0_CosTBz;   //!
+    TBranch        *b_B0_R2;   //!
+    TBranch        *b_B0_cc1;   //!
+    TBranch        *b_B0_cc2;   //!
+    TBranch        *b_B0_cc3;   //!
+    TBranch        *b_B0_cc4;   //!
+    TBranch        *b_B0_cc5;   //!
+    TBranch        *b_B0_cc6;   //!
+    TBranch        *b_B0_cc7;   //!
+    TBranch        *b_B0_cc8;   //!
+    TBranch        *b_B0_cc9;   //!
+    TBranch        *b_B0_mm2_FS1;   //!
+    TBranch        *b_B0_et_FS1;   //!
+    TBranch        *b_B0_hso00_FS1;   //!
+    TBranch        *b_B0_hso01_FS1;   //!
+    TBranch        *b_B0_hso02_FS1;   //!
+    TBranch        *b_B0_hso03_FS1;   //!
+    TBranch        *b_B0_hso04_FS1;   //!
+    TBranch        *b_B0_hso10_FS1;   //!
+    TBranch        *b_B0_hso12_FS1;   //!
+    TBranch        *b_B0_hso14_FS1;   //!
+    TBranch        *b_B0_hso20_FS1;   //!
+    TBranch        *b_B0_hso22_FS1;   //!
+    TBranch        *b_B0_hso24_FS1;   //!
+    TBranch        *b_B0_hoo0_FS1;   //!
+    TBranch        *b_B0_hoo1_FS1;   //!
+    TBranch        *b_B0_hoo2_FS1;   //!
+    TBranch        *b_B0_hoo3_FS1;   //!
+    TBranch        *b_B0_hoo4_FS1;   //!
+    TBranch        *b_B0__LPCA_Probability;   //!
+    TBranch        *b_B0__transformedNetworkOutputLPCA_Probability010;   //!
     TBranch        *b_m_nCands;   //!
     TBranch        *b_m_iCand;   //!
 
@@ -452,12 +618,13 @@ class B0_ch1 {
     void             fillHistos(const TString& dir) ;
   private:
     TFile* ofile;
+    const char* _what;
 };
 
 #endif
 
 #ifdef B0_ch1_cxx
-B0_ch1::B0_ch1(TTree *tree, const char* outAppendix) : fChain(0) , _skipIfSignal(false)
+B0_ch1::B0_ch1(TTree *tree, const char* outAppendix) : fChain(0) , _skipIfSignal(false), _what(outAppendix)
 {
   // if parameter tree is not specified (or zero), connect the file
   // used to generate this class and read the Tree.
@@ -487,6 +654,7 @@ Int_t B0_ch1::GetEntry(Long64_t entry)
   if (!fChain) return 0;
   return fChain->GetEntry(entry);
 }
+
 Long64_t B0_ch1::LoadTree(Long64_t entry)
 {
   // Set the environment to read one entry
@@ -569,6 +737,16 @@ void B0_ch1::Init(TTree *tree)
   fChain->SetBranchAddress("B0_eta'_pi1_PIDe", &B0_etaP_pi1_PIDe, &b_B0_etaP_pi1_PIDe);
   fChain->SetBranchAddress("B0_eta'_pi1_PIDmu", &B0_etaP_pi1_PIDmu, &b_B0_etaP_pi1_PIDmu);
   fChain->SetBranchAddress("B0_eta'_pi1_PIDp", &B0_etaP_pi1_PIDp, &b_B0_etaP_pi1_PIDp);
+  fChain->SetBranchAddress("B0_eta'_pi0_DLLPion", &B0_etaP_pi0_DLLPion, &b_B0_etaP_pi0_DLLPion);
+  fChain->SetBranchAddress("B0_eta'_pi0_DLLKaon", &B0_etaP_pi0_DLLKaon, &b_B0_etaP_pi0_DLLKaon);
+  fChain->SetBranchAddress("B0_eta'_pi0_DLLProt", &B0_etaP_pi0_DLLProt, &b_B0_etaP_pi0_DLLProt);
+  fChain->SetBranchAddress("B0_eta'_pi0_DLLElec", &B0_etaP_pi0_DLLElec, &b_B0_etaP_pi0_DLLElec);
+  fChain->SetBranchAddress("B0_eta'_pi0_DLLMuon", &B0_etaP_pi0_DLLMuon, &b_B0_etaP_pi0_DLLMuon);
+  fChain->SetBranchAddress("B0_eta'_pi1_DLLPion", &B0_etaP_pi1_DLLPion, &b_B0_etaP_pi1_DLLPion);
+  fChain->SetBranchAddress("B0_eta'_pi1_DLLKaon", &B0_etaP_pi1_DLLKaon, &b_B0_etaP_pi1_DLLKaon);
+  fChain->SetBranchAddress("B0_eta'_pi1_DLLProt", &B0_etaP_pi1_DLLProt, &b_B0_etaP_pi1_DLLProt);
+  fChain->SetBranchAddress("B0_eta'_pi1_DLLElec", &B0_etaP_pi1_DLLElec, &b_B0_etaP_pi1_DLLElec);
+  fChain->SetBranchAddress("B0_eta'_pi1_DLLMuon", &B0_etaP_pi1_DLLMuon, &b_B0_etaP_pi1_DLLMuon);
   fChain->SetBranchAddress("B0_eta'_pi0_d0", &B0_etaP_pi0_d0, &b_B0_etaP_pi0_d0);
   fChain->SetBranchAddress("B0_eta'_pi0_z0", &B0_etaP_pi0_z0, &b_B0_etaP_pi0_z0);
   fChain->SetBranchAddress("B0_eta'_pi0_TrPval", &B0_etaP_pi0_TrPval, &b_B0_etaP_pi0_TrPval);
@@ -653,6 +831,10 @@ void B0_ch1::Init(TTree *tree)
   fChain->SetBranchAddress("B0_K_S0_ErrZ", &B0_K_S0_ErrZ, &b_B0_K_S0_ErrZ);
   fChain->SetBranchAddress("B0_K_S0_Rho", &B0_K_S0_Rho, &b_B0_K_S0_Rho);
   fChain->SetBranchAddress("B0_K_S0_VtxPvalue", &B0_K_S0_VtxPvalue, &b_B0_K_S0_VtxPvalue);
+  fChain->SetBranchAddress("B0_TruthX", &B0_TruthX, &b_B0_TruthX);
+  fChain->SetBranchAddress("B0_TruthY", &B0_TruthY, &b_B0_TruthY);
+  fChain->SetBranchAddress("B0_TruthZ", &B0_TruthZ, &b_B0_TruthZ);
+  fChain->SetBranchAddress("B0_TruthRho", &B0_TruthRho, &b_B0_TruthRho);
   fChain->SetBranchAddress("B0_eta'_TruthX", &B0_etaP_TruthX, &b_B0_etaP_TruthX);
   fChain->SetBranchAddress("B0_eta'_TruthY", &B0_etaP_TruthY, &b_B0_etaP_TruthY);
   fChain->SetBranchAddress("B0_eta'_TruthZ", &B0_etaP_TruthZ, &b_B0_etaP_TruthZ);
@@ -719,6 +901,29 @@ void B0_ch1::Init(TTree *tree)
   fChain->SetBranchAddress("B0_hoo3", &B0_hoo3, &b_B0_hoo3);
   fChain->SetBranchAddress("B0_hoo4", &B0_hoo4, &b_B0_hoo4);
   fChain->SetBranchAddress("B0__isSignal", &B0__isSignal, &b_B0__isSignal);
+  fChain->SetBranchAddress("B0_eta'__isSignal", &B0_etaP__isSignal, &b_B0_etaP__isSignal);
+  fChain->SetBranchAddress("B0_eta'_eta__isSignal", &B0_etaP_eta__isSignal, &b_B0_etaP_eta__isSignal);
+  fChain->SetBranchAddress("B0_K_S0__isSignal", &B0_K_S0__isSignal, &b_B0_K_S0__isSignal);
+  fChain->SetBranchAddress("B0_mm2_FS1", &B0_mm2_FS1, &b_B0_mm2_FS1);
+  fChain->SetBranchAddress("B0_et_FS1", &B0_et_FS1, &b_B0_et_FS1);
+  fChain->SetBranchAddress("B0_hso00_FS1", &B0_hso00_FS1, &b_B0_hso00_FS1);
+  fChain->SetBranchAddress("B0_hso01_FS1", &B0_hso01_FS1, &b_B0_hso01_FS1);
+  fChain->SetBranchAddress("B0_hso02_FS1", &B0_hso02_FS1, &b_B0_hso02_FS1);
+  fChain->SetBranchAddress("B0_hso03_FS1", &B0_hso03_FS1, &b_B0_hso03_FS1);
+  fChain->SetBranchAddress("B0_hso04_FS1", &B0_hso04_FS1, &b_B0_hso04_FS1);
+  fChain->SetBranchAddress("B0_hso10_FS1", &B0_hso10_FS1, &b_B0_hso10_FS1);
+  fChain->SetBranchAddress("B0_hso12_FS1", &B0_hso12_FS1, &b_B0_hso12_FS1);
+  fChain->SetBranchAddress("B0_hso14_FS1", &B0_hso14_FS1, &b_B0_hso14_FS1);
+  fChain->SetBranchAddress("B0_hso20_FS1", &B0_hso20_FS1, &b_B0_hso20_FS1);
+  fChain->SetBranchAddress("B0_hso22_FS1", &B0_hso22_FS1, &b_B0_hso22_FS1);
+  fChain->SetBranchAddress("B0_hso24_FS1", &B0_hso24_FS1, &b_B0_hso24_FS1);
+  fChain->SetBranchAddress("B0_hoo0_FS1", &B0_hoo0_FS1, &b_B0_hoo0_FS1);
+  fChain->SetBranchAddress("B0_hoo1_FS1", &B0_hoo1_FS1, &b_B0_hoo1_FS1);
+  fChain->SetBranchAddress("B0_hoo2_FS1", &B0_hoo2_FS1, &b_B0_hoo2_FS1);
+  fChain->SetBranchAddress("B0_hoo3_FS1", &B0_hoo3_FS1, &b_B0_hoo3_FS1);
+  fChain->SetBranchAddress("B0_hoo4_FS1", &B0_hoo4_FS1, &b_B0_hoo4_FS1);
+  fChain->SetBranchAddress("B0__LPCA_Probability", &B0__LPCA_Probability, &b_B0__LPCA_Probability);
+  fChain->SetBranchAddress("B0__transformedNetworkOutputLPCA_Probability010", &B0__transformedNetworkOutputLPCA_Probability010, &b_B0__transformedNetworkOutputLPCA_Probability010);
   fChain->SetBranchAddress("nCands", &nCands, &b_m_nCands);
   fChain->SetBranchAddress("iCand", &iCand, &b_m_iCand);
   Notify();

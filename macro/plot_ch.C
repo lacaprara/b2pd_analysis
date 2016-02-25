@@ -1,10 +1,11 @@
 #include <vector>
 
 bool plotAllDistributions=0;
-bool plotGoldDistributions=0;
-bool plotEvents=0;
+bool plotGoldDistributions=1;
+bool plotEvents=1;
 bool plotDeltaT=1;
-bool plotAsym=0;
+bool plotDeltaZ=1;
+bool plotAsym=1;
 
 struct plotInfo {
   plotInfo() {}
@@ -30,6 +31,7 @@ void getWhatToPlot(int channel, vector<plotInfo>& result) {
       result.push_back(plotInfo("hMinvEtaP"     ,false,0.93 ,0.98 ,true));
       result.push_back(plotInfo("hMinvK0S"      ,true ,0.48 ,0.52 ,true));
       result.push_back(plotInfo("hPIDpi"        ,true ,0.20 ,1.00 ,true));
+      result.push_back(plotInfo("hDLLKaon"      ,true ,-10.0 ,+10000.00 ,true));
       result.push_back(plotInfo("hD0pi"         ,true ,-0.08,0.08 ,false));
       result.push_back(plotInfo("hZ0pi"         ,true ,-0.1 ,+0.1 ,false));
       result.push_back(plotInfo("hNPxdHitspi"   ,false,1    ,4    ,false));
@@ -162,8 +164,9 @@ Double_t fitFunc(Double_t * x, Double_t * par)
   return PDF;
 }
 
-void plot_ch(int channel=2, const char* appendix="signal") {
+void plot_ch(int channel=5, const char* appendix="signal", int inputEvents=0) {
   TFile* hfile=TFile::Open(Form("Histo_ch%d_%s.root",channel,appendix));
+ // TFile* hfile=TFile::Open(Form("Histo_ch%d.root",channel,appendix));
 
   gStyle->SetPadTopMargin(0.10);
   gStyle->SetOptStat(0);
@@ -302,16 +305,17 @@ void plot_ch(int channel=2, const char* appendix="signal") {
       c1->cd(i+1);
       hfile->cd("AllCandidates");
       TH1* htmp=(TH1F*)gDirectory->Get(h->name);
-      if (htmp) {
-        htmp->GetXaxis()->SetTitleOffset(.7);
-        htmp->GetXaxis()->SetTitleSize(0.06);
-        htmp->DrawCopy();
-        if (i==0)tleg->AddEntry(htmp,"All cands","l");
-      }
       float ymin=0;
       if (h->log) {
         gPad->SetLogy();
         ymin=1;
+      }
+      if (htmp) {
+        htmp->GetXaxis()->SetTitleOffset(.7);
+        htmp->GetXaxis()->SetTitleSize(0.06);
+        htmp->SetMinimum(ymin);
+        htmp->DrawCopy();
+        if (i==0)tleg->AddEntry(htmp,"All cands","l");
       }
       hfile->cd("AllCandidatesIsSignal");
       TH1* htmp=(TH1F*)gDirectory->Get(h->name);
@@ -394,37 +398,36 @@ void plot_ch(int channel=2, const char* appendix="signal") {
 
   if (plotEvents) {
     hfile->cd();
+    TH1* hEvents=(TH1F*)hfile->Get("hEvents");
+    hEvents->SetBinContent(1, inputEvents);
 
-    TCanvas* cEvents=new TCanvas("cEvents","",600,300);
-    cEvents->Divide(2);
+    TCanvas* cEvents=new TCanvas("cEvents","",900,500);
+    cEvents->Divide(3);
 
     cEvents->cd(1);
     TH1* htmp=(TH1F*)hfile->Get("hNCands");
     if (htmp) htmp->DrawCopy();
     tt->DrawLatexNDC(0.3,0.6,Form("All cands multiplicity: %3.2f",htmp->GetMean()));
-    //tt->DrawLatexNDC(0.3,0.5,Form("All cands #epsilon: %3.3f",htmp->GetEntries()/2000000.));
+    tt->DrawLatexNDC(0.3,0.5,Form("All cands #epsilon: %3.3f",htmp->GetEntries()/hEvents->GetBinContent(1)));
     cEvents->cd(2);
     htmp=(TH1F*)hfile->Get("hNGoodCands");
-    TH1* hEvents=(TH1F*)hfile->Get("hEvents");
     if (htmp) {
       htmp->SetFillColor(kBlue);
       htmp->DrawCopy();
       tt->DrawLatexNDC(0.3,0.6,Form("Good cands multiplicity: %3.2f",htmp->GetMean()));
-      tt->DrawLatexNDC(0.3,0.5,Form("Best cands           #epsilon: %3.3f",hEvents->GetBinContent(11)/2000000.));
-      tt->DrawLatexNDC(0.3,0.4,Form("Best cands MC true  #epsilon: %3.3f",hEvents->GetBinContent(12)/2000000.));
-      tt->DrawLatexNDC(0.3,0.3,Form("Best cands MC false #epsilon: %3.3f",(hEvents->GetBinContent(11)-hEvents->GetBinContent(12))/2000000.));
+      tt->DrawLatexNDC(0.3,0.5,Form("Best cands           #epsilon: %3.3f",hEvents->GetBinContent(13)/hEvents->GetBinContent(1)));
+      tt->DrawLatexNDC(0.3,0.4,Form("Best cands MC true  #epsilon: %3.3f",hEvents->GetBinContent(14)/hEvents->GetBinContent(1)));
+      tt->DrawLatexNDC(0.3,0.3,Form("Best cands MC false #epsilon: %3.3f",hEvents->GetBinContent(15)/hEvents->GetBinContent(1)));
     }
     hfile->cd();
     // Statistics
-    cout << "Total number of events: " << hEvents->GetBinContent(1) << " " << hEvents->GetBinContent(10)<< endl;
-    cout << "Total number of events passed: " << hEvents->GetBinContent(2) << " " << hEvents->GetBinContent(11)<< endl;
-    cout << "Total number of signal events passed: " << hEvents->GetBinContent(3) << " " << hEvents->GetBinContent(12)<< endl;
-    ofstream myfile;
-    myfile.open (Form("Ch%d_events.txt",channel));
-    myfile << "Total number of events: " << hEvents->GetBinContent(1) << " " << hEvents->GetBinContent(10)<< endl;
-    myfile << "Total number of events passed: " << hEvents->GetBinContent(2) << " " << hEvents->GetBinContent(11)<< endl;
-    myfile << "Total number of signal events passed: " << hEvents->GetBinContent(3) << " " << hEvents->GetBinContent(12)<< endl;
-    myfile.close();
+    cout << "Total number of events: " << hEvents->GetBinContent(1) << endl;
+    cout << "Total number of events passed: " << hEvents->GetBinContent(11)<< endl;
+    cout << "Total number of signal events passed: " << hEvents->GetBinContent(12)<< endl;
+    cout << "Total number of SXF passed: " << hEvents->GetBinContent(13)<< endl;
+    cEvents->cd(3);
+    //hEvents->GetXaxis()->SetRange(10,22);
+    hEvents->Draw("text hist");
 
     channel(channel, cEvents,0.5,0.93);
     cEvents->Print(Form("Ch%d_events.pdf",channel));
@@ -448,6 +451,8 @@ void plot_ch(int channel=2, const char* appendix="signal") {
 
     // Reco DT
     TH1* hDeltaDT_best=(TH1F*)gDirectory->Get("hDeltaDT_best");
+
+    TH1* hDT_best=(TH1F*)gDirectory->Get("hDT_best");
 
     TH1* hDT_TrueB0_best=(TH1F*)gDirectory->Get("hDT_TrueB0_best");
     hDT_TrueB0_best->SetLineColor(kRed);
@@ -538,6 +543,137 @@ void plot_ch(int channel=2, const char* appendix="signal") {
     channel(channel, cDt,0.3,0.96);
     cDt->Print(Form("Ch%d_Dt.pdf",channel));
     cDt->Print(Form("Ch%d_Dt.png",channel));
+  }
+
+  if (plotDeltaZ) {
+    hfile->cd("BestCandidatesDeltaT");
+    // Signal vertex
+    TH1* hDzVtxSignal_best=(TH1F*)gDirectory->Get("hDzVtxSignal_best");
+
+    // tag Vertex
+    TH1* hDzVtxTag_best=(TH1F*)gDirectory->Get("hDzVtxTag_best");
+
+
+    // define the number of parameters and fit range for the function fitFunc.
+    Int_t npar = 9;
+    Double_t min_range = -0.05;
+    Double_t max_range = 0.05;
+    TF1 * myFitFunc = new TF1("fitFunc", fitFunc, min_range, max_range, npar);
+    myFitFunc->SetParName(0, "norm");
+    myFitFunc->SetParName(1, "Bias_{C}");
+    myFitFunc->SetParName(2, "#sigma_{C}");
+    myFitFunc->SetParName(3, "Bias_{T}");
+    myFitFunc->SetParName(4, "#sigma_{T}");
+    myFitFunc->SetParName(5, "Bias_{O}");
+    myFitFunc->SetParName(6, "#sigma_{O}");
+    myFitFunc->SetParName(7, "f_{C}");
+    myFitFunc->SetParName(8, "f_{T}");
+    myFitFunc->SetParameters(1500.0, 0., .001, 0., 0.01, 0, .03, 0.4, 0.3);
+
+    myFitFunc->SetParLimits(0, 0.0, 100000);  // norm
+    myFitFunc->SetParLimits(1, -.02, .02);    // mu1
+    myFitFunc->SetParLimits(2, 0.001,  .01);      // sigma1
+    myFitFunc->SetParLimits(3, -.04, +.04);   // mu2
+    myFitFunc->SetParLimits(4, .001,  .01);      // sigma2
+    myFitFunc->SetParLimits(5, -.04, +.04);   // mu3
+    myFitFunc->SetParLimits(6, .001,  1.);    // sigma3
+    myFitFunc->SetParLimits(7, 0.0,  1.0);    // frac1
+    myFitFunc->SetParLimits(8, 0.0,  1.0);    // frac2
+
+    myFitFunc->SetLineWidth(2);
+
+    gStyle->SetOptStat(0);
+    gStyle->SetFitFormat("4.3g");
+    gStyle->SetStatFontSize(0.05);
+    gStyle->SetStatFont(62);
+    gStyle->SetStatH(0.15);
+    gStyle->SetStatW(0.18);
+    TCanvas* cDz=new TCanvas("cDz","cDz",1000,500);
+    cDz->Divide(2);
+    cDz->cd(1);
+    //hDT_best->Draw();
+    hDzVtxSignal_best->Fit("fitFunc", "LE");
+    hDzVtxSignal_best->Draw("e");
+    TF1 *gC    = new TF1("gC","gaus",min_range, max_range);
+    TF1 *gT    = new TF1("gT","gaus",min_range, max_range);
+    TF1 *gO    = new TF1("gO","gaus",min_range, max_range);
+    double* fitParams=myFitFunc->GetParameters();
+    gC->SetLineColor(kRed);
+    gC->SetLineStyle(2);
+    gC->SetParameter(0,fitParams[0]*fitParams[7]);
+    gC->SetParameter(1,fitParams[1]);
+    gC->SetParameter(2,fitParams[2]);
+    cout << "Core " << gC->GetParameter(0) << " " << gC->GetParameter(1)  << " " << gC->GetParameter(2)<< endl;
+    gT->SetLineColor(kGreen);
+    gT->SetLineStyle(2);
+    gT->SetParameter(0,fitParams[0]*fitParams[8]);
+    gT->SetParameter(1,fitParams[3]);
+    gT->SetParameter(2,fitParams[4]);
+    cout << "Tail " << gT->GetParameter(0) << " " << gT->GetParameter(1)  << " " << gT->GetParameter(2)<< endl;
+    gO->SetLineColor(kBlue);
+    gO->SetLineStyle(2);
+    gO->SetParameter(0,fitParams[0]*(1-fitParams[7]-fitParams[8]));
+    gO->SetParameter(1,fitParams[5]);
+    gO->SetParameter(2,fitParams[6]);
+    cout << "Outlier " << gO->GetParameter(0) << " " << gO->GetParameter(1)  << " " << gO->GetParameter(2)<< endl;
+    gC->Draw("same");
+    gT->Draw("same");
+    gO->Draw("same");
+
+    double resoDt=(gC->GetParameter(2)*gC->GetParameter(0))+(gO->GetParameter(2)*gO->GetParameter(0))+(gT->GetParameter(2)*gT->GetParameter(0));
+    double sumW=gC->GetParameter(0)+gO->GetParameter(0)+gT->GetParameter(0);
+    cout << "Mean(DZ) = " << resoDt/sumW << endl;
+    TLegend* tleg=new TLegend(0.2,.6,0.4,0.89,"Fit","NDC");
+    tleg->AddEntry(gC,"Core","l");
+    tleg->AddEntry(gT,"Tail","l");
+    tleg->AddEntry(gO,"Outlier","l");
+    tleg->Draw();
+
+    tt->DrawLatexNDC(0.65,0.35,Form("<#Deltaz>: %3.2f #mum",resoDt/sumW*10000.));
+
+    cDz->cd(2);
+    hDzVtxTag_best->Fit("fitFunc", "LE");
+    hDzVtxTag_best->Draw("e");
+    TF1 *gC    = new TF1("gC","gaus",min_range, max_range);
+    TF1 *gT    = new TF1("gT","gaus",min_range, max_range);
+    TF1 *gO    = new TF1("gO","gaus",min_range, max_range);
+    double* fitParams=myFitFunc->GetParameters();
+    gC->SetLineColor(kRed);
+    gC->SetLineStyle(2);
+    gC->SetParameter(0,fitParams[0]*fitParams[7]);
+    gC->SetParameter(1,fitParams[1]);
+    gC->SetParameter(2,fitParams[2]);
+    cout << "Core " << gC->GetParameter(0) << " " << gC->GetParameter(1)  << " " << gC->GetParameter(2)<< endl;
+    gT->SetLineColor(kGreen);
+    gT->SetLineStyle(2);
+    gT->SetParameter(0,fitParams[0]*fitParams[8]);
+    gT->SetParameter(1,fitParams[3]);
+    gT->SetParameter(2,fitParams[4]);
+    cout << "Tail " << gT->GetParameter(0) << " " << gT->GetParameter(1)  << " " << gT->GetParameter(2)<< endl;
+    gO->SetLineColor(kBlue);
+    gO->SetLineStyle(2);
+    gO->SetParameter(0,fitParams[0]*(1-fitParams[7]-fitParams[8]));
+    gO->SetParameter(1,fitParams[5]);
+    gO->SetParameter(2,fitParams[6]);
+    cout << "Outlier " << gO->GetParameter(0) << " " << gO->GetParameter(1)  << " " << gO->GetParameter(2)<< endl;
+    gC->Draw("same");
+    gT->Draw("same");
+    gO->Draw("same");
+
+    double resoDt=(gC->GetParameter(2)*gC->GetParameter(0))+(gO->GetParameter(2)*gO->GetParameter(0))+(gT->GetParameter(2)*gT->GetParameter(0));
+    double sumW=gC->GetParameter(0)+gO->GetParameter(0)+gT->GetParameter(0);
+    cout << "Mean(DZ) = " << resoDt/sumW << endl;
+    TLegend* tleg=new TLegend(0.2,.6,0.4,0.89,"Fit","NDC");
+    tleg->AddEntry(gC,"Core","l");
+    tleg->AddEntry(gT,"Tail","l");
+    tleg->AddEntry(gO,"Outlier","l");
+    tleg->Draw();
+
+    tt->DrawLatexNDC(0.65,0.35,Form("<#Deltaz>: %3.2f #mum",resoDt/sumW*10000.));
+    cDz->cd();
+    channel(channel, cDz,0.3,0.96);
+    cDz->Print(Form("Ch%d_Dz.pdf",channel));
+    cDz->Print(Form("Ch%d_Dz.png",channel));
   }
 
   if (plotAsym) {
