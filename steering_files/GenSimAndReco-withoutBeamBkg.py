@@ -19,12 +19,12 @@ from ROOT import Belle2
 import glob
 
 # generate signal MC
-generateY4S(10000, Belle2.FileSystem.findFile(
-                                             #'../dec_files/B0_etapr-eta-gg2pi_KS-pi+pi-.dec'
+generateY4S(100, Belle2.FileSystem.findFile(
+                                             '../dec_files/B0_etapr-eta-gg2pi_KS-pi+pi-.dec'
                                              #'../dec_files/B0_etapr-eta-gg2pi_KS-pi0pi0.dec'
                                              #'../dec_files/B0_etapr-eta-gg2pi_KL.dec'
                                              #'../dec_files/B0_etapr-eta-3pi2pi_KS-pi+pi-.dec'
-                                             '../dec_files/B0_etapr-eta-3pi2pi_KS-pi0pi0.dec'
+                                             #'../dec_files/B0_etapr-eta-3pi2pi_KS-pi0pi0.dec'
             )
             )
 
@@ -36,15 +36,15 @@ add_reconstruction(analysis_main)
 
 # dump in MDST format
 add_mdst_output(analysis_main, True,
-                #'B0_etapr-eta-gg2pi_KS-pi+pi-_gsim-BKGx0.root'
+                'B0_etapr-eta-gg2pi_KS-pi+pi-_gsim-BKGx0.root'
                 #'B0_etapr-eta-gg2pi_KS-pi0pi0_gsim-BKGx0.root' 
                 #'B0_etapr-eta-gg2pi_KL_gsim-BKGx0.root' 
                 #'B0_etapr-eta-3pi2pi_KS-pi+pi-_gsim-BKGx0.root'
-                'B0_etapr-eta-3pi2pi_KS-pi0pi0_gsim-BKGx0.root'
+                #'B0_etapr-eta-3pi2pi_KS-pi0pi0_gsim-BKGx0.root'
                 )
 
 # Process the events
 process(analysis_main)
 
 # print out the summary
-print statistics
+print(statistics)

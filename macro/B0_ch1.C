@@ -240,6 +240,7 @@ void B0_ch1::createHisto(const TString& dir) {
   new TH1F("hMinvK0S",";M_{K^{0}_{S}}", 100, 0.45, 0.55);
 
   new TH1F("hPIDpi",";PID_{#pi}", 100, 0, 1.);
+  new TH1F("hLLpiK",";#DeltaLL(#pi/K)", 100, 0, 1.);
   new TH1F("hD0pi",";d_{0}(#pi)", 100, -.2, .2);
   new TH1F("hZ0pi",";z_{0}(#pi)", 100, -.5, .5);
   new TH1F("hNPxdHitspi",";n PXD hits (#pi)", 4, 0, 4);
