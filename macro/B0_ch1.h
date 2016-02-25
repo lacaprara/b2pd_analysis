@@ -307,7 +307,9 @@ class B0_ch1 {
     Float_t         B0_hoo3_FS1;
     Float_t         B0_hoo4_FS1;
     Float_t         B0__LPCA_Probability;
+    Float_t         B0__FastBDT_Probability;
     Float_t         B0__transformedNetworkOutputLPCA_Probability010;
+    Float_t         B0__transformedNetworkOutputFastBDT_Probability0010;
     Int_t           nCands;
     Int_t           iCand;
 
@@ -597,7 +599,9 @@ class B0_ch1 {
     TBranch        *b_B0_hoo3_FS1;   //!
     TBranch        *b_B0_hoo4_FS1;   //!
     TBranch        *b_B0__LPCA_Probability;   //!
+    TBranch        *b_B0__FastBDT_Probability;   //!
     TBranch        *b_B0__transformedNetworkOutputLPCA_Probability010;   //!
+    TBranch        *b_B0__transformedNetworkOutputFastBDT_Probability0010;   //!
     TBranch        *b_m_nCands;   //!
     TBranch        *b_m_iCand;   //!
 
@@ -923,7 +927,9 @@ void B0_ch1::Init(TTree *tree)
   fChain->SetBranchAddress("B0_hoo3_FS1", &B0_hoo3_FS1, &b_B0_hoo3_FS1);
   fChain->SetBranchAddress("B0_hoo4_FS1", &B0_hoo4_FS1, &b_B0_hoo4_FS1);
   fChain->SetBranchAddress("B0__LPCA_Probability", &B0__LPCA_Probability, &b_B0__LPCA_Probability);
+  fChain->SetBranchAddress("B0__FastBDT_Probability", &B0__FastBDT_Probability, &b_B0__FastBDT_Probability);
   fChain->SetBranchAddress("B0__transformedNetworkOutputLPCA_Probability010", &B0__transformedNetworkOutputLPCA_Probability010, &b_B0__transformedNetworkOutputLPCA_Probability010);
+  fChain->SetBranchAddress("B0__transformedNetworkOutputFastBDT_Probability0010", &B0__transformedNetworkOutputFastBDT_Probability0010, &b_B0__transformedNetworkOutputFastBDT_Probability0010);
   fChain->SetBranchAddress("nCands", &nCands, &b_m_nCands);
   fChain->SetBranchAddress("iCand", &iCand, &b_m_iCand);
   Notify();

@@ -122,6 +122,10 @@ void B0_ch1::Loop(Long64_t maxEv)
     LoadTree(0); //force 1st tree to be loaded
     TTree *newtree = fChain->GetTree()->CloneTree(0); 
 
+    // File for fit
+    ofstream fitFile;
+    fitFile.open(Form("B0_etapr-eta-gg2pi_KS-pi+pi-_output_skim_%s.txt",_what));
+
     cout << "############################### " << endl;
     cout << "Selecting best Candidates " << endl;
 
@@ -195,7 +199,26 @@ void B0_ch1::Loop(Long64_t maxEv)
               hTrueDT_TagB0bar_best->Fill(B0_TruthDeltaT);
             }
 
+            
+
           }
+
+          // Write relevant values in ascii file for Fitting
+          int B0TrueFlavourTag=(B0_mcTagPDG>0?+1:-1);
+          int B0FlavourTag=(recoFlavourTag>0?+1:-1);
+          fitFile  << 
+            setw(15) << B0_mbc  << 
+            setw(15) << B0_deltae  << 
+            setw(15) << B0__transformedNetworkOutputFastBDT_Probability0010  << 
+            setw(15) << B0_etaP_M  << 
+            setw(15) << B0_etaP_eta_M  << 
+            setw(15) << B0_K_S0_M  << 
+            setw(15) << B0_DeltaT  << 
+            setw(15) << B0_TruthDeltaT  << 
+            setw(15) << B0TrueFlavourTag  << 
+            setw(15) << B0FlavourTag  << 
+            setw(15) << B0__isSignal  << 
+            endl;
 
 
           if (B0__isSignal) {
@@ -229,6 +252,7 @@ void B0_ch1::Loop(Long64_t maxEv)
     skimFile->cd();
     newtree->Write();
     skimFile->Close();
+    fitFile.close();
 
     ofile->cd();
     hEvents->Write();
