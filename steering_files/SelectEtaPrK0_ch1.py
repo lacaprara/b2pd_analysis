@@ -23,8 +23,9 @@ from stdLooseFSParticles import stdLooseK
 ## Parsing input argument
 firstFile=0
 nFiles=10
-what='signal'
+what='local'
 action='simple'
+
 if len(sys.argv) > 1:
     what=str(sys.argv[1])
     if (what not in {'signal','uubar','ddbar', 'ssbar', 'ccbar','mixed','charged','local'}):
@@ -42,15 +43,16 @@ if len(sys.argv) > 4:
 
 if (what=='local'):
     filelistSIG= []
-    #filelistSIG= ['payload_skim_*_ddbar/B0_etapr_eta2pi_KS_skim_ddbar_*.root']
+    filelistSIG +=['../root_files/ch1/B0_etapr-eta-gg2pi_KS-pi+pi-_gsim-BKGx0.root']
+
     #filelistSIG= ['../root_files/ch1/B0_etapr-eta-gg2pi_KS-pi+pi-_skim_uubar.root']
     #filelistSIG+= ['../root_files/ch1/B0_etapr-eta-gg2pi_KS-pi+pi-_skim_ddbar.root']
     #filelistSIG= ['../root_files/ch1/B0_etapr-eta-gg2pi_KS-pi+pi-_skim_ssbar.root']
-    filelistSIG+= ['../root_files/ch1/B0_etapr-eta-gg2pi_KS-pi+pi-_skim_ccbar.root']
+    #filelistSIG+= ['../root_files/ch1/B0_etapr-eta-gg2pi_KS-pi+pi-_skim_ccbar.root']
     #filelistSIG= ['../root_files/ch1/B0_etapr-eta-gg2pi_KS-pi+pi-_skim_mixed.root']
     #filelistSIG= ['../root_files/ch1/B0_etapr-eta-gg2pi_KS-pi+pi-_skim_charged.root']
     #filelistSIG= ['B0_etapr-eta-gg2pi_KS-pi+pi-_skim_signal.root']
-    filelistSIG+= ['../root_files/ch1/B0_etapr-eta-gg2pi_KS-pi+pi-_gsim-BKGx0.root']#
+    #filelistSIG+= ['../root_files/ch1/B0_etapr-eta-gg2pi_KS-pi+pi-_gsim-BKGx0.root']#
     # filelistSIG+= ['outputUdst_Signal.root']
     # filelistSIG+= ['outputUdst_ccbar.root']
 
