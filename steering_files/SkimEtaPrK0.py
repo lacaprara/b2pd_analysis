@@ -101,7 +101,8 @@ reconstructDecay("B0:ch5 -> eta':3pi K_S0:neu", 'Mbc > 5.0 and abs(deltaE) < 0.5
 
 # add SkimFilter module to set condition variable based on the number of reconstructed B-tag mesons
 skim = register_module('SkimFilter')
-skim.param('particleLists', ['B0:ch1','B0:ch2','B0:ch4','B0:ch5'])
+#skim.param('particleLists', ['B0:ch1','B0:ch2','B0:ch4','B0:ch5'])
+skim.param('particleLists', ['B0:ch1','B0:ch2','B0:ch4'])
 analysis_main.add_module(skim)
 
 # save event to a new mdst file if it contained at least one B-tag meson
@@ -110,10 +111,11 @@ skim.if_false(empty_path)
 add_mdst_output(analysis_main, True, outFile)
 
 # print out some further info
-summaryOfLists(['eta:gg','eta:3pi',"eta':gg","eta':3pi",'B0:ch1','B0:ch2','B0:ch4','B0:ch5'])
+#summaryOfLists(['eta:gg','eta:3pi',"eta':gg","eta':3pi",'B0:ch1','B0:ch2','B0:ch4','B0:ch5'])
+summaryOfLists(['eta:gg','eta:3pi',"eta':gg","eta':3pi",'B0:ch1','B0:ch2','B0:ch4'])
 
 # process the events
 process(analysis_main)
 
 # print out the summary
-print statistics
+print(statistics)
