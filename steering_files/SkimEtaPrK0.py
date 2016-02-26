@@ -16,14 +16,14 @@ firstFile=0
 nFiles=10
 what='signal'
 if len(sys.argv) > 1:
-    nFiles=int(sys.argv[1])
-if len(sys.argv) > 2:
-    firstFile=int(sys.argv[2])
-    nFiles=firstFile+nFiles
-if len(sys.argv) > 3:
-    what=str(sys.argv[3])
+    what=str(sys.argv[1])
     if (what not in {'signal_ch1','signal_ch2','signal_ch4','signal_ch4','signal_ch5','uubar','ddbar', 'ssbar', 'ccbar','mixed','charged'}):
             sys.exit("input has to be 'signal_chX|uubar,ddbar,ssbar,ccbar,mixed,charged'")
+if len(sys.argv) > 2:
+    nFiles=int(sys.argv[2])
+if len(sys.argv) > 3:
+    firstFile=int(sys.argv[3])
+    nFiles=firstFile+nFiles
 
 
 # filelistSIG= ['../root_files/ch1/B0_etapr-eta-gg2pi_KS-pi+pi-_gsim-BKGx0.root']
