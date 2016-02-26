@@ -97,7 +97,7 @@ reconstructDecay("B0:ch2 -> eta':gg K_S0:neu", 'Mbc > 5.0 and abs(deltaE) < 0.5'
 # channel 4
 reconstructDecay("B0:ch4 -> eta':3pi K_S0:mdst", 'Mbc > 5.0 and abs(deltaE) < 0.5')
 # channel 5
-reconstructDecay("B0:ch5 -> eta':3pi K_S0:neu", 'Mbc > 5.0 and abs(deltaE) < 0.5')
+#reconstructDecay("B0:ch5 -> eta':3pi K_S0:neu", 'Mbc > 5.0 and abs(deltaE) < 0.5')
 
 # add SkimFilter module to set condition variable based on the number of reconstructed B-tag mesons
 skim = register_module('SkimFilter')
