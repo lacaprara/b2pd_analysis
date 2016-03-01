@@ -14,12 +14,12 @@
 
 // Header file for the classes stored in the TTree if any.
 
-// Fixed size dimensions of array or collections stored in the TTree if any.
-
 class B0_ch1 {
   public :
     TTree          *fChain;   //!pointer to the analyzed TTree or TChain
     Int_t           fCurrent; //!current Tree number in a TChain
+
+// Fixed size dimensions of array or collections stored in the TTree if any.
 
     // Declaration of leaf types
     Int_t           exp_no;
@@ -129,6 +129,8 @@ class B0_ch1 {
     Float_t         B0_ErrZ;
     Float_t         B0_Rho;
     Float_t         B0_VtxPvalue;
+    Float_t         B0_VtxProd[3];
+    Float_t         B0_VtxProdCov[3][3];
     Float_t         B0_etaP_X;
     Float_t         B0_etaP_ErrX;
     Float_t         B0_etaP_Y;
@@ -137,6 +139,8 @@ class B0_ch1 {
     Float_t         B0_etaP_ErrZ;
     Float_t         B0_etaP_Rho;
     Float_t         B0_etaP_VtxPvalue;
+    Float_t         B0_etaP_VtxProd[3];
+    Float_t         B0_etaP_VtxProdCov[3][3];
     Float_t         B0_etaP_eta_X;
     Float_t         B0_etaP_eta_ErrX;
     Float_t         B0_etaP_eta_Y;
@@ -145,6 +149,8 @@ class B0_ch1 {
     Float_t         B0_etaP_eta_ErrZ;
     Float_t         B0_etaP_eta_Rho;
     Float_t         B0_etaP_eta_VtxPvalue;
+    Float_t         B0_etaP_eta_VtxProd[3];
+    Float_t         B0_etaP_eta_VtxProdCov[3][3];
     Float_t         B0_etaP_pi0_X;
     Float_t         B0_etaP_pi0_ErrX;
     Float_t         B0_etaP_pi0_Y;
@@ -153,6 +159,8 @@ class B0_ch1 {
     Float_t         B0_etaP_pi0_ErrZ;
     Float_t         B0_etaP_pi0_Rho;
     Float_t         B0_etaP_pi0_VtxPvalue;
+    Float_t         B0_etaP_pi0_VtxProd[3];
+    Float_t         B0_etaP_pi0_VtxProdCov[3][3];
     Float_t         B0_etaP_pi1_X;
     Float_t         B0_etaP_pi1_ErrX;
     Float_t         B0_etaP_pi1_Y;
@@ -161,6 +169,8 @@ class B0_ch1 {
     Float_t         B0_etaP_pi1_ErrZ;
     Float_t         B0_etaP_pi1_Rho;
     Float_t         B0_etaP_pi1_VtxPvalue;
+    Float_t         B0_etaP_pi1_VtxProd[3];
+    Float_t         B0_etaP_pi1_VtxProdCov[3][3];
     Float_t         B0_K_S0_X;
     Float_t         B0_K_S0_ErrX;
     Float_t         B0_K_S0_Y;
@@ -169,30 +179,38 @@ class B0_ch1 {
     Float_t         B0_K_S0_ErrZ;
     Float_t         B0_K_S0_Rho;
     Float_t         B0_K_S0_VtxPvalue;
+    Float_t         B0_K_S0_VtxProd[3];
+    Float_t         B0_K_S0_VtxProdCov[3][3];
     Float_t         B0_TruthX;
     Float_t         B0_TruthY;
     Float_t         B0_TruthZ;
     Float_t         B0_TruthRho;
+    Float_t         B0_TruthVtxProd[3];
     Float_t         B0_etaP_TruthX;
     Float_t         B0_etaP_TruthY;
     Float_t         B0_etaP_TruthZ;
     Float_t         B0_etaP_TruthRho;
+    Float_t         B0_etaP_TruthVtxProd[3];
     Float_t         B0_etaP_eta_TruthX;
     Float_t         B0_etaP_eta_TruthY;
     Float_t         B0_etaP_eta_TruthZ;
     Float_t         B0_etaP_eta_TruthRho;
+    Float_t         B0_etaP_eta_TruthVtxProd[3];
     Float_t         B0_etaP_pi0_TruthX;
     Float_t         B0_etaP_pi0_TruthY;
     Float_t         B0_etaP_pi0_TruthZ;
     Float_t         B0_etaP_pi0_TruthRho;
+    Float_t         B0_etaP_pi0_TruthVtxProd[3];
     Float_t         B0_etaP_pi1_TruthX;
     Float_t         B0_etaP_pi1_TruthY;
     Float_t         B0_etaP_pi1_TruthZ;
     Float_t         B0_etaP_pi1_TruthRho;
+    Float_t         B0_etaP_pi1_TruthVtxProd[3];
     Float_t         B0_K_S0_TruthX;
     Float_t         B0_K_S0_TruthY;
     Float_t         B0_K_S0_TruthZ;
     Float_t         B0_K_S0_TruthRho;
+    Float_t         B0_K_S0_TruthVtxProd[3];
     Float_t         B0_TagVx;
     Float_t         B0_TagVy;
     Float_t         B0_TagVz;
@@ -242,70 +260,6 @@ class B0_ch1 {
     Float_t         B0_etaP__isSignal;
     Float_t         B0_etaP_eta__isSignal;
     Float_t         B0_K_S0__isSignal;
-    Float_t         B0_ThrustB;
-    Float_t         B0_ThrustO;
-    Float_t         B0_CosTBTO;
-    Float_t         B0_CosTBz;
-    Float_t         B0_R2;
-    Float_t         B0_cc1;
-    Float_t         B0_cc2;
-    Float_t         B0_cc3;
-    Float_t         B0_cc4;
-    Float_t         B0_cc5;
-    Float_t         B0_cc6;
-    Float_t         B0_cc7;
-    Float_t         B0_cc8;
-    Float_t         B0_cc9;
-    Float_t         B0_mm2;
-    Float_t         B0_et;
-    Float_t         B0_hso00;
-    Float_t         B0_hso01;
-    Float_t         B0_hso02;
-    Float_t         B0_hso03;
-    Float_t         B0_hso04;
-    Float_t         B0_hso10;
-    Float_t         B0_hso12;
-    Float_t         B0_hso14;
-    Float_t         B0_hso20;
-    Float_t         B0_hso22;
-    Float_t         B0_hso24;
-    Float_t         B0_hoo0;
-    Float_t         B0_hoo1;
-    Float_t         B0_hoo2;
-    Float_t         B0_hoo3;
-    Float_t         B0_hoo4;
-    Float_t         B0_ThrustB;
-    Float_t         B0_ThrustO;
-    Float_t         B0_CosTBTO;
-    Float_t         B0_CosTBz;
-    Float_t         B0_R2;
-    Float_t         B0_cc1;
-    Float_t         B0_cc2;
-    Float_t         B0_cc3;
-    Float_t         B0_cc4;
-    Float_t         B0_cc5;
-    Float_t         B0_cc6;
-    Float_t         B0_cc7;
-    Float_t         B0_cc8;
-    Float_t         B0_cc9;
-    Float_t         B0_mm2_FS1;
-    Float_t         B0_et_FS1;
-    Float_t         B0_hso00_FS1;
-    Float_t         B0_hso01_FS1;
-    Float_t         B0_hso02_FS1;
-    Float_t         B0_hso03_FS1;
-    Float_t         B0_hso04_FS1;
-    Float_t         B0_hso10_FS1;
-    Float_t         B0_hso12_FS1;
-    Float_t         B0_hso14_FS1;
-    Float_t         B0_hso20_FS1;
-    Float_t         B0_hso22_FS1;
-    Float_t         B0_hso24_FS1;
-    Float_t         B0_hoo0_FS1;
-    Float_t         B0_hoo1_FS1;
-    Float_t         B0_hoo2_FS1;
-    Float_t         B0_hoo3_FS1;
-    Float_t         B0_hoo4_FS1;
     Float_t         B0__LPCA_Probability;
     Float_t         B0__FastBDT_Probability;
     Float_t         B0__transformedNetworkOutputLPCA_Probability010;
@@ -421,6 +375,8 @@ class B0_ch1 {
     TBranch        *b_B0_ErrZ;   //!
     TBranch        *b_B0_Rho;   //!
     TBranch        *b_B0_VtxPvalue;   //!
+    TBranch        *b_B0_VtxProd;   //!
+    TBranch        *b_B0_VtxProdCov;   //!
     TBranch        *b_B0_etaP_X;   //!
     TBranch        *b_B0_etaP_ErrX;   //!
     TBranch        *b_B0_etaP_Y;   //!
@@ -429,6 +385,8 @@ class B0_ch1 {
     TBranch        *b_B0_etaP_ErrZ;   //!
     TBranch        *b_B0_etaP_Rho;   //!
     TBranch        *b_B0_etaP_VtxPvalue;   //!
+    TBranch        *b_B0_etaP_VtxProd;   //!
+    TBranch        *b_B0_etaP_VtxProdCov;   //!
     TBranch        *b_B0_etaP_eta_X;   //!
     TBranch        *b_B0_etaP_eta_ErrX;   //!
     TBranch        *b_B0_etaP_eta_Y;   //!
@@ -437,6 +395,8 @@ class B0_ch1 {
     TBranch        *b_B0_etaP_eta_ErrZ;   //!
     TBranch        *b_B0_etaP_eta_Rho;   //!
     TBranch        *b_B0_etaP_eta_VtxPvalue;   //!
+    TBranch        *b_B0_etaP_eta_VtxProd;   //!
+    TBranch        *b_B0_etaP_eta_VtxProdCov;   //!
     TBranch        *b_B0_etaP_pi0_X;   //!
     TBranch        *b_B0_etaP_pi0_ErrX;   //!
     TBranch        *b_B0_etaP_pi0_Y;   //!
@@ -445,6 +405,8 @@ class B0_ch1 {
     TBranch        *b_B0_etaP_pi0_ErrZ;   //!
     TBranch        *b_B0_etaP_pi0_Rho;   //!
     TBranch        *b_B0_etaP_pi0_VtxPvalue;   //!
+    TBranch        *b_B0_etaP_pi0_VtxProd;   //!
+    TBranch        *b_B0_etaP_pi0_VtxProdCov;   //!
     TBranch        *b_B0_etaP_pi1_X;   //!
     TBranch        *b_B0_etaP_pi1_ErrX;   //!
     TBranch        *b_B0_etaP_pi1_Y;   //!
@@ -453,6 +415,8 @@ class B0_ch1 {
     TBranch        *b_B0_etaP_pi1_ErrZ;   //!
     TBranch        *b_B0_etaP_pi1_Rho;   //!
     TBranch        *b_B0_etaP_pi1_VtxPvalue;   //!
+    TBranch        *b_B0_etaP_pi1_VtxProd;   //!
+    TBranch        *b_B0_etaP_pi1_VtxProdCov;   //!
     TBranch        *b_B0_K_S0_X;   //!
     TBranch        *b_B0_K_S0_ErrX;   //!
     TBranch        *b_B0_K_S0_Y;   //!
@@ -461,30 +425,38 @@ class B0_ch1 {
     TBranch        *b_B0_K_S0_ErrZ;   //!
     TBranch        *b_B0_K_S0_Rho;   //!
     TBranch        *b_B0_K_S0_VtxPvalue;   //!
+    TBranch        *b_B0_K_S0_VtxProd;   //!
+    TBranch        *b_B0_K_S0_VtxProdCov;   //!
     TBranch        *b_B0_TruthX;   //!
     TBranch        *b_B0_TruthY;   //!
     TBranch        *b_B0_TruthZ;   //!
     TBranch        *b_B0_TruthRho;   //!
+    TBranch        *b_B0_TruthVtxProd;   //!
     TBranch        *b_B0_etaP_TruthX;   //!
     TBranch        *b_B0_etaP_TruthY;   //!
     TBranch        *b_B0_etaP_TruthZ;   //!
     TBranch        *b_B0_etaP_TruthRho;   //!
+    TBranch        *b_B0_etaP_TruthVtxProd;   //!
     TBranch        *b_B0_etaP_eta_TruthX;   //!
     TBranch        *b_B0_etaP_eta_TruthY;   //!
     TBranch        *b_B0_etaP_eta_TruthZ;   //!
     TBranch        *b_B0_etaP_eta_TruthRho;   //!
+    TBranch        *b_B0_etaP_eta_TruthVtxProd;   //!
     TBranch        *b_B0_etaP_pi0_TruthX;   //!
     TBranch        *b_B0_etaP_pi0_TruthY;   //!
     TBranch        *b_B0_etaP_pi0_TruthZ;   //!
     TBranch        *b_B0_etaP_pi0_TruthRho;   //!
+    TBranch        *b_B0_etaP_pi0_TruthVtxProd;   //!
     TBranch        *b_B0_etaP_pi1_TruthX;   //!
     TBranch        *b_B0_etaP_pi1_TruthY;   //!
     TBranch        *b_B0_etaP_pi1_TruthZ;   //!
     TBranch        *b_B0_etaP_pi1_TruthRho;   //!
+    TBranch        *b_B0_etaP_pi1_TruthVtxProd;   //!
     TBranch        *b_B0_K_S0_TruthX;   //!
     TBranch        *b_B0_K_S0_TruthY;   //!
     TBranch        *b_B0_K_S0_TruthZ;   //!
     TBranch        *b_B0_K_S0_TruthRho;   //!
+    TBranch        *b_B0_K_S0_TruthVtxProd;   //!
     TBranch        *b_B0_TagVx;   //!
     TBranch        *b_B0_TagVy;   //!
     TBranch        *b_B0_TagVz;   //!
@@ -534,70 +506,6 @@ class B0_ch1 {
     TBranch        *b_B0_etaP__isSignal;   //!
     TBranch        *b_B0_etaP_eta__isSignal;   //!
     TBranch        *b_B0_K_S0__isSignal;   //!
-    TBranch        *b_B0_ThrustB;   //!
-    TBranch        *b_B0_ThrustO;   //!
-    TBranch        *b_B0_CosTBTO;   //!
-    TBranch        *b_B0_CosTBz;   //!
-    TBranch        *b_B0_R2;   //!
-    TBranch        *b_B0_cc1;   //!
-    TBranch        *b_B0_cc2;   //!
-    TBranch        *b_B0_cc3;   //!
-    TBranch        *b_B0_cc4;   //!
-    TBranch        *b_B0_cc5;   //!
-    TBranch        *b_B0_cc6;   //!
-    TBranch        *b_B0_cc7;   //!
-    TBranch        *b_B0_cc8;   //!
-    TBranch        *b_B0_cc9;   //!
-    TBranch        *b_B0_mm2;   //!
-    TBranch        *b_B0_et;   //!
-    TBranch        *b_B0_hso00;   //!
-    TBranch        *b_B0_hso01;   //!
-    TBranch        *b_B0_hso02;   //!
-    TBranch        *b_B0_hso03;   //!
-    TBranch        *b_B0_hso04;   //!
-    TBranch        *b_B0_hso10;   //!
-    TBranch        *b_B0_hso12;   //!
-    TBranch        *b_B0_hso14;   //!
-    TBranch        *b_B0_hso20;   //!
-    TBranch        *b_B0_hso22;   //!
-    TBranch        *b_B0_hso24;   //!
-    TBranch        *b_B0_hoo0;   //!
-    TBranch        *b_B0_hoo1;   //!
-    TBranch        *b_B0_hoo2;   //!
-    TBranch        *b_B0_hoo3;   //!
-    TBranch        *b_B0_hoo4;   //!
-    TBranch        *b_B0_ThrustB;   //!
-    TBranch        *b_B0_ThrustO;   //!
-    TBranch        *b_B0_CosTBTO;   //!
-    TBranch        *b_B0_CosTBz;   //!
-    TBranch        *b_B0_R2;   //!
-    TBranch        *b_B0_cc1;   //!
-    TBranch        *b_B0_cc2;   //!
-    TBranch        *b_B0_cc3;   //!
-    TBranch        *b_B0_cc4;   //!
-    TBranch        *b_B0_cc5;   //!
-    TBranch        *b_B0_cc6;   //!
-    TBranch        *b_B0_cc7;   //!
-    TBranch        *b_B0_cc8;   //!
-    TBranch        *b_B0_cc9;   //!
-    TBranch        *b_B0_mm2_FS1;   //!
-    TBranch        *b_B0_et_FS1;   //!
-    TBranch        *b_B0_hso00_FS1;   //!
-    TBranch        *b_B0_hso01_FS1;   //!
-    TBranch        *b_B0_hso02_FS1;   //!
-    TBranch        *b_B0_hso03_FS1;   //!
-    TBranch        *b_B0_hso04_FS1;   //!
-    TBranch        *b_B0_hso10_FS1;   //!
-    TBranch        *b_B0_hso12_FS1;   //!
-    TBranch        *b_B0_hso14_FS1;   //!
-    TBranch        *b_B0_hso20_FS1;   //!
-    TBranch        *b_B0_hso22_FS1;   //!
-    TBranch        *b_B0_hso24_FS1;   //!
-    TBranch        *b_B0_hoo0_FS1;   //!
-    TBranch        *b_B0_hoo1_FS1;   //!
-    TBranch        *b_B0_hoo2_FS1;   //!
-    TBranch        *b_B0_hoo3_FS1;   //!
-    TBranch        *b_B0_hoo4_FS1;   //!
     TBranch        *b_B0__LPCA_Probability;   //!
     TBranch        *b_B0__FastBDT_Probability;   //!
     TBranch        *b_B0__transformedNetworkOutputLPCA_Probability010;   //!
@@ -795,6 +703,8 @@ void B0_ch1::Init(TTree *tree)
   fChain->SetBranchAddress("B0_ErrZ", &B0_ErrZ, &b_B0_ErrZ);
   fChain->SetBranchAddress("B0_Rho", &B0_Rho, &b_B0_Rho);
   fChain->SetBranchAddress("B0_VtxPvalue", &B0_VtxPvalue, &b_B0_VtxPvalue);
+  fChain->SetBranchAddress("B0_VtxProd", B0_VtxProd, &b_B0_VtxProd);
+  fChain->SetBranchAddress("B0_VtxProdCov", B0_VtxProdCov, &b_B0_VtxProdCov);
   fChain->SetBranchAddress("B0_eta'_X", &B0_etaP_X, &b_B0_etaP_X);
   fChain->SetBranchAddress("B0_eta'_ErrX", &B0_etaP_ErrX, &b_B0_etaP_ErrX);
   fChain->SetBranchAddress("B0_eta'_Y", &B0_etaP_Y, &b_B0_etaP_Y);
@@ -803,6 +713,8 @@ void B0_ch1::Init(TTree *tree)
   fChain->SetBranchAddress("B0_eta'_ErrZ", &B0_etaP_ErrZ, &b_B0_etaP_ErrZ);
   fChain->SetBranchAddress("B0_eta'_Rho", &B0_etaP_Rho, &b_B0_etaP_Rho);
   fChain->SetBranchAddress("B0_eta'_VtxPvalue", &B0_etaP_VtxPvalue, &b_B0_etaP_VtxPvalue);
+  fChain->SetBranchAddress("B0_eta'_VtxProd", B0_etaP_VtxProd, &b_B0_etaP_VtxProd);
+  fChain->SetBranchAddress("B0_eta'_VtxProdCov", B0_etaP_VtxProdCov, &b_B0_etaP_VtxProdCov);
   fChain->SetBranchAddress("B0_eta'_eta_X", &B0_etaP_eta_X, &b_B0_etaP_eta_X);
   fChain->SetBranchAddress("B0_eta'_eta_ErrX", &B0_etaP_eta_ErrX, &b_B0_etaP_eta_ErrX);
   fChain->SetBranchAddress("B0_eta'_eta_Y", &B0_etaP_eta_Y, &b_B0_etaP_eta_Y);
@@ -811,6 +723,8 @@ void B0_ch1::Init(TTree *tree)
   fChain->SetBranchAddress("B0_eta'_eta_ErrZ", &B0_etaP_eta_ErrZ, &b_B0_etaP_eta_ErrZ);
   fChain->SetBranchAddress("B0_eta'_eta_Rho", &B0_etaP_eta_Rho, &b_B0_etaP_eta_Rho);
   fChain->SetBranchAddress("B0_eta'_eta_VtxPvalue", &B0_etaP_eta_VtxPvalue, &b_B0_etaP_eta_VtxPvalue);
+  fChain->SetBranchAddress("B0_eta'_eta_VtxProd", B0_etaP_eta_VtxProd, &b_B0_etaP_eta_VtxProd);
+  fChain->SetBranchAddress("B0_eta'_eta_VtxProdCov", B0_etaP_eta_VtxProdCov, &b_B0_etaP_eta_VtxProdCov);
   fChain->SetBranchAddress("B0_eta'_pi0_X", &B0_etaP_pi0_X, &b_B0_etaP_pi0_X);
   fChain->SetBranchAddress("B0_eta'_pi0_ErrX", &B0_etaP_pi0_ErrX, &b_B0_etaP_pi0_ErrX);
   fChain->SetBranchAddress("B0_eta'_pi0_Y", &B0_etaP_pi0_Y, &b_B0_etaP_pi0_Y);
@@ -819,6 +733,8 @@ void B0_ch1::Init(TTree *tree)
   fChain->SetBranchAddress("B0_eta'_pi0_ErrZ", &B0_etaP_pi0_ErrZ, &b_B0_etaP_pi0_ErrZ);
   fChain->SetBranchAddress("B0_eta'_pi0_Rho", &B0_etaP_pi0_Rho, &b_B0_etaP_pi0_Rho);
   fChain->SetBranchAddress("B0_eta'_pi0_VtxPvalue", &B0_etaP_pi0_VtxPvalue, &b_B0_etaP_pi0_VtxPvalue);
+  fChain->SetBranchAddress("B0_eta'_pi0_VtxProd", B0_etaP_pi0_VtxProd, &b_B0_etaP_pi0_VtxProd);
+  fChain->SetBranchAddress("B0_eta'_pi0_VtxProdCov", B0_etaP_pi0_VtxProdCov, &b_B0_etaP_pi0_VtxProdCov);
   fChain->SetBranchAddress("B0_eta'_pi1_X", &B0_etaP_pi1_X, &b_B0_etaP_pi1_X);
   fChain->SetBranchAddress("B0_eta'_pi1_ErrX", &B0_etaP_pi1_ErrX, &b_B0_etaP_pi1_ErrX);
   fChain->SetBranchAddress("B0_eta'_pi1_Y", &B0_etaP_pi1_Y, &b_B0_etaP_pi1_Y);
@@ -827,6 +743,8 @@ void B0_ch1::Init(TTree *tree)
   fChain->SetBranchAddress("B0_eta'_pi1_ErrZ", &B0_etaP_pi1_ErrZ, &b_B0_etaP_pi1_ErrZ);
   fChain->SetBranchAddress("B0_eta'_pi1_Rho", &B0_etaP_pi1_Rho, &b_B0_etaP_pi1_Rho);
   fChain->SetBranchAddress("B0_eta'_pi1_VtxPvalue", &B0_etaP_pi1_VtxPvalue, &b_B0_etaP_pi1_VtxPvalue);
+  fChain->SetBranchAddress("B0_eta'_pi1_VtxProd", B0_etaP_pi1_VtxProd, &b_B0_etaP_pi1_VtxProd);
+  fChain->SetBranchAddress("B0_eta'_pi1_VtxProdCov", B0_etaP_pi1_VtxProdCov, &b_B0_etaP_pi1_VtxProdCov);
   fChain->SetBranchAddress("B0_K_S0_X", &B0_K_S0_X, &b_B0_K_S0_X);
   fChain->SetBranchAddress("B0_K_S0_ErrX", &B0_K_S0_ErrX, &b_B0_K_S0_ErrX);
   fChain->SetBranchAddress("B0_K_S0_Y", &B0_K_S0_Y, &b_B0_K_S0_Y);
@@ -835,30 +753,38 @@ void B0_ch1::Init(TTree *tree)
   fChain->SetBranchAddress("B0_K_S0_ErrZ", &B0_K_S0_ErrZ, &b_B0_K_S0_ErrZ);
   fChain->SetBranchAddress("B0_K_S0_Rho", &B0_K_S0_Rho, &b_B0_K_S0_Rho);
   fChain->SetBranchAddress("B0_K_S0_VtxPvalue", &B0_K_S0_VtxPvalue, &b_B0_K_S0_VtxPvalue);
+  fChain->SetBranchAddress("B0_K_S0_VtxProd", B0_K_S0_VtxProd, &b_B0_K_S0_VtxProd);
+  fChain->SetBranchAddress("B0_K_S0_VtxProdCov", B0_K_S0_VtxProdCov, &b_B0_K_S0_VtxProdCov);
   fChain->SetBranchAddress("B0_TruthX", &B0_TruthX, &b_B0_TruthX);
   fChain->SetBranchAddress("B0_TruthY", &B0_TruthY, &b_B0_TruthY);
   fChain->SetBranchAddress("B0_TruthZ", &B0_TruthZ, &b_B0_TruthZ);
   fChain->SetBranchAddress("B0_TruthRho", &B0_TruthRho, &b_B0_TruthRho);
+  fChain->SetBranchAddress("B0_TruthVtxProd", B0_TruthVtxProd, &b_B0_TruthVtxProd);
   fChain->SetBranchAddress("B0_eta'_TruthX", &B0_etaP_TruthX, &b_B0_etaP_TruthX);
   fChain->SetBranchAddress("B0_eta'_TruthY", &B0_etaP_TruthY, &b_B0_etaP_TruthY);
   fChain->SetBranchAddress("B0_eta'_TruthZ", &B0_etaP_TruthZ, &b_B0_etaP_TruthZ);
   fChain->SetBranchAddress("B0_eta'_TruthRho", &B0_etaP_TruthRho, &b_B0_etaP_TruthRho);
+  fChain->SetBranchAddress("B0_eta'_TruthVtxProd", B0_etaP_TruthVtxProd, &b_B0_etaP_TruthVtxProd);
   fChain->SetBranchAddress("B0_eta'_eta_TruthX", &B0_etaP_eta_TruthX, &b_B0_etaP_eta_TruthX);
   fChain->SetBranchAddress("B0_eta'_eta_TruthY", &B0_etaP_eta_TruthY, &b_B0_etaP_eta_TruthY);
   fChain->SetBranchAddress("B0_eta'_eta_TruthZ", &B0_etaP_eta_TruthZ, &b_B0_etaP_eta_TruthZ);
   fChain->SetBranchAddress("B0_eta'_eta_TruthRho", &B0_etaP_eta_TruthRho, &b_B0_etaP_eta_TruthRho);
+  fChain->SetBranchAddress("B0_eta'_eta_TruthVtxProd", B0_etaP_eta_TruthVtxProd, &b_B0_etaP_eta_TruthVtxProd);
   fChain->SetBranchAddress("B0_eta'_pi0_TruthX", &B0_etaP_pi0_TruthX, &b_B0_etaP_pi0_TruthX);
   fChain->SetBranchAddress("B0_eta'_pi0_TruthY", &B0_etaP_pi0_TruthY, &b_B0_etaP_pi0_TruthY);
   fChain->SetBranchAddress("B0_eta'_pi0_TruthZ", &B0_etaP_pi0_TruthZ, &b_B0_etaP_pi0_TruthZ);
   fChain->SetBranchAddress("B0_eta'_pi0_TruthRho", &B0_etaP_pi0_TruthRho, &b_B0_etaP_pi0_TruthRho);
+  fChain->SetBranchAddress("B0_eta'_pi0_TruthVtxProd", B0_etaP_pi0_TruthVtxProd, &b_B0_etaP_pi0_TruthVtxProd);
   fChain->SetBranchAddress("B0_eta'_pi1_TruthX", &B0_etaP_pi1_TruthX, &b_B0_etaP_pi1_TruthX);
   fChain->SetBranchAddress("B0_eta'_pi1_TruthY", &B0_etaP_pi1_TruthY, &b_B0_etaP_pi1_TruthY);
   fChain->SetBranchAddress("B0_eta'_pi1_TruthZ", &B0_etaP_pi1_TruthZ, &b_B0_etaP_pi1_TruthZ);
   fChain->SetBranchAddress("B0_eta'_pi1_TruthRho", &B0_etaP_pi1_TruthRho, &b_B0_etaP_pi1_TruthRho);
+  fChain->SetBranchAddress("B0_eta'_pi1_TruthVtxProd", B0_etaP_pi1_TruthVtxProd, &b_B0_etaP_pi1_TruthVtxProd);
   fChain->SetBranchAddress("B0_K_S0_TruthX", &B0_K_S0_TruthX, &b_B0_K_S0_TruthX);
   fChain->SetBranchAddress("B0_K_S0_TruthY", &B0_K_S0_TruthY, &b_B0_K_S0_TruthY);
   fChain->SetBranchAddress("B0_K_S0_TruthZ", &B0_K_S0_TruthZ, &b_B0_K_S0_TruthZ);
   fChain->SetBranchAddress("B0_K_S0_TruthRho", &B0_K_S0_TruthRho, &b_B0_K_S0_TruthRho);
+  fChain->SetBranchAddress("B0_K_S0_TruthVtxProd", B0_K_S0_TruthVtxProd, &b_B0_K_S0_TruthVtxProd);
   fChain->SetBranchAddress("B0_TagVx", &B0_TagVx, &b_B0_TagVx);
   fChain->SetBranchAddress("B0_TagVy", &B0_TagVy, &b_B0_TagVy);
   fChain->SetBranchAddress("B0_TagVz", &B0_TagVz, &b_B0_TagVz);
@@ -908,24 +834,6 @@ void B0_ch1::Init(TTree *tree)
   fChain->SetBranchAddress("B0_eta'__isSignal", &B0_etaP__isSignal, &b_B0_etaP__isSignal);
   fChain->SetBranchAddress("B0_eta'_eta__isSignal", &B0_etaP_eta__isSignal, &b_B0_etaP_eta__isSignal);
   fChain->SetBranchAddress("B0_K_S0__isSignal", &B0_K_S0__isSignal, &b_B0_K_S0__isSignal);
-  fChain->SetBranchAddress("B0_mm2_FS1", &B0_mm2_FS1, &b_B0_mm2_FS1);
-  fChain->SetBranchAddress("B0_et_FS1", &B0_et_FS1, &b_B0_et_FS1);
-  fChain->SetBranchAddress("B0_hso00_FS1", &B0_hso00_FS1, &b_B0_hso00_FS1);
-  fChain->SetBranchAddress("B0_hso01_FS1", &B0_hso01_FS1, &b_B0_hso01_FS1);
-  fChain->SetBranchAddress("B0_hso02_FS1", &B0_hso02_FS1, &b_B0_hso02_FS1);
-  fChain->SetBranchAddress("B0_hso03_FS1", &B0_hso03_FS1, &b_B0_hso03_FS1);
-  fChain->SetBranchAddress("B0_hso04_FS1", &B0_hso04_FS1, &b_B0_hso04_FS1);
-  fChain->SetBranchAddress("B0_hso10_FS1", &B0_hso10_FS1, &b_B0_hso10_FS1);
-  fChain->SetBranchAddress("B0_hso12_FS1", &B0_hso12_FS1, &b_B0_hso12_FS1);
-  fChain->SetBranchAddress("B0_hso14_FS1", &B0_hso14_FS1, &b_B0_hso14_FS1);
-  fChain->SetBranchAddress("B0_hso20_FS1", &B0_hso20_FS1, &b_B0_hso20_FS1);
-  fChain->SetBranchAddress("B0_hso22_FS1", &B0_hso22_FS1, &b_B0_hso22_FS1);
-  fChain->SetBranchAddress("B0_hso24_FS1", &B0_hso24_FS1, &b_B0_hso24_FS1);
-  fChain->SetBranchAddress("B0_hoo0_FS1", &B0_hoo0_FS1, &b_B0_hoo0_FS1);
-  fChain->SetBranchAddress("B0_hoo1_FS1", &B0_hoo1_FS1, &b_B0_hoo1_FS1);
-  fChain->SetBranchAddress("B0_hoo2_FS1", &B0_hoo2_FS1, &b_B0_hoo2_FS1);
-  fChain->SetBranchAddress("B0_hoo3_FS1", &B0_hoo3_FS1, &b_B0_hoo3_FS1);
-  fChain->SetBranchAddress("B0_hoo4_FS1", &B0_hoo4_FS1, &b_B0_hoo4_FS1);
   fChain->SetBranchAddress("B0__LPCA_Probability", &B0__LPCA_Probability, &b_B0__LPCA_Probability);
   fChain->SetBranchAddress("B0__FastBDT_Probability", &B0__FastBDT_Probability, &b_B0__FastBDT_Probability);
   fChain->SetBranchAddress("B0__transformedNetworkOutputLPCA_Probability010", &B0__transformedNetworkOutputLPCA_Probability010, &b_B0__transformedNetworkOutputLPCA_Probability010);

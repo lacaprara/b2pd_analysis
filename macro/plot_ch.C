@@ -93,12 +93,12 @@ void getWhatToPlot(int channel, vector<plotInfo>& result) {
 }
 
 
-void channel(int channel, TCanvas* c, float x=0.5, float y=0.96) {
+void channel(int ch, TCanvas* c, float x=0.5, float y=0.96) {
   TLatex* tch=new TLatex();
   tch->SetTextSize(0.04);
   tch->SetTextAlign(21);
   TString what;
-  switch(channel){
+  switch(ch){
     case 1:
       what="B^{0}#rightarrow#eta'( #eta(#gamma#gamma) #pi^{+}#pi^{-}) K^{0}_{S}(#pi^{+}#pi^{-})";
       break;
@@ -164,9 +164,9 @@ Double_t fitFunc(Double_t * x, Double_t * par)
   return PDF;
 }
 
-void plot_ch(int channel=5, const char* appendix="signal", int inputEvents=0) {
-  TFile* hfile=TFile::Open(Form("Histo_ch%d_%s.root",channel,appendix));
- // TFile* hfile=TFile::Open(Form("Histo_ch%d.root",channel,appendix));
+void plot_ch(int ch=5, const char* appendix="signal", int inputEvents=0) {
+  TFile* hfile=TFile::Open(Form("Histo_ch%d_%s.root",ch,appendix));
+ // TFile* hfile=TFile::Open(Form("Histo_ch%d.root",ch,appendix));
 
   gStyle->SetPadTopMargin(0.10);
   gStyle->SetOptStat(0);
@@ -176,7 +176,7 @@ void plot_ch(int channel=5, const char* appendix="signal", int inputEvents=0) {
   tt->SetTextSize(0.05);
 
   vector<plotInfo> plotInfos;
-  getWhatToPlot(channel, plotInfos);
+  getWhatToPlot(ch, plotInfos);
 
   if (plotAllDistributions) {
     TLine* tl=new TLine();
@@ -212,21 +212,21 @@ void plot_ch(int channel=5, const char* appendix="signal", int inputEvents=0) {
         if (i==0)tleg->AddEntry(htmp,"All cands","l");
       }
       hfile->cd("AllCandidatesIsSignal");
-      TH1* htmp=(TH1F*)gDirectory->Get(h->name);
+      htmp=(TH1F*)gDirectory->Get(h->name);
       if (htmp) {
         htmp->SetFillColor(kYellow);
         htmp->DrawCopy("same");
         if (i==0)tleg->AddEntry(htmp,"MC match","f");
       }
       hfile->cd("AllGoodCandidates");
-      TH1* htmp=(TH1F*)gDirectory->Get(h->name);
+      htmp=(TH1F*)gDirectory->Get(h->name);
       if (htmp) {
         htmp->SetFillColor(kBlue);
         htmp->DrawCopy("same");
         if (i==0)tleg->AddEntry(htmp,"Good cands","f");
       }
       hfile->cd("AllGoodCandidatesIsSignal");
-      TH1* htmp=(TH1F*)gDirectory->Get(h->name);
+      htmp=(TH1F*)gDirectory->Get(h->name);
       if (htmp) {
         htmp->SetFillColor(kGreen);
         htmp->DrawCopy("same");
@@ -261,18 +261,18 @@ void plot_ch(int channel=5, const char* appendix="signal", int inputEvents=0) {
 
       // Check if I need a new canvas
       if (i>nX*nY) {
-        channel(channel,c0[iCan]);
-        c0[iCan]->Print(Form("Ch%d_all_distr%d.pdf",channel,iCan));
-        c0[iCan]->Print(Form("Ch%d_all_distr%d.png",channel,iCan));
+        channel(ch,c0[iCan]);
+        c0[iCan]->Print(Form("Ch%d_all_distr%d.pdf",ch,iCan));
+        c0[iCan]->Print(Form("Ch%d_all_distr%d.png",ch,iCan));
         iCan++;
         c0[iCan]=new TCanvas(Form("c0%d",iCan),"Before Cuts",sizeX,sizeY);
         c0[iCan]->Divide(nX,nY);
         i=0;
       }
     }
-    channel(channel,c0[iCan]);
-    c0[iCan]->Print(Form("Ch%d_all_distr%d.pdf",channel,iCan));
-    c0[iCan]->Print(Form("Ch%d_all_distr%d.png",channel,iCan));
+    channel(ch,c0[iCan]);
+    c0[iCan]->Print(Form("Ch%d_all_distr%d.pdf",ch,iCan));
+    c0[iCan]->Print(Form("Ch%d_all_distr%d.png",ch,iCan));
     // c0[iCan]->cd(14);
     // TH1* htmp=(TH1F*)hfile->Get("hNCands");
     // if (htmp) htmp->DrawCopy();
@@ -318,21 +318,21 @@ void plot_ch(int channel=5, const char* appendix="signal", int inputEvents=0) {
         if (i==0)tleg->AddEntry(htmp,"All cands","l");
       }
       hfile->cd("AllCandidatesIsSignal");
-      TH1* htmp=(TH1F*)gDirectory->Get(h->name);
+      htmp=(TH1F*)gDirectory->Get(h->name);
       if (htmp) {
         htmp->SetFillColor(kYellow);
         htmp->DrawCopy("same");
         if (i==0)tleg->AddEntry(htmp,"MC match","f");
       }
       hfile->cd("AllGoodCandidates");
-      TH1* htmp=(TH1F*)gDirectory->Get(h->name);
+      htmp=(TH1F*)gDirectory->Get(h->name);
       if (htmp) {
         htmp->SetFillColor(kBlue);
         htmp->DrawCopy("same");
         if (i==0)tleg->AddEntry(htmp,"Good cands","f");
       }
       hfile->cd("AllGoodCandidatesIsSignal");
-      TH1* htmp=(TH1F*)gDirectory->Get(h->name);
+      htmp=(TH1F*)gDirectory->Get(h->name);
       if (htmp) {
         htmp->SetFillColor(kGreen);
         htmp->DrawCopy("same");
@@ -343,14 +343,14 @@ void plot_ch(int channel=5, const char* appendix="signal", int inputEvents=0) {
       if (i==0) tleg->Draw();
       ++i;
     }
-    channel(channel,c1);
-    c1->Print(Form("Ch%d_distr.pdf",channel));
-    c1->Print(Form("Ch%d_distr.png",channel));
+    channel(ch,c1);
+    c1->Print(Form("Ch%d_distr.pdf",ch));
+    c1->Print(Form("Ch%d_distr.png",ch));
 
 
     TCanvas* c2=new TCanvas("c2","Before Cuts",900,600);
     c2->Divide(3,2);
-    TLegend* tleg=new TLegend(0.2,0.6,0.6,0.89);
+    tleg=new TLegend(0.2,0.6,0.6,0.89);
     i=0;
     for (vector<plotInfo>::const_iterator h=plotInfos.begin(); h!=plotInfos.end(); ++h) {
       if (!h->gold) continue;
@@ -371,14 +371,14 @@ void plot_ch(int channel=5, const char* appendix="signal", int inputEvents=0) {
         if (i==0)tleg->AddEntry(htmp,"Best cands","f");
       }
       hfile->cd("BestCandidatesIsSignal");
-      TH1* htmp=(TH1F*)gDirectory->Get(h->name);
+      htmp=(TH1F*)gDirectory->Get(h->name);
       if (htmp) {
         htmp->SetFillColor(kGreen);
         htmp->DrawCopy("same");
         if (i==0)tleg->AddEntry(htmp," \" MC match","f");
       }
       hfile->cd("BestCandidatesIsNotSignal");
-      TH1* htmp=(TH1F*)gDirectory->Get(h->name);
+      htmp=(TH1F*)gDirectory->Get(h->name);
       if (htmp) {
         htmp->SetLineColor(kBlack);
         htmp->SetLineStyle(2);
@@ -390,10 +390,10 @@ void plot_ch(int channel=5, const char* appendix="signal", int inputEvents=0) {
       if (i==0) tleg->Draw();
       ++i;
     }
-    channel(channel,c2);
+    channel(ch,c2);
 
-    c2->Print(Form("Ch%d_best_distr.pdf",channel));
-    c2->Print(Form("Ch%d_best_distr.png",channel));
+    c2->Print(Form("Ch%d_best_distr.pdf",ch));
+    c2->Print(Form("Ch%d_best_distr.png",ch));
   }
 
   if (plotEvents) {
@@ -429,9 +429,9 @@ void plot_ch(int channel=5, const char* appendix="signal", int inputEvents=0) {
     //hEvents->GetXaxis()->SetRange(10,22);
     hEvents->Draw("text hist");
 
-    channel(channel, cEvents,0.5,0.93);
-    cEvents->Print(Form("Ch%d_events.pdf",channel));
-    cEvents->Print(Form("Ch%d_events.png",channel));
+    channel(ch, cEvents,0.5,0.93);
+    cEvents->Print(Form("Ch%d_events.pdf",ch));
+    cEvents->Print(Form("Ch%d_events.png",ch));
   }
 
   if (plotDeltaT) {
@@ -482,9 +482,9 @@ void plot_ch(int channel=5, const char* appendix="signal", int inputEvents=0) {
 
     myFitFunc->SetParLimits(0, 0.0, 2E6);  // norm
     myFitFunc->SetParLimits(1, -2.0, 2.0);    // mu1
-    myFitFunc->SetParLimits(2, 0.1,  2.5);      // sigma1
+    myFitFunc->SetParLimits(2, 0.01,  1.);      // sigma1
     myFitFunc->SetParLimits(3, -4.0, +4.0);   // mu2
-    myFitFunc->SetParLimits(4, 1.,  3.);      // sigma2
+    myFitFunc->SetParLimits(4, .3,  3.);      // sigma2
     myFitFunc->SetParLimits(5, -4.0, +4.0);   // mu3
     myFitFunc->SetParLimits(6, 2.,  20.);    // sigma3
     myFitFunc->SetParLimits(7, 0.0,  1.0);    // frac1
@@ -540,9 +540,9 @@ void plot_ch(int channel=5, const char* appendix="signal", int inputEvents=0) {
     tleg->Draw();
 
     tt->DrawLatexNDC(0.65,0.35,Form("<#Deltat>: %3.2f ps",resoDt/sumW));
-    channel(channel, cDt,0.3,0.96);
-    cDt->Print(Form("Ch%d_Dt.pdf",channel));
-    cDt->Print(Form("Ch%d_Dt.png",channel));
+    channel(ch, cDt,0.3,0.96);
+    cDt->Print(Form("Ch%d_Dt.pdf",ch));
+    cDt->Print(Form("Ch%d_Dt.png",ch));
   }
 
   if (plotDeltaZ) {
@@ -634,10 +634,10 @@ void plot_ch(int channel=5, const char* appendix="signal", int inputEvents=0) {
     cDz->cd(2);
     hDzVtxTag_best->Fit("fitFunc", "LE");
     hDzVtxTag_best->Draw("e");
-    TF1 *gC    = new TF1("gC","gaus",min_range, max_range);
-    TF1 *gT    = new TF1("gT","gaus",min_range, max_range);
-    TF1 *gO    = new TF1("gO","gaus",min_range, max_range);
-    double* fitParams=myFitFunc->GetParameters();
+    gC    = new TF1("gC","gaus",min_range, max_range);
+    gT    = new TF1("gT","gaus",min_range, max_range);
+    gO    = new TF1("gO","gaus",min_range, max_range);
+    fitParams=myFitFunc->GetParameters();
     gC->SetLineColor(kRed);
     gC->SetLineStyle(2);
     gC->SetParameter(0,fitParams[0]*fitParams[7]);
@@ -660,10 +660,10 @@ void plot_ch(int channel=5, const char* appendix="signal", int inputEvents=0) {
     gT->Draw("same");
     gO->Draw("same");
 
-    double resoDt=(gC->GetParameter(2)*gC->GetParameter(0))+(gO->GetParameter(2)*gO->GetParameter(0))+(gT->GetParameter(2)*gT->GetParameter(0));
-    double sumW=gC->GetParameter(0)+gO->GetParameter(0)+gT->GetParameter(0);
+    resoDt=(gC->GetParameter(2)*gC->GetParameter(0))+(gO->GetParameter(2)*gO->GetParameter(0))+(gT->GetParameter(2)*gT->GetParameter(0));
+    sumW=gC->GetParameter(0)+gO->GetParameter(0)+gT->GetParameter(0);
     cout << "Mean(DZ) = " << resoDt/sumW << endl;
-    TLegend* tleg=new TLegend(0.2,.6,0.4,0.89,"Fit","NDC");
+    tleg=new TLegend(0.2,.6,0.4,0.89,"Fit","NDC");
     tleg->AddEntry(gC,"Core","l");
     tleg->AddEntry(gT,"Tail","l");
     tleg->AddEntry(gO,"Outlier","l");
@@ -671,9 +671,9 @@ void plot_ch(int channel=5, const char* appendix="signal", int inputEvents=0) {
 
     tt->DrawLatexNDC(0.65,0.35,Form("<#Deltaz>: %3.2f #mum",resoDt/sumW*10000.));
     cDz->cd();
-    channel(channel, cDz,0.3,0.96);
-    cDz->Print(Form("Ch%d_Dz.pdf",channel));
-    cDz->Print(Form("Ch%d_Dz.png",channel));
+    channel(ch, cDz,0.3,0.96);
+    cDz->Print(Form("Ch%d_Dz.pdf",ch));
+    cDz->Print(Form("Ch%d_Dz.png",ch));
   }
 
   if (plotAsym) {
@@ -684,11 +684,13 @@ void plot_ch(int channel=5, const char* appendix="signal", int inputEvents=0) {
     pad2->Draw();
     pad1->cd();
 
+    TH1* hDT_TagB0_best=(TH1F*)gDirectory->Get("hDT_TagB0_best");
     hDT_TagB0_best->SetMarkerStyle(24);
     hDT_TagB0_best->SetMarkerColor(kBlue);
     hDT_TagB0_best->SetLineColor(kBlue);
     hDT_TagB0_best->Draw("histoe");
 
+    TH1* hDT_TagB0bar_best=(TH1F*)gDirectory->Get("hDT_TagB0bar_best");
     hDT_TagB0bar_best->SetMarkerStyle(20);
     hDT_TagB0bar_best->SetMarkerColor(kRed);
     hDT_TagB0bar_best->SetLineColor(kRed);
@@ -700,13 +702,13 @@ void plot_ch(int channel=5, const char* appendix="signal", int inputEvents=0) {
     tleg->Draw();
 
     pad2->cd();
-    TH1* hDT_Tag_best_num=hDT_TagB0_best->Clone();
+    TH1* hDT_Tag_best_num=(TH1*)hDT_TagB0_best->Clone();
     hDT_Tag_best_num->Add(hDT_TagB0bar_best,-1.);
 
-    TH1* hDT_Tag_best_den=hDT_TagB0_best->Clone();
+    TH1* hDT_Tag_best_den=(TH1*)hDT_TagB0_best->Clone();
     hDT_Tag_best_den->Add(hDT_TagB0bar_best,+1.);
 
-    TH1* hDT_Tag_best_asym=hDT_Tag_best_num->Clone();
+    TH1* hDT_Tag_best_asym=(TH1*)hDT_Tag_best_num->Clone();
     hDT_Tag_best_asym->Divide(hDT_Tag_best_den);
 
     hDT_Tag_best_asym->SetMaximum(+1.05);
@@ -731,9 +733,9 @@ void plot_ch(int channel=5, const char* appendix="signal", int inputEvents=0) {
     // mysin->SetParameter(0,0.2);
     // mysin->SetParameter(1,0.2);
     // hDT_Tag_best_asym->Fit("mysin","R");
-    channel(channel,cAsym,0.5,0.96);
-    cAsym->Print(Form("Ch%d_Asym.pdf",channel));
-    cAsym->Print(Form("Ch%d_Asym.png",channel));
+    channel(ch,cAsym,0.5,0.96);
+    cAsym->Print(Form("Ch%d_Asym.pdf",ch));
+    cAsym->Print(Form("Ch%d_Asym.png",ch));
   }
 }
 

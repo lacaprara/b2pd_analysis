@@ -23,15 +23,17 @@ from stdLooseFSParticles import stdLooseK
 
 firstFile=0
 nFiles=10
+what='local'
+action='simple'
 if len(sys.argv) > 1:
-    nFiles=int(sys.argv[1])
-if len(sys.argv) > 2:
-    firstFile=int(sys.argv[2])
-    nFiles=firstFile+nFiles
-if len(sys.argv) > 3:
-    what=str(sys.argv[3])
+    what=str(sys.argv[1])
     if (what not in {'signal','uubar','ddbar', 'ssbar', 'ccbar','mixed','charged','local'}):
             sys.exit("input has to be 'signal|uubar,ddbar,ssbar,ccbar,mixed,charged,local'")
+if len(sys.argv) > 2:
+    nFiles=int(sys.argv[2])
+if len(sys.argv) > 3:
+    firstFile=int(sys.argv[3])
+    nFiles=firstFile+nFiles
 if len(sys.argv) > 4:
     action=str(sys.argv[4])
     if (action not in {'simple','training','expert'}):
@@ -39,9 +41,10 @@ if len(sys.argv) > 4:
 
 
 if (what=='local'):
-    filelistSIG= ['payload_skim_ch2_*_signal/B0_etapr_eta2pi_KS_skim_signal_ch2.root']
+    filelistSIG= []
+    #filelistSIG= ['payload_skim_ch2_*_signal/B0_etapr_eta2pi_KS_skim_signal_ch2.root']
     #filelistSIG= ['payload_skim_*_ddbar/B0_etapr_eta2pi_KS_skim_ddbar_*.root']
-    #filelistSIG= ['../root_files/ch1/B0_etapr-eta-gg2pi_KS-pi+pi-_gsim-BKGx0.root']
+    filelistSIG += ['../root_files/ch2/B0_etapr-eta-gg2pi_KS-pi0pi0_gsim-BKGx0.root']
     #filelistSIG= ['../root_files/ch1/B0_etapr-eta-gg2pi_KS-pi+pi-_skim_uubar.root']
     #filelistSIG= ['../root_files/ch1/B0_etapr-eta-gg2pi_KS-pi+pi-_skim_ddbar.root']
     #filelistSIG= ['../root_files/ch1/B0_etapr-eta-gg2pi_KS-pi+pi-_skim_ssbar.root']
@@ -135,7 +138,7 @@ toolsBsig = ['EventMetaData', '^B0']
 #toolsBsig += ['InvMass', "B0 -> [eta' -> [eta:gg -> gamma:good gamma:good] pi+:all pi-:all] ^K_S0:neu"]
 toolsBsig += ['InvMass[BeforeFit]', "^B0 -> [^eta' -> [^eta:gg -> gamma:good gamma:good] pi+:all pi-:all] [^K_S0:neu -> ^pi0:all ^pi0:all]"]
 toolsBsig += ['Charge', "B0 -> [eta' -> [eta:gg -> gamma:good gamma:good] ^pi+:all ^pi-:all] K_S0:neu"]
-toolsBsig += ['Kinematics', "^B0 -> [^eta' -> [^eta:gg -> gamma:good gamma:good] pi+:all pi-:all] ^K_S0:neu"]
+toolsBsig += ['Kinematics', "^B0 -> [^eta' -> [^eta:gg -> gamma:good gamma:good] pi+:all pi-:all] [^K_S0:neu -> ^pi0:all ^pi0:all]"]
 toolsBsig += ['CMSKinematics', "^B0 -> [^eta' -> [^eta:gg -> gamma:good gamma:good] pi+:all pi-:all] ^K_S0:neu"]
 toolsBsig += ['MCTruth', "^B0 -> [^eta' -> [^eta:gg -> gamma:good gamma:good] pi+:all pi-:all] ^K_S0:neu"]
 toolsBsig += ['DeltaEMbc', '^B0']
@@ -168,4 +171,4 @@ ntupleTree('B0', 'B0', toolsBsig)
 process(analysis_main)
 
 # print out the summary
-print statistics
+print(statistics)

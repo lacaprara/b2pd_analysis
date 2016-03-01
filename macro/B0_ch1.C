@@ -176,6 +176,7 @@ void B0_ch1::Loop(Long64_t maxEv)
           hDzVtxSignal_best->Fill(B0_TagVz-B0_TruthTagVz);
           hDzVtxTag_best->Fill(B0_Z-B0_TruthZ);
 
+          int recoFlavourTag=B0_mcTagPDG;
           // Plot Dt for B0 and B0bar tag (MC)
           if (B0__isSignal) {
             if (B0_mcTagPDG>0) {
@@ -187,7 +188,6 @@ void B0_ch1::Loop(Long64_t maxEv)
             }
             // same, but with a diluition factor of e(1-2w)^2=0.32, namely eff=1. and
             // mis-tag rate =0.217, with a random decision
-            int recoFlavourTag=B0_mcTagPDG;
 
             // mistag
             if (random1->Rndm() < 0.217) recoFlavourTag=-recoFlavourTag;
@@ -280,11 +280,12 @@ void B0_ch1::Loop(Long64_t maxEv)
     hTrueDT_TrueB0bar_best->Write();
     hTrueDT_TagB0_best->Write();
     hTrueDT_TagB0bar_best->Write();
+
+    ofile->Close();
+    skimFile->Close();
   }
 
 
-  ofile->Close();
-  skimFile->Close();
 }
 
 void B0_ch1::createHisto(const TString& dir) {
@@ -353,7 +354,7 @@ void B0_ch1::fillHisto(const TString& dir, const TString& hname, const double& v
 
 Int_t B0_ch1::Cut(Long64_t entry)
 {
-  nb = fChain->GetEntry(entry);
+  Long64_t nb = fChain->GetEntry(entry);
   // This function may be called from Loop.
   // returns  1 if entry is accepted.
   // returns <0 otherwise.
