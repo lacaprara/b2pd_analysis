@@ -1,7 +1,15 @@
 #!/bin/bash
 
-nFilesPerJob=1
-nMaxFiles=999999
+nFilesPerJobSignal=20
+nFilesPerJobBackground=20
+nFilesPerJobPeaking=5
+nMaxFiles=99999999
+
+#DOIT=false
+DOIT=true
+DoSignal=false
+DoBackground=true
+DoPeaking=true
 
 what='signal'
 # what='uubar'
@@ -70,7 +78,7 @@ mkdir payload_${payloadName}/
 cd payload_${payloadName}/
 cp ../SkimEtaPrK0.py .
 cp ../${fileList} .
-time basf2 SkimEtaPrK0.py $numFiles $firstFile $dataset
+time basf2 SkimEtaPrK0.py $dataset $numFiles $firstFile
 mv B0_etapr_eta2pi_KS_skim_${what}.root B0_etapr_eta2pi_KS_skim_${what}_${job}.root
 
 date
@@ -78,26 +86,72 @@ cd ../
 EOF
 }
 
-for what in signal 
-#uubar ddbar  ssbar ccbar mixed charged
-#for what in ccbar
-do
-echo "doing $what"
-#for channel in {1,2,4,5}
-for channel in 5
+# SIGNAL
+if $DoSignal ; then
+what=signal
+for channel in {1,4}
 do
   job=0
   setChannelName $channel $what
   nFiles=$(wc -l ${fileList} | awk '{print $1}' )
   if [[ $nFiles -gt $nMaxFiles ]] ; then nFiles=$nMaxFiles; fi
-  echo echo "SKIM: Submitting $(echo $nFiles*1./$nFilesPerJob| bc) jobs over $((nFiles)) files for ${dataset}"
-  for firstFile in `seq 0 $nFilesPerJob $(($nFiles-1))`
+  echo echo "SKIM: Submitting $(echo $nFiles*1./$nFilesPerJobSignal+1| bc) jobs over $((nFiles)) files for ${what} ${channel}"
+  for firstFile in `seq 0 $nFilesPerJobSignal $(($nFiles-1))`
   do  
-      payload $job $channel $firstFile $nFilesPerJob $what
-      bsub < payload_${payloadName}.sh
+      payload $job $channel $firstFile $nFilesPerJobSignal $what
+      $DOIT && bsub < payload_${payloadName}.sh
       ((job++))
   done
   echo "done"
 done
-echo "All done"
+echo "SIGNAL done"
+fi
+
+
+
+## BACKGROUND
+if $DoBackground ; then
+channel=14
+for what in uubar ddbar  ssbar ccbar
+#for what in ccbar
+do
+echo "doing $what"
+  job=0
+  setChannelName $channel $what
+  nFiles=$(wc -l ${fileList} | awk '{print $1}' )
+  if [[ $nFiles -gt $nMaxFiles ]] ; then nFiles=$nMaxFiles; fi
+  echo echo "SKIM: Submitting $(echo $nFiles*1./$nFilesPerJobBackground+1| bc) jobs over $((nFiles)) files for ${what} ${channel}"
+  for firstFile in `seq 0 $nFilesPerJobBackground $(($nFiles-1))`
+  do  
+      payload $job $channel $firstFile $nFilesPerJobBackground $what
+      $DOIT &&  bsub < payload_${payloadName}.sh
+      ((job++))
+  done
+  echo "done"
 done
+echo "BACKGROUND done"
+fi
+
+
+## PEAKING BACKGROUND
+if $DoPeaking ; then
+channel=14
+for what in mixed charged
+#for what in ccbar
+do
+echo "doing $what"
+  job=0
+  setChannelName $channel $what
+  nFiles=$(wc -l ${fileList} | awk '{print $1}' )
+  if [[ $nFiles -gt $nMaxFiles ]] ; then nFiles=$nMaxFiles; fi
+  echo echo "SKIM: Submitting $(echo $nFiles*1./$nFilesPerJobPeaking+1| bc) jobs over $((nFiles)) files for ${what} ${channel}"
+  for firstFile in `seq 0 $nFilesPerJobPeaking $(($nFiles-1))`
+  do  
+      payload $job $channel $firstFile $nFilesPerJobPeaking $what
+      $DOIT &&  bsub < payload_${payloadName}.sh
+      ((job++))
+  done
+  echo "done"
+done
+echo "PEAKING BACKGROUND done"
+fi
