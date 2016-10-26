@@ -6,6 +6,7 @@
 #
 # These are the channels that are going to be 
 # investigated:
+#   B0->eta'(->eta(->gamma gamma)pi+pi-)K0S(pi+pi-)
 #
 # Author: Stefano Lacaprara  <lacaprara@pd.infn.it>  INFN Padova
 #
@@ -43,30 +44,32 @@ if len(sys.argv) > 4:
 
 if (what=='local'):
     filelistSIG= []
-    filelistSIG +=['../root_files/ch1/B0_etapr-eta-gg2pi_KS-pi+pi-_gsim-BKGx0.root']
+    # filelistSIG +=['/b2data/lacaprar/work/rel-00-06-00/analysis/b2pd_analysis/root_files/Skim/B0_etapr_eta2pi_KS_skim_signal_ch1_0.root']
+    # filelistSIG +=['/b2data/lacaprar/work/rel-00-06-00/analysis/b2pd_analysis/root_files/Skim/B0_etapr_eta2pi_KS_skim_signal_ch1_1.root']
 
-    #filelistSIG= ['../root_files/ch1/B0_etapr-eta-gg2pi_KS-pi+pi-_skim_uubar.root']
-    #filelistSIG+= ['../root_files/ch1/B0_etapr-eta-gg2pi_KS-pi+pi-_skim_ddbar.root']
-    #filelistSIG= ['../root_files/ch1/B0_etapr-eta-gg2pi_KS-pi+pi-_skim_ssbar.root']
-    #filelistSIG+= ['../root_files/ch1/B0_etapr-eta-gg2pi_KS-pi+pi-_skim_ccbar.root']
-    #filelistSIG= ['../root_files/ch1/B0_etapr-eta-gg2pi_KS-pi+pi-_skim_mixed.root']
-    #filelistSIG= ['../root_files/ch1/B0_etapr-eta-gg2pi_KS-pi+pi-_skim_charged.root']
-    #filelistSIG= ['B0_etapr-eta-gg2pi_KS-pi+pi-_skim_signal.root']
-    #filelistSIG+= ['../root_files/ch1/B0_etapr-eta-gg2pi_KS-pi+pi-_gsim-BKGx0.root']#
-    # filelistSIG+= ['outputUdst_Signal.root']
-    # filelistSIG+= ['outputUdst_ccbar.root']
+    filelistSIG +=['root://belle-dpm-01.na.infn.it//belle/TMP/belle/user/lacaprar/B0EtaPKs/BGx0/Prod2/BackgroundSkim_output_ccbar_0.root']
+    # filelistSIG +=['root://belle-dpm-01.na.infn.it//belle/TMP/belle/user/lacaprar/B0EtaPKs/BGx0/Prod2/BackgroundSkim_output_ddbar_0.root']
+    # filelistSIG +=['root://belle-dpm-01.na.infn.it//belle/TMP/belle/user/lacaprar/B0EtaPKs/BGx0/Prod2/BackgroundSkim_output_ssbar_0.root']
+    #filelistSIG +=['root://belle-dpm-01.na.infn.it//belle/TMP/belle/user/lacaprar/B0EtaPKs/BGx0/Prod2/BackgroundSkim_output_ddbar_0.root']
+
 
     inputMdstList(filelistSIG)
 
 else:
     filelistSIGnames={
         'signal':'B0_etapr-eta-gg2pi_KS-pi+pi-_Skim_gsim-BKGx0.list',
-        'uubar':'BackgroundSkim_uubar_BGx1.list',
-        'ddbar':'BackgroundSkim_ddbar_BGx1.list',
-        'ssbar':'BackgroundSkim_ssbar_BGx1.list',
-        'ccbar':'BackgroundSkim_ccbar_BGx1.list',
-        'mixed':'BackgroundSkim_mixed_BGx1.list',
-        'charged':'BackgroundSkim_charged_BGx1.list'
+        'uubar':'BackgroundSkim_uubar_BGx0.list',
+        'ddbar':'BackgroundSkim_ddbar_BGx0.list',
+        'ssbar':'BackgroundSkim_ssbar_BGx0.list',
+        'ccbar':'BackgroundSkim_ccbar_BGx0.list',
+        'mixed':'BackgroundSkim_mixed_BGx0.list',
+        'charged':'BackgroundSkim_charged_BGx0.list'
+        # 'uubar':'BackgroundSkim_uubar_BGx1.list',
+        # 'ddbar':'BackgroundSkim_ddbar_BGx1.list',
+        # 'ssbar':'BackgroundSkim_ssbar_BGx1.list',
+        # 'ccbar':'BackgroundSkim_ccbar_BGx1.list',
+        # 'mixed':'BackgroundSkim_mixed_BGx1.list',
+        # 'charged':'BackgroundSkim_charged_BGx1.list'
     }
 
     filelistSIGraw = open(filelistSIGnames[what], 'r').readlines()
@@ -100,13 +103,27 @@ matchMCTruth("eta'")
 
 fillParticleList('K_S0:mdst','0.3 < M < 0.7')
 vertexRave('K_S0:mdst', 0.0)
-#vertexKFit('K_S0:mdst', 0.0)
 applyCuts('K_S0:mdst','0.48 < M < 0.520')
-#reconstructDecay('K_S0:pp -> pi+:all pi-:all', '0.3 < M < 1.0')
 matchMCTruth('K_S0:mdst')
+# reconstructDecay('K_S0:pp -> pi+:all pi-:all', '0.3 < M < 0.7')
+# vertexRave('K_S0:pp', 0.0, "K_S0:pp -> ^pi+:all ^pi-:all")
+# applyCuts('K_S0:pp','0.48 < M < 0.520')
+# matchMCTruth('K_S0:pp')
 
 reconstructDecay("B0 -> eta' K_S0:mdst", 'Mbc > 5.2 and abs(deltaE) < 0.2')
-vertexRave('B0', 0.0, "B0 -> [eta' -> [eta:gg -> gamma:good gamma:good] ^pi+:all ^pi-:all] K_S0:mdst")
+# No constraint
+# vertexRave('B0', 0.0, "B0 -> [eta' -> [eta:gg -> gamma:good gamma:good] ^pi+:all ^pi-:all] K_S0:mdst")
+# as above but using also Ks constraint
+#  vertexRave('B0', 0.0, "B0 -> [eta' -> [eta:gg -> gamma:good gamma:good] ^pi+:all ^pi-:all] ^K_S0:mdst")
+# same as above, but with the iptube beamspot constraint:
+#vertexRave('B0', 0.0, "B0 -> [eta' -> [eta:gg -> gamma:good gamma:good] ^pi+:all ^pi-:all] K_S0:mdst","iptube")
+# now adding also the Ks constraint:
+vertexRave('B0', 0.0, "B0 -> [eta' -> [eta:gg -> gamma:good gamma:good] ^pi+:all ^pi-:all] ^K_S0:mdst","iptube")
+
+#Note, if you do: the fitter will try to fit the K+ K- pi+ pi- to the same vertex, which will fail in ~100% of the cases.
+#vertexRave('B0', 0.0, "B0 -> [eta' -> [eta:gg -> gamma:good gamma:good] ^pi+:all ^pi-:all] [K_S0:mdst -> ^pi+ ^pi-","iptube")
+
+
 matchMCTruth('B0')
 
 # get the rest of the event:
@@ -156,25 +173,35 @@ if action == 'training':
 
 
     # Define the methods.
-    methods = [('LPCA', 'Likelihood', 'H:V:!TransformOutput:PDFInterpol=Spline2:NSmoothSig[0]=20:NSmoothBkg[0]=20:NSmooth=5:NAvEvtPerBin=50:VarTransform=PCA'),
-               ('FastBDT', 'Plugin', 'H:V:CreateMVAPdfs:NTrees=100:Shrinkage=0.10:RandRatio=0.5:NCutLevel=8:NTreeLayers=3')
-              ]      
-               #('NeuroBayes', 'Plugin', 'H:V:CreateMVAPdfs:NtrainingIter=20:Preprocessing=612:ShapeTreat=DIAG:TrainingMethod=BFGS')
+    # methods = [('LPCA', 'Likelihood', 'H:V:!TransformOutput:PDFInterpol=Spline2:NSmoothSig[0]=20:NSmoothBkg[0]=20:NSmooth=5:NAvEvtPerBin=50:VarTransform=PCA'),
+    #            ('FastBDT', 'Plugin', 'H:V:CreateMVAPdfs:NTrees=100:Shrinkage=0.10:RandRatio=0.5:NCutLevel=8:NTreeLayers=3')
+    #           ]      
+    #methods = [('FastBDT', 'Plugin', 'H:V:CreateMVAPdfs:NbinsMVAPdf=100:NTrees=100:Shrinkage=0.10:RandRatio=0.5:NCutLevel=8:NTreeLayers=3')]
+    methods = [('FastBDT', 'Plugin', 'H:V:CreateMVAPdfs:NbinsMVAPdf=40:NsmoothMVAPdf=2:NTrees=100:Shrinkage=0.10:RandRatio=0.5:NCutLevel=8:NTreeLayers=3')]
+
+    #            #('NeuroBayes', 'Plugin', 'H:V:CreateMVAPdfs:NtrainingIter=20:Preprocessing=612:ShapeTreat=DIAG:TrainingMethod=BFGS')
+
+    # methods = [
+    #     ('FastBDT', 'Plugin', 'H:V:CreateMVAPdfs:NbinsMVAPdf=100:NTrees=100:Shrinkage=0.10:RandRatio=0.5:NCutLevel=8:NTreeLayers=3'),
+    #     ('NeuroBayes', 'Plugin', 'H:V:CreateMVAPdfs:NbinsMVAPdf=100:NtrainingIter=20:Preprocessing=612:ShapeTreat=DIAG:TrainingMethod=BFGS')
+    #     ]
 
 
     # TMVA training/testing
-    teacher = register_module('TMVATeacher')
+    teacher = register_module('TMVAOnTheFlyTeacher')
     teacher.param('prefix', 'B0_EtaPrK0_ch1_TMVA')
     teacher.param('methods', methods)
     teacher.param('variables', variables)
     teacher.param('target', 'isContinuumEvent')
+    #teacher.param('target', 'isSignal')
     teacher.param('listNames', ['B0'])
     teacher.param('workingDirectory', 'training_ch1')
     analysis_main.add_module(teacher)
 
 if action == 'expert':
     # run the expert mode
-    methods = ['LPCA','FastBDT'] #, 'NeuroBayes']
+    #methods = ['LPCA','FastBDT'] #, 'NeuroBayes']
+    methods = ['FastBDT'] #,'NeuroBayes'] #, 'NeuroBayes']
 
     for method in methods:
         expert = register_module('TMVAExpert')
@@ -187,9 +214,13 @@ if action == 'expert':
 
     # Network output
     networkOutput = ['extraInfo({method}_Probability)'.format(method=method) for method in methods]
-    transformedNetworkOutputLPCA = ['transformedNetworkOutput(LPCA_Probability,0.,1.0)']
+    #transformedNetworkOutputLPCA = ['transformedNetworkOutput(LPCA_Probability,0.,1.0)']
     #transformedNetworkOutputNB = ['transformedNetworkOutput(NeuroBayes_Probability,-0.9,1.0)']
     transformedNetworkOutputFBDT = ['transformedNetworkOutput(FastBDT_Probability,0.0,1.0)']
+
+# FlavorTagger(mode='Expert',
+#              weightFiles='B2JpsiKs_mu')
+# #             workingDirectory=os.environ['BELLE2_LOCAL_DIR'] + '/analysis/data',
 
 # create and fill flat Ntuple with MCTruth and kinematic information
 toolsBsig = ['EventMetaData', '^B0']
@@ -214,6 +245,7 @@ toolsBsig += ['DeltaT', '^B0']
 toolsBsig += ['MCDeltaT', '^B0']
 toolsBsig += ['ContinuumSuppression', '^B0'] 
 toolsBsig += ['CustomFloats[isSignal]', "^B0 -> [^eta' -> [^eta:gg -> gamma:good gamma:good] pi+:all pi-:all] ^K_S0:mdst"]
+toolsBsig += ['CustomFloats[isContinuumEvent]', "^B0"]
 
 if action == 'expert':
     toolsBsig += ['ContinuumSuppression', '^B0']
@@ -221,7 +253,7 @@ if action == 'expert':
     toolsBsig += ['CustomFloats[' + ':'.join(networkOutput) + ']', '^B0']
     toolsBsig += ['CustomFloats[' + ':'.join(transformedNetworkOutputFBDT) + ']', '^B0']
     # toolsBsig += ['CustomFloats[' + ':'.join(transformedNetworkOutputNB) + ']', '^B0']
-    toolsBsig += ['CustomFloats[' + ':'.join(transformedNetworkOutputLPCA) + ']', '^B0']
+    # toolsBsig += ['CustomFloats[' + ':'.join(transformedNetworkOutputLPCA) + ']', '^B0']
 
 # save stuff to root file
 ntupleFile(outFile)
