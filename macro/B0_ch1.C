@@ -14,7 +14,7 @@ void B0_ch1::Loop(Long64_t maxEv)
 
   TH1F *hNCands= new TH1F("hNCands",";N candidates", 20, 0, 20);
   TH1F *hNGoodCands= new TH1F("hNGoodCands",";N good candidates", 20, 0, 20);
-  TH1F *hEvents= new TH1F("hEvents","Events statistics", 30, 0, 30);
+  TH1I *hEvents= new TH1I("hEvents","Events statistics", 50, 0, 50);
 
   createHisto("AllCandidates");
 
@@ -74,10 +74,10 @@ void B0_ch1::Loop(Long64_t maxEv)
       }
       if (maxEv>0 && nev > maxEv) break;
       hNCands->Fill(nCandsLast);
-      hEvents->Fill(20);
+      hEvents->Fill(40);
       if (nGoodCands) {
         hNGoodCands->Fill(nGoodCands);
-        hEvents->Fill(21);
+        hEvents->Fill(41);
       }
       //cout << " nCands " << nCandsLast << " good " << nGoodCands << endl;
       nGoodCands=0;
@@ -148,19 +148,26 @@ void B0_ch1::Loop(Long64_t maxEv)
 
         hEvents->Fill(1);
 
+        if (B0__isSignal) hEvents->Fill(21);
+
         Long64_t iBest = selectBestCand(jentry, nCandsCurrent);
 
         //cout << "Best: " << iBest-jentry << endl;
         int cut=-Cut(iBest);
         //cout << "Cut " << -cut << endl;
         if (cut>0) 
-          for (int icut=1; icut<=cut; ++icut)
+          for (int icut=1; icut<=cut; ++icut){
             hEvents->Fill(1+icut);
+            if (B0__isSignal) hEvents->Fill(21+icut);
+          }
         else
-          for (int icut=1; icut<=11; ++icut)
+          for (int icut=1; icut<=11; ++icut) {
             hEvents->Fill(1+icut);
+            if (B0__isSignal) hEvents->Fill(21+icut);
+          }
         if (iBest>=0) {
-          hEvents->Fill(22);
+          hEvents->Fill(42);
+          if (B0__isSignal) hEvents->Fill(43);
 
           nb = fChain->GetEntry(iBest);
           //cout << "MB " << B0_M<< endl;
@@ -359,14 +366,14 @@ Int_t B0_ch1::Cut(Long64_t entry)
   // returns  1 if entry is accepted.
   // returns <0 otherwise.
   if (B0_mbc<5.25) return -1;
-  if (fabs(B0_deltae)>0.1) return -2;
+  if (fabs(B0_deltae)>0.15) return -2;
   if (B0_etaP_eta_M<0.45 || B0_etaP_eta_M>0.57) return -3;
   if (B0_etaP_M<0.93 || B0_etaP_M>0.98) return -4;
   if (B0_K_S0_M<0.48 || B0_K_S0_M>0.52) return -5;
   //if (B0_etaP_pi0_PIDpi<0.2 || B0_etaP_pi1_PIDpi<0.2) return -6;
   if (B0_etaP_pi0_DLLKaon<-10 || B0_etaP_pi1_DLLKaon<-10) return -6;
-  if (fabs(B0_etaP_pi0_d0)>0.08) return -7;
-  if (fabs(B0_etaP_pi0_z0)>0.1) return -8;
+  if (fabs(B0_etaP_pi0_d0)>0.08 || fabs(B0_etaP_pi1_d0)>0.08) return -7;
+  if (fabs(B0_etaP_pi0_z0)>0.1 || fabs(B0_etaP_pi1_z0)>0.1) return -8;
   if (B0_etaP_pi0_nPXDHits<1 || B0_etaP_pi1_nPXDHits<1) return -9;
   if (B0_K_S0_VtxPvalue<1E-5 || B0_etaP_VtxPvalue<1E-5 || B0_VtxPvalue<1E-5) return -10;
 
@@ -381,13 +388,22 @@ Long64_t B0_ch1::selectBestCand(Long64_t jentry, Long64_t nCandsCurrent) {
     Long64_t nb = fChain->GetEntry(i); 
     //int cut=Cut(i);
     //cout << "nCands " << nCands << " iCand " << iCand << " CUT " << cut << " B0_VtxPvalue " << B0_VtxPvalue << " B0_etaP_VtxPvalue " << B0_etaP_VtxPvalue << " B0_etaP_eta_VtxPvalue " <<  B0_etaP_eta_VtxPvalue << " B0_K_S0_VtxPvalue " << B0_K_S0_VtxPvalue << " M " << B0_M << endl;
-    if (Cut(i)>0) {
-      double discriminator=B0_VtxPvalue*B0_etaP_VtxPvalue*B0_etaP_eta_VtxPvalue*B0_K_S0_VtxPvalue;
-      if (B0_VtxPvalue>0 && B0_etaP_VtxPvalue>0 && B0_etaP_eta_VtxPvalue >0 && B0_K_S0_VtxPvalue>0 && discriminator>PvtxMax) {
+    // if (Cut(i)>0) {
+    //   double discriminator=B0_VtxPvalue*B0_etaP_VtxPvalue*B0_etaP_eta_VtxPvalue*B0_K_S0_VtxPvalue;
+    //   if (B0_VtxPvalue>0 && B0_etaP_VtxPvalue>0 && B0_etaP_eta_VtxPvalue >0 && B0_K_S0_VtxPvalue>0 && discriminator>PvtxMax) {
+    //     iResult=i;
+    //     PvtxMax=discriminator;
+    //   }
+    // }
+
+    // /// Just select the true signal (if any)
+    //if (Cut(i)>0) {
+      if (B0__isSignal){
         iResult=i;
-        PvtxMax=discriminator;
+        break;
       }
-    }
+    //}
   }
+  //if (iResult<0) iResult=0;
   return iResult;
 }

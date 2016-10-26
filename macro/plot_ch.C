@@ -1,11 +1,11 @@
 #include <vector>
 
 bool plotAllDistributions=0;
-bool plotGoldDistributions=1;
+bool plotGoldDistributions=0;
 bool plotEvents=1;
-bool plotDeltaT=1;
-bool plotDeltaZ=1;
-bool plotAsym=1;
+bool plotDeltaT=0;
+bool plotDeltaZ=0;
+bool plotAsym=0;
 
 struct plotInfo {
   plotInfo() {}
@@ -164,7 +164,7 @@ Double_t fitFunc(Double_t * x, Double_t * par)
   return PDF;
 }
 
-void plot_ch(int ch=5, const char* appendix="signal", int inputEvents=0) {
+void plot_ch(int ch=1, const char* appendix="signal", int inputEvents=0) {
   TFile* hfile=TFile::Open(Form("Histo_ch%d_%s.root",ch,appendix));
  // TFile* hfile=TFile::Open(Form("Histo_ch%d.root",ch,appendix));
 
@@ -196,8 +196,9 @@ void plot_ch(int ch=5, const char* appendix="signal", int inputEvents=0) {
     c0[iCan]=new TCanvas(Form("c0%d",iCan),"Before Cuts",sizeX,sizeY);
     c0[iCan]->Divide(nX,nY);
     int i=0;
+    bool first=true;
     for (vector<plotInfo>::const_iterator h=plotInfos.begin(); h!=plotInfos.end(); ++h) {
-
+      //cout << "iCan " << iCan << " i " << i+1 << " h " << h->name << endl;
       c0[iCan]->cd(i+1);
       hfile->cd("AllCandidates");
       TH1* htmp=(TH1F*)gDirectory->Get(h->name);
@@ -209,42 +210,42 @@ void plot_ch(int ch=5, const char* appendix="signal", int inputEvents=0) {
       if (htmp) {
         htmp->SetMinimum(ymin);
         htmp->DrawCopy();
-        if (i==0)tleg->AddEntry(htmp,"All cands","l");
+        if (first)tleg->AddEntry(htmp,"All cands","l");
       }
       hfile->cd("AllCandidatesIsSignal");
       htmp=(TH1F*)gDirectory->Get(h->name);
       if (htmp) {
         htmp->SetFillColor(kYellow);
         htmp->DrawCopy("same");
-        if (i==0)tleg->AddEntry(htmp,"MC match","f");
+        if (first)tleg->AddEntry(htmp,"MC match","f");
       }
       hfile->cd("AllGoodCandidates");
       htmp=(TH1F*)gDirectory->Get(h->name);
       if (htmp) {
         htmp->SetFillColor(kBlue);
         htmp->DrawCopy("same");
-        if (i==0)tleg->AddEntry(htmp,"Good cands","f");
+        if (first)tleg->AddEntry(htmp,"Good cands","f");
       }
       hfile->cd("AllGoodCandidatesIsSignal");
       htmp=(TH1F*)gDirectory->Get(h->name);
       if (htmp) {
         htmp->SetFillColor(kGreen);
         htmp->DrawCopy("same");
-        if (i==0)tleg->AddEntry(htmp," \" MC match","f");
+        if (first)tleg->AddEntry(htmp," \" MC match","f");
       }
       // hfile->cd("BestCandidates");
       // TH1* htmp=(TH1F*)gDirectory->Get(h->name);
       // if (htmp) {
       //   htmp->SetLineColor(kRed);
       //   htmp->DrawCopy("same");
-      //   if (i==0)tleg->AddEntry(htmp,"Best cands","l");
+      //   if (first)tleg->AddEntry(htmp,"Best cands","l");
       // }
       // hfile->cd("BestCandidatesIsSignal");
       // TH1* htmp=(TH1F*)gDirectory->Get(h->name);
       // if (htmp) {
       //   htmp->SetLineColor(kViolet);
       //   htmp->DrawCopy("same");
-      //   if (i==0)tleg->AddEntry(htmp," \" MC match","l");
+      //   if (first)tleg->AddEntry(htmp," \" MC match","l");
       // }
       // hfile->cd("BestCandidatesIsNotSignal");
       // TH1* htmp=(TH1F*)gDirectory->Get(h->name);
@@ -252,15 +253,19 @@ void plot_ch(int ch=5, const char* appendix="signal", int inputEvents=0) {
       //   htmp->SetLineColor(kBlack);
       //   htmp->SetLineStyle(2);
       //   htmp->DrawCopy("same");
-      //   if (i==0)tleg->AddEntry(htmp," \" SXF","l");
+      //   if (first)tleg->AddEntry(htmp," \" SXF","l");
       // }
       tl->DrawLine(h->cutLow,ymin,h->cutLow,htmp->GetMaximum()*1.05);
       tl->DrawLine(h->cutHigh,ymin,h->cutHigh,htmp->GetMaximum()*1.05);
-      if (i==0) tleg->Draw();
+      if (first) {
+        tleg->Draw();
+        first=false;
+      }
+
       ++i;
 
       // Check if I need a new canvas
-      if (i>nX*nY) {
+      if (i>=nX*nY) {
         channel(ch,c0[iCan]);
         c0[iCan]->Print(Form("Ch%d_all_distr%d.pdf",ch,iCan));
         c0[iCan]->Print(Form("Ch%d_all_distr%d.png",ch,iCan));
@@ -268,6 +273,7 @@ void plot_ch(int ch=5, const char* appendix="signal", int inputEvents=0) {
         c0[iCan]=new TCanvas(Form("c0%d",iCan),"Before Cuts",sizeX,sizeY);
         c0[iCan]->Divide(nX,nY);
         i=0;
+        first=true;
       }
     }
     channel(ch,c0[iCan]);
@@ -402,14 +408,14 @@ void plot_ch(int ch=5, const char* appendix="signal", int inputEvents=0) {
     hEvents->SetBinContent(1, inputEvents);
 
     TCanvas* cEvents=new TCanvas("cEvents","",900,500);
-    cEvents->Divide(3);
+    cEvents->Divide(1);
 
     cEvents->cd(1);
     TH1* htmp=(TH1F*)hfile->Get("hNCands");
     if (htmp) htmp->DrawCopy();
     tt->DrawLatexNDC(0.3,0.6,Form("All cands multiplicity: %3.2f",htmp->GetMean()));
     tt->DrawLatexNDC(0.3,0.5,Form("All cands #epsilon: %3.3f",htmp->GetEntries()/hEvents->GetBinContent(1)));
-    cEvents->cd(2);
+    cEvents->cd(1);
     htmp=(TH1F*)hfile->Get("hNGoodCands");
     if (htmp) {
       htmp->SetFillColor(kBlue);
@@ -422,10 +428,39 @@ void plot_ch(int ch=5, const char* appendix="signal", int inputEvents=0) {
     hfile->cd();
     // Statistics
     cout << "Total number of events: " << hEvents->GetBinContent(1) << endl;
-    cout << "Total number of events passed: " << hEvents->GetBinContent(11)<< endl;
-    cout << "Total number of signal events passed: " << hEvents->GetBinContent(12)<< endl;
-    cout << "Total number of SXF passed: " << hEvents->GetBinContent(13)<< endl;
-    cEvents->cd(3);
+    cout << "Total number of events skim: " << hEvents->GetBinContent(2)<< endl;
+    cout << "Total number of events reco: " << hEvents->GetBinContent(3)<< endl;
+    cout << "Total number of events passed: " << hEvents->GetBinContent(13)<< endl;
+    cout << "Total number of signal events passed: " << hEvents->GetBinContent(14)<< endl;
+    cout << "Total number of SXF passed: " << hEvents->GetBinContent(15)<< endl;
+    vector<string> cuts;
+    if (ch==1) {
+      cuts.push_back("Input");
+      cuts.push_back("Skim");
+      cuts.push_back("Reco");
+      cuts.push_back("Mbc");
+      cuts.push_back("DeltaE");
+      cuts.push_back("Eta Mass");
+      cuts.push_back("EtaP Mass");
+      cuts.push_back("K0 Mass");
+      cuts.push_back("Pi DLL Kaon");
+      cuts.push_back("Pi d0");
+      cuts.push_back("Pi z0");
+      cuts.push_back("Pi nPXDHits");
+      cuts.push_back("Pi VtxPValue");
+      cuts.push_back("Passed");
+      cuts.push_back("MC True");
+      cuts.push_back("SxF");
+    }
+    for (int i=1; i<16 ; ++i ) {
+      string what=(i<cuts.size()? cuts[i-1]: "what?");
+      cout << "Cut " << i << " " << what << ": \t" 
+        << hEvents->GetBinContent(i)
+        << " true \t" 
+        << hEvents->GetBinContent(20+i)
+        <<  endl;
+    }
+    cEvents->cd(1);
     //hEvents->GetXaxis()->SetRange(10,22);
     hEvents->Draw("text hist");
 
